@@ -53,6 +53,9 @@ function drawLineGraph() {
     console.log(dateFormat(d.date));
     console.log(dateScale(dateFormat(d.date)));
 
+    console.log(minDate);
+    console.log(maxDate);
+
     return dateScale(dateFormat(d.date)); })
 
   .y(function(d) { return priceScale(d.price); });
