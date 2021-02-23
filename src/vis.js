@@ -30,7 +30,7 @@ function drawLineGraph() {
   const svgwidth = svg.attr("width");
   const svgheight = svg.attr("height");
 
-  const dotSize = 4;
+  const dotSize = 5;
 
   var dateScale = d3.scaleTime()
   .domain([minDate, maxDate])
