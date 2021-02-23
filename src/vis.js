@@ -7,7 +7,7 @@ import * as d3 from "d3";
  */
 window.addEventListener("load", drawLineGraph);
 
-var MARGIN = {TOP: 30, RIGHT: 50, BOTTOM: 30, LEFT: 50}
+var PADDING = {TOP: 30, RIGHT: 50, BOTTOM: 30, LEFT: 50}
 
 function drawLineGraph() {
 
@@ -34,11 +34,11 @@ function drawLineGraph() {
 
   var dateScale = d3.scaleTime()
   .domain([minDate, maxDate])
-  .range([0, svgwidth]);
+  .range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
 
   var priceScale = d3.scaleLinear()
   .domain([0, maxPrice])
-  .range([svgheight, 0]);
+  .range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
 
   var currentline = d3.line()
   .x(function(d) { return dateScale(dateFormat(d.date)); })
