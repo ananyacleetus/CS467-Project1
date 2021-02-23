@@ -55,7 +55,10 @@ function drawLineGraph() {
      .append("circle")
      .attr("r", dotSize)
      .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
-     .attr("cy", function(d) { return priceScale(d.price); });
+     .attr("cy", function(d) { return priceScale(d.price); })
+     .attr("stroke", "#FF0000")
+     .attr("fill", "#FFFFFF");
+
 
 });
 
