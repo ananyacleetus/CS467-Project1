@@ -26,12 +26,6 @@ function drawLineGraph() {
   const minPrice = d3.min(data, function(d) { return parseFloat(d.price); });
   const maxPrice = d3.max(data, function(d) { return parseFloat(d.price); });
 
-  console.log(minPrice);
-  console.log(maxPrice);
-
-  console.log(minDate);
-  console.log(maxDate);
-
   //Get the current height and width of the SVG
   const svgwidth = svg.attr("width");
   const svgheight = svg.attr("height");
@@ -70,6 +64,8 @@ function drawLineGraph() {
     const yAxisX = 0 + PADDING.RIGHT/3;
     const yAxisY = svgheight - yTranslation/2;
 
+    const tooltip = d3.select("#tooltip");
+
     svg.append("text")
     .attr("font-size", 12)
     .attr("font-weight", "bold")
@@ -100,7 +96,23 @@ function drawLineGraph() {
        .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
        .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
        .attr("stroke", "#FF0000")
-       .attr("fill", "#FFFFFF");
+       .attr("fill", "#FFFFFF")
+        .on("mouseover", (mouseEvent, d) => {
+          // Runs when the mouse enters a dot.  d is the corresponding data point.
+          tooltip.style("opacity", 1);
+          tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date))
+          })
+          .on("mousemove", (mouseEvent, d) => {
+          /* Runs when mouse moves inside a dot */
+          var leftOffset = d3.pointer(mouseEvent)[0] + 5
+          tooltip.style("left", leftOffset + "px");
+
+          var topOffset = d3.pointer(mouseEvent)[1] + 5
+          tooltip.style("top", topOffset + "px");
+        })
+          .on("mouseout", (mouseEvent, d) => {
+            tooltip.style("opacity", 0);
+});
 
 
 });
