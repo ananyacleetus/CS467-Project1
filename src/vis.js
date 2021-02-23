@@ -1,14 +1,5 @@
 import * as d3 from "d3";
 
-// const data = [
-//     {h: 1, color: "red"},
-//     {h: 2, color: "green"},
-//     {h: 3, color: "purple"},
-//     {h: 4, color: "orange"},
-//     {h: 5, color: "blue"},
-// ];
-
-
 
 /*
  * Why this line? Because if this script runs before the svg exists, then nothing will happen, and d3 won't even
@@ -40,24 +31,15 @@ function drawLineGraph() {
   const svgheight = svg.attr("height");
 
   var dateScale = d3.scaleTime()
-  .domain(minDate, maxDate)
+  .domain([minDate, maxDate])
   .range([0, svgwidth]);
 
   var priceScale = d3.scaleLinear()
-  .domain(0, maxPrice)
+  .domain([0, maxPrice])
   .range([svgheight, 0]);
 
   var currentline = d3.line()
-  .x(function(d) {
-    console.log(d.date);
-    console.log(dateFormat(d.date));
-    console.log(dateScale(dateFormat(d.date)));
-
-    console.log(minDate);
-    console.log(maxDate);
-
-    return dateScale(dateFormat(d.date)); })
-
+  .x(function(d) { return dateScale(dateFormat(d.date)); })
   .y(function(d) { return priceScale(d.price); });
 
   svg.append("path")
@@ -66,8 +48,5 @@ function drawLineGraph() {
     .attr("class", "chartLine");
 
 });
-
-
-
 
 }
