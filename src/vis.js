@@ -7,7 +7,7 @@ import * as d3 from "d3";
  */
 window.addEventListener("load", drawLineGraph);
 
-var PADDING = {TOP: 30, RIGHT: 50, BOTTOM: 30, LEFT: 50}
+var PADDING = {TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50}
 
 function drawLineGraph() {
 
@@ -44,20 +44,57 @@ function drawLineGraph() {
   .x(function(d) { return dateScale(dateFormat(d.date)); })
   .y(function(d) { return priceScale(d.price); });
 
-  svg.append("path")
-    .data([data])
-    .attr("d", currentline)
-    .attr("class", "chartLine");
 
-    svg.selectAll("dot")
-     .data(data)
-     .enter()
-     .append("circle")
-     .attr("r", dotSize)
-     .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
-     .attr("cy", function(d) { return priceScale(d.price); })
-     .attr("stroke", "#FF0000")
-     .attr("fill", "#FFFFFF");
+     const yTranslation = svgheight - PADDING.LEFT;
+     const xTranslation = 0 + PADDING.TOP;
+
+    // svg.append("g") creates an SVG <g> element, short for "group."
+    // It doesn’t draw anything by itself, but serves to group child elements together.
+    const xAxis = svg.append("g")
+        .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+        .attr("transform", `translate(0, ${yTranslation})`);
+
+    const yAxis = svg.append("g")
+        .call(d3.axisLeft(priceScale))
+        .attr("transform", `translate(${xTranslation}, 0)`);
+
+    const xAxisX = (svgwidth - xTranslation)/2;
+    const xAxisY = svgheight - PADDING.BOTTOM/3;
+
+    const yAxisX = 0 + PADDING.RIGHT/3;
+    const yAxisY = svgheight - yTranslation/2;
+
+    svg.append("text")
+    .attr("font-size", 12)
+    .attr("font-weight", "bold")
+    .attr("font-family", "sans-serif")
+    .attr("x", xAxisX)
+    .attr("y", xAxisY)
+    .text("Date");
+
+    svg.append("text")
+      .attr("font-size", 12) // This code duplication signals that these properties
+      .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
+      .attr("font-family", "sans-serif") // way to simplify our directions to you.
+      .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`)
+      .text("Price (USD)");
+
+
+
+    svg.append("path")
+      .data([data])
+      .attr("d", currentline)
+      .attr("class", "chartLine");
+
+      svg.selectAll("dot")
+       .data(data)
+       .enter()
+       .append("circle")
+       .attr("r", dotSize)
+       .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
+       .attr("cy", function(d) { return priceScale(d.price); })
+       .attr("stroke", "#FF0000")
+       .attr("fill", "#FFFFFF");
 
 
 });
