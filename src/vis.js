@@ -30,6 +30,8 @@ function drawLineGraph() {
   const svgwidth = svg.attr("width");
   const svgheight = svg.attr("height");
 
+  const dotSize = 4;
+
   var dateScale = d3.scaleTime()
   .domain([minDate, maxDate])
   .range([0, svgwidth]);
@@ -46,6 +48,14 @@ function drawLineGraph() {
     .data([data])
     .attr("d", currentline)
     .attr("class", "chartLine");
+
+    svg.selectAll("dot")
+     .data(data)
+     .enter()
+     .append("circle")
+     .attr("r", dotSize)
+     .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
+     .attr("cy", function(d) { return priceScale(d.price); });
 
 });
 
