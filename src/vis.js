@@ -23,8 +23,14 @@ function drawLineGraph() {
 
   const minDate = d3.min(data, function(d) { return dateFormat(d.date); });
   const maxDate = d3.max(data, function(d) { return dateFormat(d.date); });
-  const minPrice = d3.min(data, function(d) { return d.price; });
-  const maxPrice = d3.max(data, function(d) { return d.price; });
+  const minPrice = d3.min(data, function(d) { return parseFloat(d.price); });
+  const maxPrice = d3.max(data, function(d) { return parseFloat(d.price); });
+
+  console.log(minPrice);
+  console.log(maxPrice);
+
+  console.log(minDate);
+  console.log(maxDate);
 
   //Get the current height and width of the SVG
   const svgwidth = svg.attr("width");
@@ -42,7 +48,7 @@ function drawLineGraph() {
 
   var currentline = d3.line()
   .x(function(d) { return dateScale(dateFormat(d.date)); })
-  .y(function(d) { return priceScale(d.price); });
+  .y(function(d) { return priceScale(parseFloat(d.price)); });
 
 
      const yTranslation = svgheight - PADDING.LEFT;
@@ -92,7 +98,7 @@ function drawLineGraph() {
        .append("circle")
        .attr("r", dotSize)
        .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
-       .attr("cy", function(d) { return priceScale(d.price); })
+       .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
        .attr("stroke", "#FF0000")
        .attr("fill", "#FFFFFF");
 
