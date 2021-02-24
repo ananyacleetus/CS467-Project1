@@ -16,5 +16,4 @@ class HeaderBar extends React.Component {
 
 }
 
-var domContainer = document.querySelector('#headerbar');
-ReactDOM.render( /*#__PURE__*/React.createElement(HeaderBar, null), domContainer);
+export default HeaderBar;

@@ -1,1 +1,8 @@
-/* Opening Page */
+html,
+body {
+
+}
+
+#visualization {
+  align-items: center;
+}

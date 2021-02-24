@@ -70,9 +70,11 @@ function drawLineGraph() {
       tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
     }).on("mousemove", (mouseEvent, d) => {
       /* Runs when mouse moves inside a dot */
-      var leftOffset = d3.pointer(mouseEvent)[0] + 5;
-      tooltip.style("left", leftOffset + "px");
-      var topOffset = d3.pointer(mouseEvent)[1] + 5;
+      // var leftOffset = d3.pointer(mouseEvent)[0] + 3
+      var leftOffset = dateScale(dateFormat(d.date)) + 3;
+      tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
+
+      var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3;
       tooltip.style("top", topOffset + "px");
     }).on("mouseout", (mouseEvent, d) => {
       tooltip.style("opacity", 0);

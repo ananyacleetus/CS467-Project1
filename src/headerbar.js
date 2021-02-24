@@ -21,7 +21,4 @@
    }
  }
 
-
- const domContainer = document.querySelector('#headerbar');
-
-ReactDOM.render(<HeaderBar/>, domContainer);
+ export default HeaderBar
