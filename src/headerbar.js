@@ -1,6 +1,6 @@
 
  //stylesheet
- import "..//headerbar.css";
+ import "..//css/headerbar.css";
 
 
  class HeaderBar extends React.Component {

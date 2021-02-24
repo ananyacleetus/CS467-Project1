@@ -1,9 +1,11 @@
 
 //stylesheet
-import "..//layout.css";
+import "..//css/layout.css";
 
 import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
+import Sidebar from "/lib/sidebar.js";
+
 
 class Layout extends React.Component {
   constructor(props) {
@@ -15,8 +17,9 @@ class Layout extends React.Component {
     return (
 
       <div>
-      <HeaderBar/>
-      <Chart/>
+      <HeaderBar className="headerbar"/>
+      <Chart className="chart"/>
+      <Sidebar className="sidebar"/>
       </div>
     );
 

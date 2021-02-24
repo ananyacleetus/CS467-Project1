@@ -1,7 +1,7 @@
 import Safe from "react-safe";
 import * as d3 from "d3"; //stylesheet
 
-import "..//chart.css";
+import "..//css/chart.css";
 
 class Chart extends React.Component {
   constructor(props) {
@@ -93,7 +93,9 @@ class Chart extends React.Component {
   }
 
   render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
+      id: "fullChart"
+    }, /*#__PURE__*/React.createElement("div", {
       id: "tooltip",
       className: "tooltip",
       style: {

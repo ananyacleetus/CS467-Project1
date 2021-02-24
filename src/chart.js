@@ -2,7 +2,7 @@ import Safe from "react-safe";
 import * as d3 from "d3";
 
 //stylesheet
-import "..//chart.css";
+import "..//css/chart.css";
 
  class Chart extends React.Component {
    constructor(props) {
@@ -136,13 +136,13 @@ import "..//chart.css";
 
      return(
 
-     <div>
+     <div id="fullChart">
 
      <div id="tooltip" className="tooltip" style={{"opacity": 0}}>Hover over a point to start!</div>
      <svg id="chart_svg" width="800" height="800"></svg>
 
 
- </div>
+     </div>
 
 );
 
