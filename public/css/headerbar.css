@@ -1,0 +1,14 @@
+html,
+body,
+.headerbox{
+  height: 10vh;
+  width: 100%;
+  margin: 0;
+  font-family: Lato;
+}
+
+.title {
+  display: block;
+  font-size: 2vw;
+  text-align: center;
+}

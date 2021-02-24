@@ -1,9 +1,6 @@
-/* Main Layout */
-
-
-
-
-/* Data Elements */
+.fullChart {
+  width: 800px;
+}
 
 .chartLine {
   fill: none;
