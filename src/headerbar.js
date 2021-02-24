@@ -1,4 +1,3 @@
-“
 
  //stylesheet
  import "..//headerbar.css";
@@ -22,14 +21,11 @@
    }
  }
 
-  export default HeaderBar;
 
- const domContainer = document.getElementById('#headerbar');
-  const domContainer = document.getElementById("root");
+ const domContainer = document.querySelector('#headerbar');
 
-ReactDOM.render(HeaderBar, domContainer);
-ReactDOM.render(<HeaderBar/>, domContainer);”
-
+ReactDOM.render(<HeaderBar/>, domContainer);
+//
 // 'use strict';
 //
 // class LikeButton extends React.Component {
