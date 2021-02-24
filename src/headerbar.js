@@ -12,7 +12,7 @@
 
      return (
 
-     <div className="grid-container-header">
+     <div className="headerbox">
      <h1 className="title">Tesla Stock Price (TSLA) compared to Elon Musk Tweets</h1>
      </div>
 

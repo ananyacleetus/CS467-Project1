@@ -1,6 +1,6 @@
 
 //stylesheet
-import "..//headerbar.css";
+import "..//layout.css";
 
 import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";

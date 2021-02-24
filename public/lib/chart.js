@@ -1,5 +1,7 @@
 import Safe from "react-safe";
-import * as d3 from "d3";
+import * as d3 from "d3"; //stylesheet
+
+import "..//chart.css";
 
 class Chart extends React.Component {
   constructor(props) {

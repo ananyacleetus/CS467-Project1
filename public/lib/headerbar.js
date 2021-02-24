@@ -8,7 +8,7 @@ class HeaderBar extends React.Component {
 
   render() {
     return /*#__PURE__*/React.createElement("div", {
-      className: "grid-container-header"
+      className: "headerbox"
     }, /*#__PURE__*/React.createElement("h1", {
       className: "title"
     }, "Tesla Stock Price (TSLA) compared to Elon Musk Tweets"));
