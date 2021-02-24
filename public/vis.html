@@ -6,12 +6,22 @@
   <meta name="description" content="D3 starter template">
   <meta name="author" content="">
   <link rel="stylesheet" href="/vis.css">
+
 </head>
 
 <body>
-  <p>Test Page</p>
+  <div id="main_container">
+  <div id="headerbar"></div>
+  <div id="like_button_container"></div>
   <script type="module" src="/dist/vis.js"></script>
   <div id="tooltip" class="tooltip" style="opacity: 0;">Hover over a point to start!</div>
-  <svg width="800" height="800"></svg>
+  <svg id="chart_svg" width="800" height="800"></svg>
+
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+  <script type="text/babel" src="/dist/headerbar.js"></script>
+    </div>
+
 </body>
 </html>

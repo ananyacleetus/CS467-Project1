@@ -11,7 +11,7 @@ var PADDING = {TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50}
 
 function drawLineGraph() {
 
-  const svg = d3.select("svg");
+  const svg = d3.select("#chart_svg");
 
   const data = d3.csv("/fakedata.csv").then(function(data) {
 
@@ -96,7 +96,7 @@ function drawLineGraph() {
        .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
        .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
        .attr("stroke", "#FF0000")
-       .attr("fill", "#FFFFFF")
+       .attr("fill", "#FF0000")
         .on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);

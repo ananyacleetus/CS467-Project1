@@ -1,0 +1,12 @@
+html,
+body,
+.grid-container-header {
+  height: 10vh;
+  margin: 0;
+  font-family: Lato;
+}
+
+.title {
+  display: block;
+  font-size: 4vw;
+}

@@ -1,7 +1,9 @@
 /* Main Layout */
 
-
-
+#headerbar {
+  height: 10vh;
+  margin: 0;
+}
 
 /* Data Elements */
 

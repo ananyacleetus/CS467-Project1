@@ -12,5 +12,21 @@
   "devDependencies": {
     "d3": "^6.5.0",
     "snowpack": "^3.0.11"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ananyacleetus/CS467-Project1.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ananyacleetus/CS467-Project1/issues"
+  },
+  "homepage": "https://github.com/ananyacleetus/CS467-Project1#readme",
+  "directories": {
+    "lib": "lib"
   }
 }
