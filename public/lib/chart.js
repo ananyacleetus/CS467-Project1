@@ -4,16 +4,16 @@ import React, { useState, useEffect } from "react"; //stylesheet
 import "..//css/chart.css";
 
 function Chart(props) {
-  // const [date, setDate] = useState("");
-  // const [price, setPrice] = useState("");
-  var sendDataToSidebar = d => {
-    //Should return month-day-year
-    var dateFormat = d3.timeParse("%d-%b-%y"); //Should return hourv(12h format) : minute : am/pm
+  //Should return month-day-year
+  var dateFormat = d3.timeParse("%d-%b-%y"); //Should return hourv(12h format) : minute : am/pm
 
-    var timeFormat = d3.timeParse("%I:%M %p");
+  var timeFormat = d3.timeParse("%I:%M %p");
+
+  var sendDataToSidebar = d => {
     props.onChangeDate(dateFormat(d.date).toString());
-    props.onChangePrice(parseFloat(d.price).toString()); // props.onChangeDate("3");
-    // props.onChangePrice("4");
+    props.onChangePrice(parseFloat(d.price).toString()); //NOTE: Once you calculate the changes, you can send it in to the props
+    // props.onChangePriceYesterday("".toString());
+    // props.onChangePriceTweet("".toString());
   };
 
   function drawChart() {
@@ -28,10 +28,6 @@ function Chart(props) {
     function drawLineGraph() {
       var svg = d3.select("#chart_svg");
       var data = d3.csv("/fakedata.csv").then(function (data) {
-        //Should return month-day-year
-        var dateFormat = d3.timeParse("%d-%b-%y"); //Should return hourv(12h format) : minute : am/pm
-
-        var timeFormat = d3.timeParse("%I:%M %p");
         var minDate = d3.min(data, function (d) {
           return dateFormat(d.date);
         });

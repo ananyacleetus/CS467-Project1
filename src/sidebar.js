@@ -23,9 +23,9 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 
            <div className="priceChangeBox">
            <ArrowDropUp className="arrowup"/>
-           <h2 className="priceChangeYesterday">$14.02 since yesterday</h2>
+           <h2 className="priceChangeYesterday">{props.priceChangeYesterday + " since yesterday"}</h2>
             <ArrowDropDown className="arrowdown"/>
-           <h2 className="priceChangeLastTweet">$2.96 since last tweet</h2>
+           <h2 className="priceChangeLastTweet">{props.priceChangeTweet + " since last tweet"}</h2>
            </div>
 
      </div>

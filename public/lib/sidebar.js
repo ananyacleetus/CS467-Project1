@@ -21,11 +21,11 @@ function Sidebar(props) {
     className: "arrowup"
   }), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeYesterday"
-  }, "$14.02 since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
+  }, props.priceChangeYesterday + " since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
     className: "arrowdown"
   }), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeLastTweet"
-  }, "$2.96 since last tweet"))));
+  }, props.priceChangeTweet + " since last tweet"))));
 }
 
 export default Sidebar;
