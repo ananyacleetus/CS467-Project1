@@ -5,6 +5,7 @@ import "..//css/layout.css";
 import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
+import Scalebar from "/lib/scalebar.js";
 
 
 class Layout extends React.Component {
@@ -16,10 +17,19 @@ class Layout extends React.Component {
 
     return (
 
-      <div>
-      <HeaderBar className="headerbar"/>
-      <Chart className="chart"/>
-      <Sidebar className="sidebar"/>
+      <div className="grid-container">
+        <div className="A">
+        <HeaderBar className="headerbar"/>
+        </div>
+        <div className="B">
+        <Chart className="chart"/>
+        </div>
+        <div className="C">
+        <Scalebar className="scalebar"/>
+        </div>
+        <div className="D">
+        <Sidebar className="sidebar"/>
+        </div>
       </div>
     );
 
