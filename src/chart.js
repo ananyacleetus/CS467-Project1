@@ -10,11 +10,18 @@ import "..//css/chart.css";
    // const [price, setPrice] = useState("");
 
    const sendDataToSidebar = (d) => {
-     // this.props.onChangeDate(dateFormat(d.date));
-     // this.props.onChangePrice(parseFloat(d.price));
 
-     props.onChangeDate("3");
-     this.props.onChangePrice("4");
+     //Should return month-day-year
+     const dateFormat = d3.timeParse("%d-%b-%y");
+
+     //Should return hourv(12h format) : minute : am/pm
+     const timeFormat = d3.timeParse("%I:%M %p");
+
+     props.onChangeDate(dateFormat(d.date).toString());
+     props.onChangePrice(parseFloat(d.price).toString());
+
+     // props.onChangeDate("3");
+     // props.onChangePrice("4");
    }
 
 
@@ -116,7 +123,7 @@ import "..//css/chart.css";
                tooltip.style("opacity", 1);
                tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
 
-             //   d3.call(sendDataToSidebar(d));
+               sendDataToSidebar(d);
              })
 
                .on("mousemove", (mouseEvent, d) => {
@@ -129,9 +136,7 @@ import "..//css/chart.css";
                var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3
                tooltip.style("top", topOffset + "px");
 
-               // d3.select(this)
-               // .call(sendDataToSidebar(d));
-               // // this.sendDataToSidebar(d));
+               sendDataToSidebar(d);
              })
                .on("mouseout", (mouseEvent, d) => {
                  tooltip.style("opacity", 0);
@@ -151,6 +156,7 @@ import "..//css/chart.css";
 useEffect(() => {
   drawChart();
   }, [])
+
      return(
 
      <div id="fullChart">

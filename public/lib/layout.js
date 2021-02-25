@@ -8,8 +8,8 @@ import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
 function Layout(props) {
-  var [date, setDate] = useState("1");
-  var [price, setPrice] = useState("2");
+  var [date, setDate] = useState("Hover over a point to begin.");
+  var [price, setPrice] = useState("");
 
   var changePrice = price => {
     setPrice(price);

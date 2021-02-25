@@ -7,10 +7,13 @@ function Chart(props) {
   // const [date, setDate] = useState("");
   // const [price, setPrice] = useState("");
   var sendDataToSidebar = d => {
-    // this.props.onChangeDate(dateFormat(d.date));
-    // this.props.onChangePrice(parseFloat(d.price));
-    props.onChangeDate("3");
-    this.props.onChangePrice("4");
+    //Should return month-day-year
+    var dateFormat = d3.timeParse("%d-%b-%y"); //Should return hourv(12h format) : minute : am/pm
+
+    var timeFormat = d3.timeParse("%I:%M %p");
+    props.onChangeDate(dateFormat(d.date).toString());
+    props.onChangePrice(parseFloat(d.price).toString()); // props.onChangeDate("3");
+    // props.onChangePrice("4");
   };
 
   function drawChart() {
@@ -77,7 +80,8 @@ function Chart(props) {
         }).attr("stroke", "#FF0000").attr("fill", "#FF0000").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
-          tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date)); //   d3.call(sendDataToSidebar(d));
+          tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
+          sendDataToSidebar(d);
         }).on("mousemove", (mouseEvent, d) => {
           /* Runs when mouse moves inside a dot */
           // var leftOffset = d3.pointer(mouseEvent)[0] + 3
@@ -85,9 +89,8 @@ function Chart(props) {
           tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
 
           var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3;
-          tooltip.style("top", topOffset + "px"); // d3.select(this)
-          // .call(sendDataToSidebar(d));
-          // // this.sendDataToSidebar(d));
+          tooltip.style("top", topOffset + "px");
+          sendDataToSidebar(d);
         }).on("mouseout", (mouseEvent, d) => {
           tooltip.style("opacity", 0);
         });
