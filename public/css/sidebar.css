@@ -9,3 +9,10 @@
 .currentinfo {
 
 }
+
+
+.priceChangeYesterday, .priceChangeLastTweet {
+
+  font-weight: normal;
+
+}

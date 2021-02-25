@@ -1,5 +1,7 @@
 import React from "react";
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab'; //stylesheet
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { Icon } from '@material-ui/core';
+import { AccessAlarm, ThreeDRotation } from '@material-ui/icons'; //stylesheet
 
 import "..//css/scalebar.css";
 
