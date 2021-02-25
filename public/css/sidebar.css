@@ -55,3 +55,10 @@
 border-width: thin; */
 
 }
+
+.tweetBox {
+  margin-top: 50px;
+  background-color: #FF0000;
+  padding: 10px;
+
+}
