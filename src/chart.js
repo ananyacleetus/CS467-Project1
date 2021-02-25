@@ -1,13 +1,22 @@
-import Safe from "react-safe";
 import * as d3 from "d3";
+import React, {useState} from "react";
 
 //stylesheet
 import "..//css/chart.css";
 
- class Chart extends React.Component {
-   constructor(props) {
-     super(props);
+ function Chart (props) {
+
+   // const [date, setDate] = useState("");
+   // const [price, setPrice] = useState("");
+
+   const sendDataToSidebar = (d) => {
+     // this.props.onChangeDate(dateFormat(d.date));
+     // this.props.onChangePrice(parseFloat(d.price));
+
+     props.onChangeDate("3");
+     this.props.onChangePrice("4");
    }
+
 
    drawChart() {
      window.addEventListener("load", drawLineGraph);
@@ -105,8 +114,11 @@ import "..//css/chart.css";
              .on("mouseover", (mouseEvent, d) => {
                // Runs when the mouse enters a dot.  d is the corresponding data point.
                tooltip.style("opacity", 1);
-               tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date))
-               })
+               tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
+
+               d3.call(sendDataToSidebar(d));
+             });
+
                .on("mousemove", (mouseEvent, d) => {
                /* Runs when mouse moves inside a dot */
                // var leftOffset = d3.pointer(mouseEvent)[0] + 3
@@ -116,7 +128,11 @@ import "..//css/chart.css";
                // var topOffset = d3.pointer(mouseEvent)[1] + 3
                var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3
                tooltip.style("top", topOffset + "px");
-             })
+
+               d3.select(this)
+               .call(sendDataToSidebar(d));
+               // this.sendDataToSidebar(d));
+             });
                .on("mouseout", (mouseEvent, d) => {
                  tooltip.style("opacity", 0);
      });
@@ -128,18 +144,17 @@ import "..//css/chart.css";
 
    }
 
-   componentDidMount() {
+useEffect(() => {
   this.drawChart();
-}
+  }, [])
 
-   render() {
 
      return(
 
      <div id="fullChart">
 
      <div id="tooltip" className="tooltip" style={{"opacity": 0}}>Hover over a point to start!</div>
-     <svg id="chart_svg" width="800" height="800"></svg>
+     <svg id="chart_svg" width="1000" height="700"></svg>
 
 
      </div>
@@ -147,6 +162,6 @@ import "..//css/chart.css";
 );
 
    }
- }
 
- export default Chart
+
+ export default Chart;

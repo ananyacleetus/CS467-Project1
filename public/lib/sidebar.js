@@ -1,11 +1,19 @@
-import React from "react"; //stylesheet
+import React, { useState } from "react"; //stylesheet
 
 import "..//css/sidebar.css";
 
-function Sidebar() {
-  return /*#__PURE__*/React.createElement("h1", {
-    className: "name"
-  }, "WHAT'S UP");
+function Sidebar(props) {
+  // const [price, setPrice] = useState(null);
+  // const [date, setDate] = useState(null);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fullsidebar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "currentinfo"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "date"
+  }, props.date), /*#__PURE__*/React.createElement("h1", {
+    className: "price"
+  }, props.price)));
 }
 
 export default Sidebar;

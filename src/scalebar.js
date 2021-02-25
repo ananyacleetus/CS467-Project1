@@ -9,13 +9,13 @@ import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
  function Scalebar () {
 
      return (
-     <div className="fullbar">
-     <ToggleButtonGroup className="buttonbar" variant="contained" color="primary" aria-label="contained primary button group" exclusive="true">
-       <ToggleButton>All Time</ToggleButton>
-       <ToggleButton>3 Years</ToggleButton>
-       <ToggleButton>1 Year</ToggleButton>
-       <ToggleButton>1 Month</ToggleButton>
-       <ToggleButton>1 Day</ToggleButton>
+     <div className="fullscalebar">
+     <ToggleButtonGroup className="buttonbar" variant="contained" color="primary" aria-label="contained primary button group" exclusive={true}>
+       <ToggleButton value="all">All Time</ToggleButton>
+       <ToggleButton value="3yr">3 Years</ToggleButton>
+       <ToggleButton value="1yr">1 Year</ToggleButton>
+       <ToggleButton value="1mo">1 Month</ToggleButton>
+       <ToggleButton value="1dy">1 Day</ToggleButton>
      </ToggleButtonGroup>
 
 </div>
