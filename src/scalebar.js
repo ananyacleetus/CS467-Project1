@@ -2,18 +2,16 @@
 // import '/bootstrap/dist/css/bootstrap-theme.css';
 
 // import {Button, ButtonGroup} from 'react-bootstrap';
+import React from "react";
+
+import { Button } from '@material-ui/core';
 
 
  //stylesheet
  import "..//css/scalebar.css";
 
 
- class Scalebar extends React.Component {
-   constructor(props) {
-     super(props);
-   }
-
-   render() {
+ function Scalebar () {
 
      return (
      <div>
@@ -24,6 +22,6 @@
    );
 
    }
- }
 
- export default Scalebar
+
+ export default Scalebar;

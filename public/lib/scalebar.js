@@ -1,20 +1,15 @@
 // import '/bootstrap/dist/css/bootstrap.css';
 // import '/bootstrap/dist/css/bootstrap-theme.css';
 // import {Button, ButtonGroup} from 'react-bootstrap';
-//stylesheet
+import React from "react";
+import { Button } from '@material-ui/core'; //stylesheet
+
 import "..//css/scalebar.css";
 
-class Scalebar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
-      className: "name"
-    }, "Insert Scale Here"));
-  }
-
+function Scalebar() {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+    className: "name"
+  }, "Insert Scale Here"));
 }
 
 export default Scalebar;

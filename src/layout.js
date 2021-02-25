@@ -1,3 +1,4 @@
+import React from "react";
 
 //stylesheet
 import "..//css/layout.css";
@@ -8,12 +9,8 @@ import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
 
-class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function Layout () {
 
-  render() {
 
     return (
 
@@ -34,7 +31,9 @@ class Layout extends React.Component {
     );
 
   }
-}
+
+
+export default Layout;
 
 
 const domContainer = document.querySelector('#layout');
