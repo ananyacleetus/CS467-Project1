@@ -18,6 +18,7 @@
 .priceChangeYesterday, .priceChangeLastTweet {
 
   font-weight: normal;
+  margin-top: -10px;
 
 }
 
@@ -31,7 +32,7 @@
 .arrowdown {
   position: relative;
   color: #FF0000;
-  font-size: 70px !important;
+  font-size: 70px !important;;
 
 }
 
