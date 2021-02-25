@@ -63,8 +63,8 @@ function Chart(props) {
         var yAxisX = 0 + PADDING.RIGHT / 3;
         var yAxisY = svgheight - yTranslation / 2;
         var tooltip = d3.select("#tooltip");
-        svg.append("text").attr("font-size", 12).attr("font-weight", "bold").attr("font-family", "sans-serif").attr("x", xAxisX).attr("y", xAxisY).text("Date");
-        svg.append("text").attr("font-size", 12) // This code duplication signals that these properties
+        svg.append("text").attr("font-size", 14).attr("font-weight", "bold").attr("font-family", "sans-serif").attr("x", xAxisX).attr("y", xAxisY).text("Date");
+        svg.append("text").attr("font-size", 14) // This code duplication signals that these properties
         .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
         .attr("font-family", "sans-serif") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)");

@@ -1,11 +1,12 @@
-.fullChart {
+#fullChart {
   width: 100%;
   text-align: center;
 }
 
-.chart_svg {
+#chart_svg {
   display: inline-block;
-  margin: 0 auto;
+  /* margin: 0 auto; */
+  padding-left: 50px;
 }
 
 .chartLine {
@@ -14,7 +15,7 @@
   stroke-width: 2px;
 }
 
-.tooltip {
+#tooltip {
     position: absolute;
     display: inline-block;
     background-color: rgba(255, 255, 255, 0.8);
