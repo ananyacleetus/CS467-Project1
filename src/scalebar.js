@@ -1,3 +1,8 @@
+// import '/bootstrap/dist/css/bootstrap.css';
+// import '/bootstrap/dist/css/bootstrap-theme.css';
+
+// import {Button, ButtonGroup} from 'react-bootstrap';
+
 
  //stylesheet
  import "..//css/scalebar.css";
@@ -11,8 +16,10 @@
    render() {
 
      return (
-
+     <div>
      <h1 className="name">Insert Scale Here</h1>
+
+</div>
 
    );
 
