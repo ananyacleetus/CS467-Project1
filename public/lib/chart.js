@@ -103,8 +103,8 @@ class Chart extends React.Component {
       }
     }, "Hover over a point to start!"), /*#__PURE__*/React.createElement("svg", {
       id: "chart_svg",
-      width: "800",
-      height: "800"
+      width: "1000",
+      height: "700"
     }));
   }
 

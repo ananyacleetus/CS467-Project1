@@ -9,7 +9,11 @@ import React from "react";
 
      return (
 
+       <div className="fullsidebar">
+
      <h1 className="name">WHAT'S UP</h1>
+
+   </div>
 
    );
 

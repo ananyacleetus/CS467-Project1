@@ -2,9 +2,9 @@
 
 
 ## Environment and Tools Used
-* __Libraries:__ React 17.0.1, D3.js 6.5.0
+* __Libraries:__ React 17.0.1, D3.js 6.5.0, Material-UI 4.11.3
 * __APIs:__ Twitter API v2.0, <insert finance APIs>
-* __Tools:__ Marvel Prototyping App
+* __Tools:__ Snowpack 3.0.13, Marvel Prototyping App
 
 
 ## Instructions

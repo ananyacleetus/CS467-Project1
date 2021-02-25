@@ -139,7 +139,7 @@ import "..//css/chart.css";
      <div id="fullChart">
 
      <div id="tooltip" className="tooltip" style={{"opacity": 0}}>Hover over a point to start!</div>
-     <svg id="chart_svg" width="800" height="800"></svg>
+     <svg id="chart_svg" width="1000" height="700"></svg>
 
 
      </div>
