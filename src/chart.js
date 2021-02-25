@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 //stylesheet
 import "..//css/chart.css";
@@ -18,7 +18,7 @@ import "..//css/chart.css";
    }
 
 
-   drawChart() {
+    function drawChart () {
      window.addEventListener("load", drawLineGraph);
 
      var PADDING = {TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50}
@@ -111,13 +111,13 @@ import "..//css/chart.css";
             .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
             .attr("stroke", "#FF0000")
             .attr("fill", "#FF0000")
-             .on("mouseover", (mouseEvent, d) => {
+            .on("mouseover", (mouseEvent, d) => {
                // Runs when the mouse enters a dot.  d is the corresponding data point.
                tooltip.style("opacity", 1);
                tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
 
-               d3.call(sendDataToSidebar(d));
-             });
+             //   d3.call(sendDataToSidebar(d));
+             })
 
                .on("mousemove", (mouseEvent, d) => {
                /* Runs when mouse moves inside a dot */
@@ -129,10 +129,10 @@ import "..//css/chart.css";
                var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3
                tooltip.style("top", topOffset + "px");
 
-               d3.select(this)
-               .call(sendDataToSidebar(d));
-               // this.sendDataToSidebar(d));
-             });
+               // d3.select(this)
+               // .call(sendDataToSidebar(d));
+               // // this.sendDataToSidebar(d));
+             })
                .on("mouseout", (mouseEvent, d) => {
                  tooltip.style("opacity", 0);
      });
@@ -142,13 +142,15 @@ import "..//css/chart.css";
 
      }
 
-   }
+
+
+
+}
+
 
 useEffect(() => {
-  this.drawChart();
+  drawChart();
   }, [])
-
-
      return(
 
      <div id="fullChart">

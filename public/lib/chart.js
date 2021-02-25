@@ -1,14 +1,19 @@
-import Safe from "react-safe";
-import * as d3 from "d3"; //stylesheet
+import * as d3 from "d3";
+import React, { useState, useEffect } from "react"; //stylesheet
 
 import "..//css/chart.css";
 
-class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function Chart(props) {
+  // const [date, setDate] = useState("");
+  // const [price, setPrice] = useState("");
+  var sendDataToSidebar = d => {
+    // this.props.onChangeDate(dateFormat(d.date));
+    // this.props.onChangePrice(parseFloat(d.price));
+    props.onChangeDate("3");
+    this.props.onChangePrice("4");
+  };
 
-  drawChart() {
+  function drawChart() {
     window.addEventListener("load", drawLineGraph);
     var PADDING = {
       TOP: 50,
@@ -72,7 +77,7 @@ class Chart extends React.Component {
         }).attr("stroke", "#FF0000").attr("fill", "#FF0000").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
-          tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
+          tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date)); //   d3.call(sendDataToSidebar(d));
         }).on("mousemove", (mouseEvent, d) => {
           /* Runs when mouse moves inside a dot */
           // var leftOffset = d3.pointer(mouseEvent)[0] + 3
@@ -80,7 +85,9 @@ class Chart extends React.Component {
           tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
 
           var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3;
-          tooltip.style("top", topOffset + "px");
+          tooltip.style("top", topOffset + "px"); // d3.select(this)
+          // .call(sendDataToSidebar(d));
+          // // this.sendDataToSidebar(d));
         }).on("mouseout", (mouseEvent, d) => {
           tooltip.style("opacity", 0);
         });
@@ -88,26 +95,22 @@ class Chart extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.drawChart();
-  }
-
-  render() {
-    return /*#__PURE__*/React.createElement("div", {
-      id: "fullChart"
-    }, /*#__PURE__*/React.createElement("div", {
-      id: "tooltip",
-      className: "tooltip",
-      style: {
-        "opacity": 0
-      }
-    }, "Hover over a point to start!"), /*#__PURE__*/React.createElement("svg", {
-      id: "chart_svg",
-      width: "1000",
-      height: "700"
-    }));
-  }
-
+  useEffect(() => {
+    drawChart();
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    id: "fullChart"
+  }, /*#__PURE__*/React.createElement("div", {
+    id: "tooltip",
+    className: "tooltip",
+    style: {
+      "opacity": 0
+    }
+  }, "Hover over a point to start!"), /*#__PURE__*/React.createElement("svg", {
+    id: "chart_svg",
+    width: "1000",
+    height: "700"
+  }));
 }
 
 export default Chart;
