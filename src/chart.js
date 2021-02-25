@@ -6,22 +6,24 @@ import "..//css/chart.css";
 
  function Chart (props) {
 
-   // const [date, setDate] = useState("");
-   // const [price, setPrice] = useState("");
+   //Should return month-day-year
+   const dateFormat = d3.timeParse("%d-%b-%y");
+
+   //Should return hourv(12h format) : minute : am/pm
+   const timeFormat = d3.timeParse("%I:%M %p");
+
 
    const sendDataToSidebar = (d) => {
 
-     //Should return month-day-year
-     const dateFormat = d3.timeParse("%d-%b-%y");
-
-     //Should return hourv(12h format) : minute : am/pm
-     const timeFormat = d3.timeParse("%I:%M %p");
 
      props.onChangeDate(dateFormat(d.date).toString());
      props.onChangePrice(parseFloat(d.price).toString());
 
-     // props.onChangeDate("3");
-     // props.onChangePrice("4");
+     //NOTE: Once you calculate the changes, you can send it in to the props
+     // props.onChangePriceYesterday("".toString());
+     // props.onChangePriceTweet("".toString());
+
+
    }
 
 
@@ -35,12 +37,6 @@ import "..//css/chart.css";
        const svg = d3.select("#chart_svg");
 
        const data = d3.csv("/fakedata.csv").then(function(data) {
-
-       //Should return month-day-year
-       const dateFormat = d3.timeParse("%d-%b-%y");
-
-       //Should return hourv(12h format) : minute : am/pm
-       const timeFormat = d3.timeParse("%I:%M %p");
 
        const minDate = d3.min(data, function(d) { return dateFormat(d.date); });
        const maxDate = d3.max(data, function(d) { return dateFormat(d.date); });

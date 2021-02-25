@@ -5,8 +5,6 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'; //stylesheet
 import "..//css/sidebar.css";
 
 function Sidebar(props) {
-  // const [price, setPrice] = useState(null);
-  // const [date, setDate] = useState(null);
   return /*#__PURE__*/React.createElement("div", {
     className: "fullsidebar"
   }, /*#__PURE__*/React.createElement("div", {
@@ -21,11 +19,13 @@ function Sidebar(props) {
     className: "arrowup"
   }), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeYesterday"
-  }, "$14.02 since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
+  }, props.priceChangeYesterday + " since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
     className: "arrowdown"
   }), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeLastTweet"
-  }, "$2.96 since last tweet"))));
+  }, props.priceChangeTweet + " since last tweet")), /*#__PURE__*/React.createElement("div", {
+    className: "tweetBox"
+  }, /*#__PURE__*/React.createElement("h2", null, "Insert Embedly Tweet Here"))));
 }
 
 export default Sidebar;

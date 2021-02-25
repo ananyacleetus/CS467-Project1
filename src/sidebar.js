@@ -7,10 +7,6 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 
 
  function Sidebar (props) {
-
-   // const [price, setPrice] = useState(null);
-   // const [date, setDate] = useState(null);
-
      return (
 
        <div className="fullsidebar">
@@ -23,9 +19,15 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 
            <div className="priceChangeBox">
            <ArrowDropUp className="arrowup"/>
-           <h2 className="priceChangeYesterday">$14.02 since yesterday</h2>
+           <h2 className="priceChangeYesterday">{props.priceChangeYesterday + " since yesterday"}</h2>
             <ArrowDropDown className="arrowdown"/>
-           <h2 className="priceChangeLastTweet">$2.96 since last tweet</h2>
+           <h2 className="priceChangeLastTweet">{props.priceChangeTweet + " since last tweet"}</h2>
+           </div>
+
+
+           <div className="tweetBox">
+             <h2>Insert Embedly Tweet Here</h2>
+
            </div>
 
      </div>

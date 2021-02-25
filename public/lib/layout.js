@@ -9,16 +9,24 @@ import Scalebar from "/lib/scalebar.js";
 
 function Layout(props) {
   var [date, setDate] = useState("Hover over a point to begin.");
-  var [price, setPrice] = useState("");
+  var [price, setPrice] = useState("525.69");
+  var [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
+  var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
 
   var changePrice = price => {
-    setPrice(price);
-    console.log("Price:", price);
+    setPrice(price); // console.log("Price:", price);
   };
 
   var changeDate = date => {
-    setDate(date);
-    console.log("Date:", date);
+    setDate(date); // console.log("Date:", date);
+  };
+
+  var changePriceYesterday = pricechngyesterday => {
+    setPriceChangeYesterday(pricechngyesterday);
+  };
+
+  var changePriceTweet = pricechngtweet => {
+    setPriceChangeTweet(pricechngtweet);
   };
 
   return /*#__PURE__*/React.createElement("div", {
@@ -36,6 +44,12 @@ function Layout(props) {
     },
     onChangeDate: e => {
       changeDate(e);
+    },
+    onChangePriceYesterday: e => {
+      changePriceYesterday(e);
+    },
+    onChangePriceTweet: e => {
+      changePriceTweet(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"
@@ -46,7 +60,9 @@ function Layout(props) {
   }, /*#__PURE__*/React.createElement(Sidebar, {
     className: "sidebar",
     date: date,
-    price: price
+    price: price,
+    priceChangeYesterday: priceChangeYesterday,
+    priceChangeTweet: priceChangeTweet
   })));
 }
 

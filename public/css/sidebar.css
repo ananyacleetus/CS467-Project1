@@ -18,20 +18,21 @@
 .priceChangeYesterday, .priceChangeLastTweet {
 
   font-weight: normal;
+  margin-top: -10px;
 
 }
 
 .arrowup {
   position: relative;
   color: #4B7F52;
-  font-size: 60px !important;
+  font-size: 70px !important;
 
 }
 
 .arrowdown {
   position: relative;
   color: #FF0000;
-  font-size: 60px !important;
+  font-size: 70px !important;;
 
 }
 
@@ -53,5 +54,12 @@
   background-clip: content-box;
   /* border-color: #000000;
 border-width: thin; */
+
+}
+
+.tweetBox {
+  margin-top: 50px;
+  background-color: #FF0000;
+  padding: 10px;
 
 }
