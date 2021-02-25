@@ -1,14 +1,10 @@
+import React from "react";
 
  //stylesheet
  import "..//css/headerbar.css";
 
 
- class HeaderBar extends React.Component {
-   constructor(props) {
-     super(props);
-   }
-
-   render() {
+ function HeaderBar () {
 
      return (
 
@@ -18,7 +14,6 @@
 
    );
 
-   }
  }
 
- export default HeaderBar
+ export default HeaderBar;

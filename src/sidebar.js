@@ -1,14 +1,11 @@
+import React from "react";
 
  //stylesheet
  import "..//css/sidebar.css";
 
 
- class Sidebar extends React.Component {
-   constructor(props) {
-     super(props);
-   }
+ function Sidebar () {
 
-   render() {
 
      return (
 
@@ -17,6 +14,5 @@
    );
 
    }
- }
 
- export default Sidebar
+ export default Sidebar;
