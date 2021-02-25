@@ -1,4 +1,5 @@
-import React from "react"; //stylesheet
+import React from "react";
+import ReactDOM from "react-dom"; //stylesheet
 
 import "..//css/layout.css";
 import HeaderBar from "/lib/headerbar.js";

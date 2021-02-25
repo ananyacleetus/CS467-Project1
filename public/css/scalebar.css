@@ -1,0 +1,10 @@
+.fullbar {
+  width: 100%;
+  text-align: center;
+}
+
+.buttonbar {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
+  }

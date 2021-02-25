@@ -1,5 +1,11 @@
 .fullChart {
-  width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.chart_svg {
+  display: inline-block;
+  margin: 0 auto;
 }
 
 .chartLine {
