@@ -4,10 +4,7 @@ import * as d3 from "d3";
 //stylesheet
 import "..//css/chart.css";
 
- class Chart extends React.Component {
-   constructor(props) {
-     super(props);
-   }
+ function Chart () {
 
    drawChart() {
      window.addEventListener("load", drawLineGraph);
@@ -106,7 +103,8 @@ import "..//css/chart.css";
                // Runs when the mouse enters a dot.  d is the corresponding data point.
                tooltip.style("opacity", 1);
                tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date))
-               })
+             });
+              this.sendDataToSidebar(d));
                .on("mousemove", (mouseEvent, d) => {
                /* Runs when mouse moves inside a dot */
                // var leftOffset = d3.pointer(mouseEvent)[0] + 3
@@ -128,11 +126,15 @@ import "..//css/chart.css";
 
    }
 
-   componentDidMount() {
+useEffect(() => {
   this.drawChart();
-}
+  }, [])
 
-   render() {
+
+sendDataToSidebar = (d) => {
+  // some internal code here
+  this.props.onDatapointClick(d);
+}
 
      return(
 
@@ -147,6 +149,6 @@ import "..//css/chart.css";
 );
 
    }
- }
 
- export default Chart
+
+ export default Chart;

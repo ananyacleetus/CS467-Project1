@@ -5,7 +5,7 @@ import "..//css/scalebar.css";
 
 function Scalebar() {
   return /*#__PURE__*/React.createElement("div", {
-    className: "fullbar"
+    className: "fullscalebar"
   }, /*#__PURE__*/React.createElement(ToggleButtonGroup, {
     className: "buttonbar",
     variant: "contained",
