@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, ButtonGroup} from '@material-ui/core';
+import {ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
 
  //stylesheet
  import "..//css/scalebar.css";
@@ -9,13 +9,14 @@ import { Button, ButtonGroup} from '@material-ui/core';
  function Scalebar () {
 
      return (
-     <div>
-     <h1 className="name">Insert Scale Here</h1>
-     <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-       <Button>One</Button>
-       <Button>Two</Button>
-       <Button>Three</Button>
-     </ButtonGroup>
+     <div className="fullbar">
+     <ToggleButtonGroup className="buttonbar" variant="contained" color="primary" aria-label="contained primary button group" exclusive="true">
+       <ToggleButton>All Time</ToggleButton>
+       <ToggleButton>3 Years</ToggleButton>
+       <ToggleButton>1 Year</ToggleButton>
+       <ToggleButton>1 Month</ToggleButton>
+       <ToggleButton>1 Day</ToggleButton>
+     </ToggleButtonGroup>
 
 </div>
 
