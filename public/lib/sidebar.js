@@ -13,7 +13,7 @@ function Sidebar(props) {
     className: "date"
   }, props.date), /*#__PURE__*/React.createElement("h1", {
     className: "price"
-  }, props.price), /*#__PURE__*/React.createElement("h2", {
+  }, "$" + props.price), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeYesterday"
   }, "$14.02 since yesterday"), /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeLastTweet"

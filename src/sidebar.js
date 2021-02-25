@@ -16,7 +16,7 @@ import React, {useState} from "react";
          <div className="currentinfo">
 
            <h2 className="date">{props.date}</h2>
-           <h1 className="price">{props.price}</h1>
+           <h1 className="price">{"$" + props.price}</h1>
 
            <h2 className="priceChangeYesterday">$14.02 since yesterday</h2>
            <h2 className="priceChangeLastTweet">$2.96 since last tweet</h2>

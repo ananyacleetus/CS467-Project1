@@ -12,8 +12,8 @@ import Scalebar from "/lib/scalebar.js";
 
 function Layout (props) {
 
-  const [date, setDate] = useState("1");
-  const [price, setPrice] = useState("2");
+  const [date, setDate] = useState("Hover over a point to begin.");
+  const [price, setPrice] = useState("");
 
   const changePrice = (price) => {
         setPrice(price)
