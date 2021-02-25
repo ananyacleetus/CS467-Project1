@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom";
 
 //stylesheet
@@ -10,7 +10,20 @@ import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
 
-function Layout () {
+function Layout (props) {
+
+  const [date, setDate] = useState('');
+  const [price, setPrice] = useState('');
+
+  const onChangePrice = (price) => {
+        setPrice(price)
+        console.log("Price:", price);
+    }
+
+  const onChangeDate = (date) => {
+        setDate(date)
+        console.log("Date:", date);
+    }
 
 
     return (
@@ -20,13 +33,13 @@ function Layout () {
         <HeaderBar className="headerbar"/>
         </div>
         <div className="B">
-        <Chart className="chart"/>
+        <Chart className="chart" date={date} price={price} onChangePrice={(e) => { onChangePrice(e) }} onChangeDate={(e) => { onChangeDate(e) }}/>
         </div>
         <div className="C">
         <Scalebar className="scalebar"/>
         </div>
         <div className="D">
-        <Sidebar className="sidebar"/>
+        <Sidebar className="sidebar" date={date} price={price}/>
         </div>
       </div>
     );

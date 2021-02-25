@@ -1,10 +1,14 @@
-import Safe from "react-safe";
 import * as d3 from "d3";
+import React, {useState} from "react";
 
 //stylesheet
 import "..//css/chart.css";
 
- function Chart () {
+ function Chart (props) {
+
+   // const [date, setDate] = useState("");
+   // const [price, setPrice] = useState("");
+
 
    drawChart() {
      window.addEventListener("load", drawLineGraph);
@@ -132,8 +136,14 @@ useEffect(() => {
 
 
 sendDataToSidebar = (d) => {
-  // some internal code here
-  this.props.onDatapointClick(d);
+
+  props.onChangeDate(dateFormat(d.date));
+  props.onChangePrice(parseFloat(d.price));
+
+  // 
+  // setPrice();
+  // setDate();
+
 }
 
      return(

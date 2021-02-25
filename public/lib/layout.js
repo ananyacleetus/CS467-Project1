@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom"; //stylesheet
 
 import "..//css/layout.css";
@@ -7,7 +7,20 @@ import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
-function Layout() {
+function Layout(props) {
+  var [date, setDate] = useState('');
+  var [price, setPrice] = useState('');
+
+  var _onChangePrice = price => {
+    setPrice(price);
+    console.log("Price:", price);
+  };
+
+  var _onChangeDate = date => {
+    setDate(date);
+    console.log("Date:", date);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -17,7 +30,15 @@ function Layout() {
   })), /*#__PURE__*/React.createElement("div", {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
-    className: "chart"
+    className: "chart",
+    date: date,
+    price: price,
+    onChangePrice: e => {
+      _onChangePrice(e);
+    },
+    onChangeDate: e => {
+      _onChangeDate(e);
+    }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"
   }, /*#__PURE__*/React.createElement(Scalebar, {
@@ -25,7 +46,9 @@ function Layout() {
   })), /*#__PURE__*/React.createElement("div", {
     className: "D"
   }, /*#__PURE__*/React.createElement(Sidebar, {
-    className: "sidebar"
+    className: "sidebar",
+    date: date,
+    price: price
   })));
 }
 

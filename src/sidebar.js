@@ -6,16 +6,17 @@ import React, {useState} from "react";
 
  function Sidebar (props) {
 
-   const [price, setPrice] = useState(null);
-   const [date, setDate] = useState(null);
+   // const [price, setPrice] = useState(null);
+   // const [date, setDate] = useState(null);
 
      return (
 
        <div className="fullsidebar">
 
          <div className="currentinfo">
-           <h2 className="date">test1</h2>
-           <h1 className="price">test2</h1>
+
+           <h2 className="date">{props.date}</h2>
+           <h1 className="price">{props.price}</h1>
      </div>
 
    </div>
