@@ -8,15 +8,15 @@ import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
 function Layout(props) {
-  var [date, setDate] = useState('');
-  var [price, setPrice] = useState('');
+  var [date, setDate] = useState("1");
+  var [price, setPrice] = useState("2");
 
-  var _onChangePrice = price => {
+  var changePrice = price => {
     setPrice(price);
     console.log("Price:", price);
   };
 
-  var _onChangeDate = date => {
+  var changeDate = date => {
     setDate(date);
     console.log("Date:", date);
   };
@@ -31,13 +31,11 @@ function Layout(props) {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
     className: "chart",
-    date: date,
-    price: price,
     onChangePrice: e => {
-      _onChangePrice(e);
+      changePrice(e);
     },
     onChangeDate: e => {
-      _onChangeDate(e);
+      changeDate(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"

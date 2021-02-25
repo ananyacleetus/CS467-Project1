@@ -12,15 +12,15 @@ import Scalebar from "/lib/scalebar.js";
 
 function Layout (props) {
 
-  const [date, setDate] = useState('');
-  const [price, setPrice] = useState('');
+  const [date, setDate] = useState("1");
+  const [price, setPrice] = useState("2");
 
-  const onChangePrice = (price) => {
+  const changePrice = (price) => {
         setPrice(price)
         console.log("Price:", price);
     }
 
-  const onChangeDate = (date) => {
+  const changeDate = (date) => {
         setDate(date)
         console.log("Date:", date);
     }
@@ -33,7 +33,7 @@ function Layout (props) {
         <HeaderBar className="headerbar"/>
         </div>
         <div className="B">
-        <Chart className="chart" date={date} price={price} onChangePrice={(e) => { onChangePrice(e) }} onChangeDate={(e) => { onChangeDate(e) }}/>
+        <Chart className="chart" onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}/>
         </div>
         <div className="C">
         <Scalebar className="scalebar"/>
