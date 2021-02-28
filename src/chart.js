@@ -28,7 +28,7 @@ function Chart(props) {
 
     }
 
-    export function drawChart(timescale) {
+    function drawChart(timescale) {
         window.addEventListener("load", callAPI(timescale));
 
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }

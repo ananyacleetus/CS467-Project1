@@ -23,8 +23,8 @@ function Chart(props) {
         //NOTE: Once you calculate the changes, you can send it in to the props
         // props.onChangePriceYesterday("".toString());
         // props.onChangePriceTweet("".toString());
-
     };
+
     function drawChart(timescale) {
         window.addEventListener("load", callAPI(timescale));
 
