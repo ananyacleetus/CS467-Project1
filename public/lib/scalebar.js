@@ -4,12 +4,12 @@ import drawChart from "/lib/chart.js"; //stylesheet
 
 import "..//css/scalebar.css";
 
-function Scalebar() {
+function Scalebar(props) {
   var [timeScale, setTimeScale] = React.useState('1yr');
 
   var handleTimeScale = (event, newTimeScale) => {
-    console.log(newTimeScale); // drawChart(newTimeScale);
-    // want to send this time scale and redraw the chart
+    setTimeScale(newTimeScale);
+    props.onChangeTimeScale(newTimeScale);
   };
 
   return /*#__PURE__*/React.createElement("div", {
@@ -17,8 +17,7 @@ function Scalebar() {
   }, /*#__PURE__*/React.createElement(ToggleButtonGroup, {
     className: "buttonbar",
     value: timeScale,
-    onChange: handleTimeScale // onClick={dr?awChart}
-    ,
+    onChange: handleTimeScale,
     variant: "contained",
     color: "primary",
     "aria-label": "contained primary button group",
@@ -30,10 +29,10 @@ function Scalebar() {
   }, "3 Years"), /*#__PURE__*/React.createElement(ToggleButton, {
     value: "1yr"
   }, "1 Year"), /*#__PURE__*/React.createElement(ToggleButton, {
+    value: "3mo"
+  }, "3 Months"), /*#__PURE__*/React.createElement(ToggleButton, {
     value: "1mo"
-  }, "1 Month"), /*#__PURE__*/React.createElement(ToggleButton, {
-    value: "1dy"
-  }, "1 Day")));
+  }, "1 Month")));
 }
 
 export default Scalebar;

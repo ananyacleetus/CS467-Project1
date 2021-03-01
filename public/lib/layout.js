@@ -9,9 +9,11 @@ import Scalebar from "/lib/scalebar.js";
 
 function Layout(props) {
   var [date, setDate] = useState("Hover over a point to begin.");
-  var [price, setPrice] = useState("525.69");
+  var [price, setPrice] = useState("$525.69");
   var [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
   var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
+  var [timeScale, setTimeScale] = useState('1yr');
+  var [updateScale, shouldUpdateScale] = useState(false);
 
   var changePrice = price => {
     setPrice(price); // console.log("Price:", price);
@@ -29,6 +31,15 @@ function Layout(props) {
     setPriceChangeTweet(pricechngtweet);
   };
 
+  var changeTimeScale = timeScale => {
+    setTimeScale(timeScale);
+    shouldUpdateScale(true);
+  };
+
+  var changeUpdateScale = updateScale => {
+    shouldUpdateScale(updateScale);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -39,6 +50,8 @@ function Layout(props) {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
     className: "chart",
+    timeScale: timeScale,
+    updateScale: updateScale,
     onChangePrice: e => {
       changePrice(e);
     },
@@ -50,11 +63,20 @@ function Layout(props) {
     },
     onChangePriceTweet: e => {
       changePriceTweet(e);
+    },
+    onChangeUpdateScale: e => {
+      changeUpdateScale(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"
   }, /*#__PURE__*/React.createElement(Scalebar, {
-    className: "scalebar"
+    className: "scalebar",
+    onChangeTimeScale: e => {
+      changeTimeScale(e);
+    },
+    onChangeUpdateScale: e => {
+      changeUpdateScale(e);
+    }
   })), /*#__PURE__*/React.createElement("div", {
     className: "D"
   }, /*#__PURE__*/React.createElement(Sidebar, {
