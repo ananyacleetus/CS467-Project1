@@ -171,12 +171,12 @@ function Chart(props) {
 
                // Update lines
                svg.selectAll(".chartLine")
-               .duration(850)
+               .duration(1000)
                .attr("d", currentline);
 
                // Update dots
                svg.selectAll("circle")
-                .duration(850)
+                .duration(1000)
                 .attr("r", dotSize)
                 .attr("cx", function(d) { return dateScale(utcToDate(d.date)); })
                 .attr("cy", function(d) { return priceScale(parseFloat(d.close)); })
@@ -193,10 +193,12 @@ function Chart(props) {
                  .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`);
 
                  svg.selectAll(".xAxis")
+                 .duration(1000)
                  .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
                  .attr("transform", `translate(0, ${yTranslation})`);
 
                  svg.selectAll(".yAxis")
+                 .duration(1000)
                  .call(d3.axisLeft(priceScale))
                  .attr("transform", `translate(${xTranslation}, 0)`);
 
