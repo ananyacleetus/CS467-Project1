@@ -1,10 +1,15 @@
 import * as d3 from "d3";
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
 // import fs from "fs";
 
+=======
+import React, { useState, useEffect } from "react"; // import fs from "fs";
+>>>>>>> 3a03efe4030209b6d8beb0f4f5b924964c68f279
 //stylesheet
+
 import "..//css/chart.css";
 
 function Chart(props) {
@@ -72,128 +77,101 @@ function Chart(props) {
 
             var priceScale = d3.scaleLinear().domain([0, maxPrice]).range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
 
-            var currentline = d3.line().x(function (d) {
-                return dateScale(utcToDate(d.date));
-            }).y(function (d) {
-                return priceScale(parseFloat(d.close));
-            });
-
-            const yTranslation = svgheight - PADDING.LEFT;
-            const xTranslation = 0 + PADDING.TOP;
-
-            // svg.append("g") creates an SVG <g> element, short for "group."
-            // It doesn’t draw anything by itself, but serves to group child elements together.
-            const xAxis = svg.append("g").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
-            .attr("transform", `translate(0, ${yTranslation})`);
-
-            const yAxis = svg.append("g").call(d3.axisLeft(priceScale)).attr("transform", `translate(${xTranslation}, 0)`);
-
-            const xAxisX = (svgwidth - xTranslation) / 2;
-            const xAxisY = svgheight - PADDING.BOTTOM / 3;
-
-            const yAxisX = 0 + PADDING.RIGHT / 3;
-            const yAxisY = svgheight - yTranslation / 2;
-
-            //  const tooltip = d3.select("#tooltip");
-
-            svg.append("text").attr("font-size", 14).attr("font-weight", "bold").attr("font-family", "sans-serif").attr("x", xAxisX).attr("y", xAxisY).text("Date");
-
-            svg.append("text").attr("font-size", 14) // This code duplication signals that these properties
-            .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
-            .attr("font-family", "sans-serif") // way to simplify our directions to you.
-            .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`).text("Price (USD)");
-
-            svg.append("path").data([data]).attr("d", currentline).attr("class", "chartLine");
-
-            //        svg.selectAll("dot")
-            //         .data(data)
-            //         .enter()
-            //         .append("circle")
-            //         .attr("r", dotSize)
-            //         .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
-            //         .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
-            //         .attr("stroke", "#FF0000")
-            //         .attr("fill", "#FF0000")
-            //         .on("mouseover", (mouseEvent, d) => {
-            //            // Runs when the mouse enters a dot.  d is the corresponding data point.
-            //            tooltip.style("opacity", 1);
-            //            tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
-
-            //            sendDataToSidebar(d);
-            //          })
-
-            //            .on("mousemove", (mouseEvent, d) => {
-            //            /* Runs when mouse moves inside a dot */
-            //            // var leftOffset = d3.pointer(mouseEvent)[0] + 3
-            //            var leftOffset = dateScale(dateFormat(d.date)) + 3
-            //            tooltip.style("left", leftOffset + "px");
-
-            //            // var topOffset = d3.pointer(mouseEvent)[1] + 3
-            //            var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3
-            //            tooltip.style("top", topOffset + "px");
-
-            //            sendDataToSidebar(d);
-            //          })
-            //            .on("mouseout", (mouseEvent, d) => {
-            //              tooltip.style("opacity", 0);
-            //  });
-
-        }
+    function callAPI(ts) {
+      fetch("http://localhost:9000/stockAPI/" + ts).then(res => res.json()).then(res => {
+        drawLineGraph(res);
+      });
     }
 
-    useEffect(() => {
-        drawChart();
-    }, []);
+    function drawLineGraph(data) {
+      var svg = d3.select("#chart_svg");
+      var minDate = d3.min(data, function (d) {
+        return utcToDate(d.date);
+      });
+      var maxDate = d3.max(data, function (d) {
+        return utcToDate(d.date);
+      });
+      var minPrice = d3.min(data, function (d) {
+        return parseFloat(d.close);
+      });
+      var maxPrice = d3.max(data, function (d) {
+        return parseFloat(d.close);
+      }); //Get the current height and width of the SVG
 
-    return React.createElement(
-        "div",
-        { id: "fullChart" },
-        React.createElement(
-            "div",
-            { id: "tooltip", className: "tooltip", style: { "opacity": 0 } },
-            "Hover over a point to start!"
-        ),
-        React.createElement("svg", { id: "chart_svg", width: "1000", height: "700" }),
-        React.createElement(
-            ToggleButtonGroup,
-            {
-                id: "buttonbar2",
-                className: "buttonbar2"
-                // value={timeScale}
-                // onChange={handleTimeScale}
-                // onClick={() => testButton(value)}
-                , variant: "contained",
-                color: "primary",
-                "aria-label": "contained primary button group",
-                exclusive: true
-            },
-            React.createElement(
-                ToggleButton,
-                { value: "all", onClick: () => testButton("all") },
-                "All Time"
-            ),
-            React.createElement(
-                ToggleButton,
-                { value: "3yr", onClick: () => testButton("3yr") },
-                "3 Years"
-            ),
-            React.createElement(
-                ToggleButton,
-                { value: "1yr", onClick: () => testButton("1yr") },
-                "1 Year"
-            ),
-            React.createElement(
-                ToggleButton,
-                { value: "1mo", onClick: () => testButton("1mo") },
-                "1 Month"
-            ),
-            React.createElement(
-                ToggleButton,
-                { value: "1dy", onClick: () => testButton("1dy") },
-                "1 Day"
-            )
-        )
-    );
+      var svgwidth = svg.attr("width");
+      var svgheight = svg.attr("height");
+      var dotSize = 5;
+      var dateScale = d3.scaleTime().domain([minDate, maxDate]).range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
+      var priceScale = d3.scaleLinear().domain([0, maxPrice]).range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
+      var currentline = d3.line().x(function (d) {
+        return dateScale(utcToDate(d.date));
+      }).y(function (d) {
+        return priceScale(parseFloat(d.close));
+      });
+      var yTranslation = svgheight - PADDING.LEFT;
+      var xTranslation = 0 + PADDING.TOP; // svg.append("g") creates an SVG <g> element, short for "group."
+      // It doesn’t draw anything by itself, but serves to group child elements together.
+
+      var xAxis = svg.append("g").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+      .attr("transform", "translate(0, ".concat(yTranslation, ")"));
+      var yAxis = svg.append("g").call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
+      var xAxisX = (svgwidth - xTranslation) / 2;
+      var xAxisY = svgheight - PADDING.BOTTOM / 3;
+      var yAxisX = 0 + PADDING.RIGHT / 3;
+      var yAxisY = svgheight - yTranslation / 2; //  const tooltip = d3.select("#tooltip");
+
+      svg.append("text").attr("font-size", 14).attr("font-weight", "bold").attr("font-family", "sans-serif").attr("x", xAxisX).attr("y", xAxisY).text("Date");
+      svg.append("text").attr("font-size", 14) // This code duplication signals that these properties
+      .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
+      .attr("font-family", "sans-serif") // way to simplify our directions to you.
+      .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)");
+      svg.append("path").data([data]).attr("d", currentline).attr("class", "chartLine"); //        svg.selectAll("dot")
+      //         .data(data)
+      //         .enter()
+      //         .append("circle")
+      //         .attr("r", dotSize)
+      //         .attr("cx", function(d) { return dateScale(dateFormat(d.date)); })
+      //         .attr("cy", function(d) { return priceScale(parseFloat(d.price)); })
+      //         .attr("stroke", "#FF0000")
+      //         .attr("fill", "#FF0000")
+      //         .on("mouseover", (mouseEvent, d) => {
+      //            // Runs when the mouse enters a dot.  d is the corresponding data point.
+      //            tooltip.style("opacity", 1);
+      //            tooltip.text("The price is $" + parseFloat(d.price) + " at " + dateFormat(d.date));
+      //            sendDataToSidebar(d);
+      //          })
+      //            .on("mousemove", (mouseEvent, d) => {
+      //            /* Runs when mouse moves inside a dot */
+      //            // var leftOffset = d3.pointer(mouseEvent)[0] + 3
+      //            var leftOffset = dateScale(dateFormat(d.date)) + 3
+      //            tooltip.style("left", leftOffset + "px");
+      //            // var topOffset = d3.pointer(mouseEvent)[1] + 3
+      //            var topOffset = priceScale(parseFloat(d.price)) + PADDING.TOP + 3
+      //            tooltip.style("top", topOffset + "px");
+      //            sendDataToSidebar(d);
+      //          })
+      //            .on("mouseout", (mouseEvent, d) => {
+      //              tooltip.style("opacity", 0);
+      //  });
+    }
+  }
+
+  useEffect(() => {
+    drawChart();
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    id: "fullChart"
+  }, /*#__PURE__*/React.createElement("div", {
+    id: "tooltip",
+    className: "tooltip",
+    style: {
+      "opacity": 0
+    }
+  }, "Hover over a point to start!"), /*#__PURE__*/React.createElement("svg", {
+    id: "chart_svg",
+    width: "1000",
+    height: "700"
+  }));
 }
 
 export default Chart;
