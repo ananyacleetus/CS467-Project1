@@ -17,6 +17,9 @@ function Scalebar(props) {
         // console.log(newTimeScale)
         // drawChart(newTimeScale);
 
+        setTimeScale(newTimeScale);
+
+
         props.onChangeTimeScale(newTimeScale);
 
     }
