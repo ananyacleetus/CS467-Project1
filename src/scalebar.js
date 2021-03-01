@@ -12,15 +12,12 @@ import "..//css/scalebar.css";
 function Scalebar(props) {
 
     const [timeScale, setTimeScale] = React.useState('1yr');
-    const [updateScale, shouldUpdateScale] = React.useState('false');
 
     const handleTimeScale = (event, newTimeScale) => {
 
         setTimeScale(newTimeScale);
 
         props.onChangeTimeScale(newTimeScale);
-        props.onChangeUpdateScale('true');
-
 
 
     }

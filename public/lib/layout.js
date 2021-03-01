@@ -13,7 +13,7 @@ function Layout(props) {
   var [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
   var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
   var [timeScale, setTimeScale] = useState('1yr');
-  var [updateScale, shouldUpdateScale] = useState('false');
+  var [updateScale, shouldUpdateScale] = useState(false);
 
   var changePrice = price => {
     setPrice(price); // console.log("Price:", price);
@@ -33,6 +33,7 @@ function Layout(props) {
 
   var changeTimeScale = timeScale => {
     setTimeScale(timeScale);
+    shouldUpdateScale(true);
   };
 
   var changeUpdateScale = updateScale => {

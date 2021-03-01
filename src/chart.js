@@ -164,13 +164,13 @@ function Chart(props) {
                          tooltip.style("opacity", 0);
              });
 
-}
+           }
              if (props.updateScale) {
 
                svg = d3.select("#chart_svg").transition();
 
                // Update lines
-               svg.select(".chartLine")
+               svg.selectAll(".chartLine")
                .duration(850)
                .attr("d", currentline);
 
@@ -185,18 +185,18 @@ function Chart(props) {
 
 
                  // Update axes and labels
-                 svg.select(".xAxisLabel")
+                 svg.selectAll(".xAxisLabel")
                  .attr("x", xAxisX)
                  .attr("y", xAxisY);
 
-                 svg.select(".yAxisLabel")
+                 svg.selectAll(".yAxisLabel")
                  .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`);
 
-                 svg.select(".xAxis")
+                 svg.selectAll(".xAxis")
                  .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
                  .attr("transform", `translate(0, ${yTranslation})`);
 
-                 svg.select(".yAxis")
+                 svg.selectAll(".yAxis")
                  .call(d3.axisLeft(priceScale))
                  .attr("transform", `translate(${xTranslation}, 0)`);
 

@@ -110,7 +110,7 @@ function Chart(props) {
       if (props.updateScale) {
         svg = d3.select("#chart_svg").transition(); // Update lines
 
-        svg.select(".chartLine").duration(850).attr("d", currentline); // Update dots
+        svg.selectAll(".chartLine").duration(850).attr("d", currentline); // Update dots
 
         svg.selectAll("circle").duration(850).attr("r", dotSize).attr("cx", function (d) {
           return dateScale(utcToDate(d.date));
@@ -118,11 +118,11 @@ function Chart(props) {
           return priceScale(parseFloat(d.close));
         }).attr("stroke", "#FF0000").attr("fill", "#FF0000"); // Update axes and labels
 
-        svg.select(".xAxisLabel").attr("x", xAxisX).attr("y", xAxisY);
-        svg.select(".yAxisLabel").attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)"));
-        svg.select(".xAxis").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+        svg.selectAll(".xAxisLabel").attr("x", xAxisX).attr("y", xAxisY);
+        svg.selectAll(".yAxisLabel").attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)"));
+        svg.selectAll(".xAxis").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
         .attr("transform", "translate(0, ".concat(yTranslation, ")"));
-        svg.select(".yAxis").call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
+        svg.selectAll(".yAxis").call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
         props.onChangeUpdateScale(false);
       }
     }
