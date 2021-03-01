@@ -42,14 +42,8 @@ router.param("timescale", (req, res, next, id) => {
             fromStr = max.toISOString().slice(0,10);
             break;
         default:
-<<<<<<< HEAD
-            datetime.setFullYear(datetime.getFullYear() - 1)
-            fromStr = datetime.toISOString().slice(0,10);
-            break;    }
-=======
             console.log("uh oh stinky");
     }
->>>>>>> 16fd615a15511b63c576968fd62f6e38d30bc397
     next();
 })
 
