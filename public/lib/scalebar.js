@@ -29,10 +29,10 @@ function Scalebar(props) {
   }, "3 Years"), /*#__PURE__*/React.createElement(ToggleButton, {
     value: "1yr"
   }, "1 Year"), /*#__PURE__*/React.createElement(ToggleButton, {
+    value: "3mo"
+  }, "3 Months"), /*#__PURE__*/React.createElement(ToggleButton, {
     value: "1mo"
-  }, "1 Month"), /*#__PURE__*/React.createElement(ToggleButton, {
-    value: "1dy"
-  }, "1 Day")));
+  }, "1 Month")));
 }
 
 export default Scalebar;

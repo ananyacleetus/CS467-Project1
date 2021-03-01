@@ -36,8 +36,8 @@ function Scalebar(props) {
                 <ToggleButton value="all">All Time</ToggleButton>
                 <ToggleButton value="3yr">3 Years</ToggleButton>
                 <ToggleButton value="1yr">1 Year</ToggleButton>
+                <ToggleButton value="3mo">3 Months</ToggleButton>
                 <ToggleButton value="1mo">1 Month</ToggleButton>
-                <ToggleButton value="1dy">1 Day</ToggleButton>
             </ToggleButtonGroup>
 
         </div>

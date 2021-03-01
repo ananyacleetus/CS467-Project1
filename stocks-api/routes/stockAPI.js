@@ -14,6 +14,7 @@ var fromStr = "";
     http://localhost:9000/stockAPI/1mo - last month of stock data
     http://localhost:9000/stockAPI/1yr - last year of stock data
     http://localhost:9000/stockAPI/3yr - last 3 years of stock data
+    http://localhost:9000/stockAPI/3mo - last 3 months of stock data
     http://localhost:9000/stockAPI/all - total history of stock data
 */
 router.param("timescale", (req, res, next, id) => {
@@ -22,22 +23,26 @@ router.param("timescale", (req, res, next, id) => {
     var datetime = new Date();
     switch(id) {
         case "1mo":
-            datetime.setMonth(datetime.getMonth() - 3)
+            datetime.setMonth(datetime.getMonth() - 1);
             fromStr = datetime.toISOString().slice(0,10);
             break;
         case "1yr":
-            datetime.setFullYear(datetime.getFullYear() - 1)
+            datetime.setFullYear(datetime.getFullYear() - 1);
             fromStr = datetime.toISOString().slice(0,10);
             break;
         case "3yr":
-            datetime.setFullYear(datetime.getFullYear() - 1)
+            datetime.setFullYear(datetime.getFullYear() - 3);
+            fromStr = datetime.toISOString().slice(0,10);
+            break;
+        case "3mo":
+            datetime.setMonth(datetime.getMonth() - 3);
             fromStr = datetime.toISOString().slice(0,10);
             break;
         case "all":
             fromStr = max.toISOString().slice(0,10);
             break;
         default:
-            console.log("uh oh stinky")
+            console.log("uh oh stinky");
     }
     next();
 })
