@@ -15,7 +15,6 @@ function Chart(props) {
     //Should return hourv(12h format) : minute : am/pm
     const timeFormat = d3.timeParse("%I:%M %p");
 
-
     const sendDataToSidebar = (d) => {
 
 
@@ -28,14 +27,18 @@ function Chart(props) {
 
     }
 
-    function drawChart(timescale) {
+    function drawChart() {
+
+        var timescale = props.timeScale;
         window.addEventListener("load", callAPI(timescale));
 
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
 
-        function callAPI(ts) {
-          ts = "1yr";
-            fetch("http://localhost:9000/stockAPI/" + ts)
+        function callAPI(timescale) {
+          // ts = "1yr";
+          // ts = timescale;
+
+            fetch("http://localhost:9000/stockAPI/" + timescale)
                 .then(res => res.json())
                 .then(res => {
                     drawLineGraph(res)
@@ -55,7 +58,7 @@ function Chart(props) {
             const svgwidth = svg.attr("width");
             const svgheight = svg.attr("height");
 
-            const dotSize = 5;
+            const dotSize = 2;
 
             var dateScale = d3.scaleTime()
                 .domain([minDate, maxDate])

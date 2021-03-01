@@ -18,7 +18,8 @@ function Chart(props) {
     // props.onChangePriceTweet("".toString());
   };
 
-  function drawChart(timescale) {
+  function drawChart() {
+    var timescale = props.timeScale;
     window.addEventListener("load", callAPI(timescale));
     var PADDING = {
       TOP: 50,
@@ -27,9 +28,10 @@ function Chart(props) {
       LEFT: 50
     };
 
-    function callAPI(ts) {
-      ts = "1yr";
-      fetch("http://localhost:9000/stockAPI/" + ts).then(res => res.json()).then(res => {
+    function callAPI(timescale) {
+      // ts = "1yr";
+      // ts = timescale;
+      fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json()).then(res => {
         drawLineGraph(res);
       });
     }
@@ -51,7 +53,7 @@ function Chart(props) {
 
       var svgwidth = svg.attr("width");
       var svgheight = svg.attr("height");
-      var dotSize = 5;
+      var dotSize = 2;
       var dateScale = d3.scaleTime().domain([minDate, maxDate]).range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
       var priceScale = d3.scaleLinear().domain([0, maxPrice]).range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
       var currentline = d3.line().x(function (d) {

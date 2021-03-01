@@ -10,7 +10,7 @@ function Scalebar(props) {
   var handleTimeScale = (event, newTimeScale) => {
     // console.log(newTimeScale)
     // drawChart(newTimeScale);
-    props.onChangeDate(dateFormat(d.date).toString());
+    props.onChangeTimeScale(newTimeScale);
   };
 
   return /*#__PURE__*/React.createElement("div", {
@@ -18,8 +18,7 @@ function Scalebar(props) {
   }, /*#__PURE__*/React.createElement(ToggleButtonGroup, {
     className: "buttonbar",
     value: timeScale,
-    onChange: handleTimeScale // onClick={dr?awChart}
-    ,
+    onChange: handleTimeScale,
     variant: "contained",
     color: "primary",
     "aria-label": "contained primary button group",

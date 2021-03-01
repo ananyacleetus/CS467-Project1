@@ -36,6 +36,10 @@ function Layout (props) {
           setPriceChangeTweet(pricechngtweet)
       }
 
+    const changeTimeScale = (timeScale) => {
+            setTimeScale(timeScale)
+      }
+
 
     return (
 
@@ -44,10 +48,10 @@ function Layout (props) {
         <HeaderBar className="headerbar"/>
         </div>
         <div className="B">
-        <Chart className="chart" onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }}/>
+        <Chart className="chart" timeScale={timeScale} onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }}/>
         </div>
         <div className="C">
-        <Scalebar className="scalebar"/>
+        <Scalebar className="scalebar" onChangeTimeScale={(e) => { changeTimeScale(e) }}/>
         </div>
         <div className="D">
         <Sidebar className="sidebar" date={date} price={price} priceChangeYesterday={priceChangeYesterday} priceChangeTweet={priceChangeTweet}/>

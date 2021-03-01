@@ -17,7 +17,7 @@ function Scalebar(props) {
         // console.log(newTimeScale)
         // drawChart(newTimeScale);
 
-        props.onChangeDate(dateFormat(d.date).toString());
+        props.onChangeTimeScale(newTimeScale);
 
     }
 
@@ -27,7 +27,6 @@ function Scalebar(props) {
                 className="buttonbar"
                 value={timeScale}
                 onChange={handleTimeScale}
-                // onClick={dr?awChart}
                 variant="contained"
                 color="primary"
                 aria-label="contained primary button group"

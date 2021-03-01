@@ -30,6 +30,10 @@ function Layout(props) {
     setPriceChangeTweet(pricechngtweet);
   };
 
+  var changeTimeScale = timeScale => {
+    setTimeScale(timeScale);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -40,6 +44,7 @@ function Layout(props) {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
     className: "chart",
+    timeScale: timeScale,
     onChangePrice: e => {
       changePrice(e);
     },
@@ -55,7 +60,10 @@ function Layout(props) {
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"
   }, /*#__PURE__*/React.createElement(Scalebar, {
-    className: "scalebar"
+    className: "scalebar",
+    onChangeTimeScale: e => {
+      changeTimeScale(e);
+    }
   })), /*#__PURE__*/React.createElement("div", {
     className: "D"
   }, /*#__PURE__*/React.createElement(Sidebar, {
