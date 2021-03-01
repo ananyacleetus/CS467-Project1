@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import React, { useState, useEffect } from "react";
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+
 // import fs from "fs";
 
 //stylesheet
@@ -24,6 +26,11 @@ function Chart(props) {
         // props.onChangePriceYesterday("".toString());
         // props.onChangePriceTweet("".toString());
     };
+    function testButton(s) {
+        console.log("button pressed");
+        console.log(s);
+        drawChart(s).callAPI(s);
+    }
 
     function drawChart(timescale) {
         window.addEventListener("load", callAPI(timescale));
@@ -31,6 +38,8 @@ function Chart(props) {
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 };
 
         function callAPI(ts) {
+            // TODO: fix this so it's not hardcoded
+            ts = "1yr";
             fetch("http://localhost:9000/stockAPI/" + ts).then(res => res.json()).then(res => {
                 drawLineGraph(res);
             });
@@ -144,7 +153,46 @@ function Chart(props) {
             { id: "tooltip", className: "tooltip", style: { "opacity": 0 } },
             "Hover over a point to start!"
         ),
-        React.createElement("svg", { id: "chart_svg", width: "1000", height: "700" })
+        React.createElement("svg", { id: "chart_svg", width: "1000", height: "700" }),
+        React.createElement(
+            ToggleButtonGroup,
+            {
+                id: "buttonbar2",
+                className: "buttonbar2"
+                // value={timeScale}
+                // onChange={handleTimeScale}
+                // onClick={() => testButton(value)}
+                , variant: "contained",
+                color: "primary",
+                "aria-label": "contained primary button group",
+                exclusive: true
+            },
+            React.createElement(
+                ToggleButton,
+                { value: "all", onClick: () => testButton("all") },
+                "All Time"
+            ),
+            React.createElement(
+                ToggleButton,
+                { value: "3yr", onClick: () => testButton("3yr") },
+                "3 Years"
+            ),
+            React.createElement(
+                ToggleButton,
+                { value: "1yr", onClick: () => testButton("1yr") },
+                "1 Year"
+            ),
+            React.createElement(
+                ToggleButton,
+                { value: "1mo", onClick: () => testButton("1mo") },
+                "1 Month"
+            ),
+            React.createElement(
+                ToggleButton,
+                { value: "1dy", onClick: () => testButton("1dy") },
+                "1 Day"
+            )
+        )
     );
 }
 
