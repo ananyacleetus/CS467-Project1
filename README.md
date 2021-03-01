@@ -14,6 +14,7 @@ This template uses the snowpack build system (https://www.snowpack.dev/).
 1. Ensure NodeJS is installed.  Go here to install: https://nodejs.org/en/ (recommended: version 15).
 2. In a terminal, `npm install`. If you get an ERESOLVE error with the dependency tree, run `npm install --legacy-peer-deps`
 3. In a terminal, navigate into the stocks-api directory. `npm install` and `npm start` to start the api that will fetch the yahoo finance data.
+- if you encounter errors, you might need to `npm install yahoo-finance` and `npm install --save cors`
 4. In a different terminal, back in the project directory, `npm run babel`.
 4. In a different terminal, in the project directory `npm start`. This starts a local server that serves up the contents of the `public` folder, and the js
 in the `src` folder.

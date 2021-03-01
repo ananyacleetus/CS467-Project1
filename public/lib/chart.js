@@ -5,27 +5,62 @@ import React, { useState, useEffect } from "react"; // import fs from "fs";
 import "..//css/chart.css";
 
 function Chart(props) {
-  //Should return month-day-year
-  // const dateFormat = d3.timeParse("%d-%b-%y");
-  var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); //Should return hourv(12h format) : minute : am/pm
 
-  var timeFormat = d3.timeParse("%I:%M %p");
+    //Should return month-day-year
+    // const dateFormat = d3.timeParse("%d-%b-%y");
 
-  var sendDataToSidebar = d => {
-    props.onChangeDate(dateFormat(d.date).toString());
-    props.onChangePrice(parseFloat(d.price).toString()); //NOTE: Once you calculate the changes, you can send it in to the props
-    // props.onChangePriceYesterday("".toString());
-    // props.onChangePriceTweet("".toString());
-  };
+    const utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
 
-  function drawChart(timescale) {
-    window.addEventListener("load", callAPI(timescale));
-    var PADDING = {
-      TOP: 50,
-      RIGHT: 50,
-      BOTTOM: 50,
-      LEFT: 50
+    //Should return hourv(12h format) : minute : am/pm
+    const timeFormat = d3.timeParse("%I:%M %p");
+
+    const sendDataToSidebar = d => {
+
+        props.onChangeDate(dateFormat(d.date).toString());
+        props.onChangePrice(parseFloat(d.price).toString());
+
+        //NOTE: Once you calculate the changes, you can send it in to the props
+        // props.onChangePriceYesterday("".toString());
+        // props.onChangePriceTweet("".toString());
     };
+
+    function drawChart(timescale) {
+        window.addEventListener("load", callAPI(timescale));
+
+        var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 };
+
+        function callAPI(ts) {
+            fetch("http://localhost:9000/stockAPI/" + ts).then(res => res.json()).then(res => {
+                drawLineGraph(res);
+            });
+        }
+
+        function drawLineGraph(data) {
+
+            const svg = d3.select("#chart_svg");
+
+            const minDate = d3.min(data, function (d) {
+                return utcToDate(d.date);
+            });
+            const maxDate = d3.max(data, function (d) {
+                return utcToDate(d.date);
+            });
+            const minPrice = d3.min(data, function (d) {
+                return parseFloat(d.close);
+            });
+            const maxPrice = d3.max(data, function (d) {
+                return parseFloat(d.close);
+            });
+
+            //Get the current height and width of the SVG
+            const svgwidth = svg.attr("width");
+            const svgheight = svg.attr("height");
+
+            const dotSize = 5;
+
+            var dateScale = d3.scaleTime().domain([minDate, maxDate]).range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
+
+            var priceScale = d3.scaleLinear().domain([0, maxPrice]).range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
 
     function callAPI(ts) {
       fetch("http://localhost:9000/stockAPI/" + ts).then(res => res.json()).then(res => {
