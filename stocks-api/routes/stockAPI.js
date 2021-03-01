@@ -56,6 +56,11 @@ router.get("/:timescale", function(req, res, next) {
             console.log('N/A');
         }
         });
-});
+})
+
+
+
+
+;
 
 module.exports = router;
