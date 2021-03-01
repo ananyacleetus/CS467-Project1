@@ -4,12 +4,13 @@ import drawChart from "/lib/chart.js"; //stylesheet
 
 import "..//css/scalebar.css";
 
-function Scalebar() {
+function Scalebar(props) {
   var [timeScale, setTimeScale] = React.useState('1yr');
 
   var handleTimeScale = (event, newTimeScale) => {
-    console.log(newTimeScale); // drawChart(newTimeScale);
-    // want to send this time scale and redraw the chart
+    // console.log(newTimeScale)
+    // drawChart(newTimeScale);
+    props.onChangeDate(dateFormat(d.date).toString());
   };
 
   return /*#__PURE__*/React.createElement("div", {

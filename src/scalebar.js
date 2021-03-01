@@ -9,15 +9,15 @@ import drawChart from "/lib/chart.js";
 import "..//css/scalebar.css";
 
 
-function Scalebar() {
+function Scalebar(props) {
 
     const [timeScale, setTimeScale] = React.useState('1yr')
 
     const handleTimeScale = (event, newTimeScale) => {
-        console.log(newTimeScale)
+        // console.log(newTimeScale)
         // drawChart(newTimeScale);
 
-        // want to send this time scale and redraw the chart
+        props.onChangeDate(dateFormat(d.date).toString());
 
     }
 
