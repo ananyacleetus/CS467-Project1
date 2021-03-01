@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from '@material-ui/core';
-import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'; //stylesheet
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
+import TweetEmbed from 'react-tweet-embed'; //stylesheet
 
 import "..//css/sidebar.css";
 
@@ -25,7 +26,9 @@ function Sidebar(props) {
     className: "priceChangeLastTweet"
   }, props.priceChangeTweet + " since last tweet")), /*#__PURE__*/React.createElement("div", {
     className: "tweetBox"
-  }, /*#__PURE__*/React.createElement("h2", null, "Insert Embedly Tweet Here"))));
+  }, /*#__PURE__*/React.createElement(TweetEmbed, {
+    id: props.tweetID
+  }))));
 }
 
 export default Sidebar;

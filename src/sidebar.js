@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Icon } from '@material-ui/core';
 import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
+import TweetEmbed from 'react-tweet-embed';
 
  //stylesheet
  import "..//css/sidebar.css";
@@ -26,8 +27,7 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 
 
            <div className="tweetBox">
-             <h2>Insert Embedly Tweet Here</h2>
-
+               <TweetEmbed id={props.tweetID} />
            </div>
 
      </div>

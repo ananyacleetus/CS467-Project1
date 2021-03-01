@@ -14,6 +14,7 @@ function Layout(props) {
   var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
   var [timeScale, setTimeScale] = useState('1yr');
   var [updateScale, shouldUpdateScale] = useState(false);
+  var [tweetID, setTweetID] = React.useState('1364826301027115008');
 
   var changePrice = price => {
     setPrice(price); // console.log("Price:", price);
@@ -40,6 +41,10 @@ function Layout(props) {
     shouldUpdateScale(updateScale);
   };
 
+  var changeTweetID = tweetID => {
+    setTweetID(tweetID);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -52,6 +57,9 @@ function Layout(props) {
     className: "chart",
     timeScale: timeScale,
     updateScale: updateScale,
+    onChangeTweetID: e => {
+      changeTweetID(e);
+    },
     onChangePrice: e => {
       changePrice(e);
     },
@@ -83,6 +91,7 @@ function Layout(props) {
     className: "sidebar",
     date: date,
     price: price,
+    tweetID: tweetID,
     priceChangeYesterday: priceChangeYesterday,
     priceChangeTweet: priceChangeTweet
   })));
