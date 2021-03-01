@@ -1,92 +1,102 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom"; //stylesheet
 
-//stylesheet
 import "..//css/layout.css";
-
 import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
 
 function Layout(props) {
+  var [date, setDate] = useState("Hover over a point to begin.");
+  var [price, setPrice] = useState("$525.69");
+  var [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
+  var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
+  var [timeScale, setTimeScale] = useState('1yr');
+  var [updateScale, shouldUpdateScale] = useState(false);
+  var [tweetID, setTweetID] = React.useState('1364826301027115008');
 
-  const [date, setDate] = useState("Hover over a point to begin.");
-  const [price, setPrice] = useState("$525.69");
-  const [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
-  const [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
-  const [timeScale, setTimeScale] = useState('1yr');
-  const [updateScale, shouldUpdateScale] = useState(false);
-
-  const changePrice = price => {
-    setPrice(price);
-    // console.log("Price:", price);
+  var changePrice = price => {
+    setPrice(price); // console.log("Price:", price);
   };
 
-  const changeDate = date => {
-    setDate(date);
-    // console.log("Date:", date);
+  var changeDate = date => {
+    setDate(date); // console.log("Date:", date);
   };
 
-  const changePriceYesterday = pricechngyesterday => {
+  var changePriceYesterday = pricechngyesterday => {
     setPriceChangeYesterday(pricechngyesterday);
   };
 
-  const changePriceTweet = pricechngtweet => {
+  var changePriceTweet = pricechngtweet => {
     setPriceChangeTweet(pricechngtweet);
   };
 
-  const changeTimeScale = timeScale => {
+  var changeTimeScale = timeScale => {
     setTimeScale(timeScale);
     shouldUpdateScale(true);
   };
 
-  const changeUpdateScale = updateScale => {
+  var changeUpdateScale = updateScale => {
     shouldUpdateScale(updateScale);
   };
 
-  return React.createElement(
-    "div",
-    { className: "grid-container" },
-    React.createElement(
-      "div",
-      { className: "A" },
-      React.createElement(HeaderBar, { className: "headerbar" })
-    ),
-    React.createElement(
-      "div",
-      { className: "B" },
-      React.createElement(Chart, { className: "chart", timeScale: timeScale, updateScale: updateScale, onChangePrice: e => {
-          changePrice(e);
-        }, onChangeDate: e => {
-          changeDate(e);
-        }, onChangePriceYesterday: e => {
-          changePriceYesterday(e);
-        }, onChangePriceTweet: e => {
-          changePriceTweet(e);
-        }, onChangeUpdateScale: e => {
-          changeUpdateScale(e);
-        } })
-    ),
-    React.createElement(
-      "div",
-      { className: "C" },
-      React.createElement(Scalebar, { className: "scalebar", onChangeTimeScale: e => {
-          changeTimeScale(e);
-        }, onChangeUpdateScale: e => {
-          changeUpdateScale(e);
-        } })
-    ),
-    React.createElement(
-      "div",
-      { className: "D" },
-      React.createElement(Sidebar, { className: "sidebar", date: date, price: price, priceChangeYesterday: priceChangeYesterday, priceChangeTweet: priceChangeTweet })
-    )
-  );
+  var changeTweetID = tweetID => {
+    setTweetID(tweetID);
+  };
+
+  return /*#__PURE__*/React.createElement("div", {
+    className: "grid-container"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "A"
+  }, /*#__PURE__*/React.createElement(HeaderBar, {
+    className: "headerbar"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "B"
+  }, /*#__PURE__*/React.createElement(Chart, {
+    className: "chart",
+    timeScale: timeScale,
+    updateScale: updateScale,
+    onChangeTweetID: e => {
+      changeTweetID(e);
+    },
+    onChangePrice: e => {
+      changePrice(e);
+    },
+    onChangeDate: e => {
+      changeDate(e);
+    },
+    onChangePriceYesterday: e => {
+      changePriceYesterday(e);
+    },
+    onChangePriceTweet: e => {
+      changePriceTweet(e);
+    },
+    onChangeUpdateScale: e => {
+      changeUpdateScale(e);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "C"
+  }, /*#__PURE__*/React.createElement(Scalebar, {
+    className: "scalebar",
+    onChangeTimeScale: e => {
+      changeTimeScale(e);
+    },
+    onChangeUpdateScale: e => {
+      changeUpdateScale(e);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "D"
+  }, /*#__PURE__*/React.createElement(Sidebar, {
+    className: "sidebar",
+    date: date,
+    price: price,
+    tweetID: tweetID,
+    priceChangeYesterday: priceChangeYesterday,
+    priceChangeTweet: priceChangeTweet
+  })));
 }
 
 export default Layout;
-
-const domContainer = document.querySelector('#layout');
-
-ReactDOM.render(React.createElement(Layout, null), domContainer);
+var domContainer = document.querySelector('#layout');
+ReactDOM.render( /*#__PURE__*/React.createElement(Layout, null), domContainer);

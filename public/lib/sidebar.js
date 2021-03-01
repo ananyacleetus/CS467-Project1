@@ -1,54 +1,34 @@
 import React, { useState } from "react";
 import { Icon } from '@material-ui/core';
 import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
+import TweetEmbed from 'react-tweet-embed'; //stylesheet
 
-//stylesheet
 import "..//css/sidebar.css";
 
 function Sidebar(props) {
-  return React.createElement(
-    'div',
-    { className: 'fullsidebar' },
-    React.createElement(
-      'div',
-      { className: 'currentinfo' },
-      React.createElement(
-        'h2',
-        { className: 'date' },
-        props.date
-      ),
-      React.createElement(
-        'h1',
-        { className: 'price' },
-        props.price
-      ),
-      React.createElement(
-        'div',
-        { className: 'priceChangeBox' },
-        React.createElement(ArrowDropUp, { className: 'arrowup' }),
-        React.createElement(
-          'h2',
-          { className: 'priceChangeYesterday' },
-          props.priceChangeYesterday + " since yesterday"
-        ),
-        React.createElement(ArrowDropDown, { className: 'arrowdown' }),
-        React.createElement(
-          'h2',
-          { className: 'priceChangeLastTweet' },
-          props.priceChangeTweet + " since last tweet"
-        )
-      ),
-      React.createElement(
-        'div',
-        { className: 'tweetBox' },
-        React.createElement(
-          'h2',
-          null,
-          'Insert Embedly Tweet Here'
-        )
-      )
-    )
-  );
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fullsidebar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "currentinfo"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "date"
+  }, props.date), /*#__PURE__*/React.createElement("h1", {
+    className: "price"
+  }, props.price), /*#__PURE__*/React.createElement("div", {
+    className: "priceChangeBox"
+  }, /*#__PURE__*/React.createElement(ArrowDropUp, {
+    className: "arrowup"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "priceChangeYesterday"
+  }, props.priceChangeYesterday + " since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
+    className: "arrowdown"
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "priceChangeLastTweet"
+  }, props.priceChangeTweet + " since last tweet")), /*#__PURE__*/React.createElement("div", {
+    className: "tweetBox"
+  }, /*#__PURE__*/React.createElement(TweetEmbed, {
+    id: props.tweetID
+  }))));
 }
 
 export default Sidebar;
