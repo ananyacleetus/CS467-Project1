@@ -7,10 +7,6 @@ import "..//css/chart.css";
 
 function Chart(props) {
 
-  // const [updateScale, shouldUpdateScale] = React.useState(false);
-
-    // shouldUpdateScale(props.updateScale);
-
     var timescale = props.timeScale;
 
 
@@ -41,8 +37,6 @@ function Chart(props) {
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
 
         function callAPI(timescale) {
-          // ts = "1yr";
-          // ts = timescale;
 
             fetch("http://localhost:9000/stockAPI/" + timescale)
                 .then(res => res.json())

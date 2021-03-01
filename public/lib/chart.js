@@ -5,8 +5,6 @@ import React, { useState, useEffect } from "react"; // import fs from "fs";
 import "..//css/chart.css";
 
 function Chart(props) {
-  // const [updateScale, shouldUpdateScale] = React.useState(false);
-  // shouldUpdateScale(props.updateScale);
   var timescale = props.timeScale; // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
@@ -31,8 +29,6 @@ function Chart(props) {
     };
 
     function callAPI(timescale) {
-      // ts = "1yr";
-      // ts = timescale;
       fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json()).then(res => {
         drawLineGraph(res);
       });
