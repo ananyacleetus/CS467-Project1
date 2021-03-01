@@ -17,7 +17,7 @@ var fromStr = "";
     http://localhost:9000/stockAPI/all - total history of stock data
 */
 router.param("timescale", (req, res, next, id) => {
-    console.log("yoohoo");
+    // console.log("yoohoo");
     console.log(id);
     var datetime = new Date();
     switch(id) {
@@ -31,6 +31,7 @@ router.param("timescale", (req, res, next, id) => {
             break;
         case "3yr":
             datetime.setFullYear(datetime.getFullYear() - 1)
+            fromStr = datetime.toISOString().slice(0,10);
             break;
         case "all":
             fromStr = max.toISOString().slice(0,10);
@@ -40,7 +41,7 @@ router.param("timescale", (req, res, next, id) => {
     }
     next();
 })
-        
+
 router.get("/:timescale", function(req, res, next) {
     console.log(toStr);
     console.log(fromStr);

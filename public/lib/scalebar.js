@@ -6,12 +6,12 @@ import "..//css/scalebar.css";
 
 function Scalebar(props) {
   var [timeScale, setTimeScale] = React.useState('1yr');
+  var [updateScale, shouldUpdateScale] = React.useState('false');
 
   var handleTimeScale = (event, newTimeScale) => {
-    // console.log(newTimeScale)
-    // drawChart(newTimeScale);
     setTimeScale(newTimeScale);
     props.onChangeTimeScale(newTimeScale);
+    props.onChangeUpdateScale('true');
   };
 
   return /*#__PURE__*/React.createElement("div", {

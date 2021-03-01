@@ -7,6 +7,13 @@ import "..//css/chart.css";
 
 function Chart(props) {
 
+  // const [updateScale, shouldUpdateScale] = React.useState(false);
+
+    // shouldUpdateScale(props.updateScale);
+
+    var timescale = props.timeScale;
+
+
     // Should return month-day-year
     // const dateFormat = d3.timeParse("%d-%b-%y");
 
@@ -29,7 +36,6 @@ function Chart(props) {
 
     function drawChart() {
 
-        var timescale = props.timeScale;
         window.addEventListener("load", callAPI(timescale));
 
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
@@ -47,7 +53,7 @@ function Chart(props) {
 
         function drawLineGraph(data) {
 
-            const svg = d3.select("#chart_svg");
+            var svg = d3.select("#chart_svg");
 
             const minDate = d3.min(data, function (d) { return utcToDate(d.date); });
             const maxDate = d3.max(data, function (d) { return utcToDate(d.date); });
@@ -76,16 +82,6 @@ function Chart(props) {
             const yTranslation = svgheight - PADDING.LEFT;
             const xTranslation = 0 + PADDING.TOP;
 
-            // svg.append("g") creates an SVG <g> element, short for "group."
-            // It doesn’t draw anything by itself, but serves to group child elements together.
-            const xAxis = svg.append("g")
-                .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
-                .attr("transform", `translate(0, ${yTranslation})`);
-
-            const yAxis = svg.append("g")
-                .call(d3.axisLeft(priceScale))
-                .attr("transform", `translate(${xTranslation}, 0)`);
-
             const xAxisX = (svgwidth - xTranslation) / 2;
             const xAxisY = svgheight - PADDING.BOTTOM / 3;
 
@@ -94,27 +90,45 @@ function Chart(props) {
 
              const tooltip = d3.select("#tooltip");
 
+
+             if (!props.updateScale) {
+
+             // svg.append("g") creates an SVG <g> element, short for "group."
+             // It doesn’t draw anything by itself, but serves to group child elements together.
+             svg.append("g")
+                 .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+                 .attr("transform", `translate(0, ${yTranslation})`)
+                 .attr("class", "xAxis");
+
+             svg.append("g")
+                 .call(d3.axisLeft(priceScale))
+                 .attr("transform", `translate(${xTranslation}, 0)`)
+                 .attr("class", "yAxis");
+
+
             svg.append("text")
                 .attr("font-size", 14)
                 .attr("font-weight", "bold")
                 .attr("font-family", "sans-serif")
                 .attr("x", xAxisX)
                 .attr("y", xAxisY)
-                .text("Date");
+                .text("Date")
+                .attr("class", "xAxisLabel");
 
             svg.append("text")
                 .attr("font-size", 14) // This code duplication signals that these properties
                 .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
                 .attr("font-family", "sans-serif") // way to simplify our directions to you.
                 .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`)
-                .text("Price (USD)");
+                .text("Price (USD)")
+                .attr("class", "yAxisLabel");
 
 
 
             svg.append("path")
                 .data([data])
                 .attr("d", currentline)
-                .attr("class", "chartLine")
+                .attr("class", "chartLine");
 
                    svg.selectAll("dot")
                     .data(data)
@@ -150,20 +164,56 @@ function Chart(props) {
                          tooltip.style("opacity", 0);
              });
 
+}
+             if (props.updateScale) {
+
+               svg = d3.select("#chart_svg").transition();
+
+               // Update lines
+               svg.select(".chartLine")
+               .duration(850)
+               .attr("d", currentline);
+
+               // Update dots
+               svg.selectAll("circle")
+                .duration(850)
+                .attr("r", dotSize)
+                .attr("cx", function(d) { return dateScale(utcToDate(d.date)); })
+                .attr("cy", function(d) { return priceScale(parseFloat(d.close)); })
+                .attr("stroke", "#FF0000")
+                .attr("fill", "#FF0000");
 
 
+                 // Update axes and labels
+                 svg.select(".xAxisLabel")
+                 .attr("x", xAxisX)
+                 .attr("y", xAxisY);
 
-        }
+                 svg.select(".yAxisLabel")
+                 .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`);
+
+                 svg.select(".xAxis")
+                 .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+                 .attr("transform", `translate(0, ${yTranslation})`);
+
+                 svg.select(".yAxis")
+                 .call(d3.axisLeft(priceScale))
+                 .attr("transform", `translate(${xTranslation}, 0)`);
+
+                 props.onChangeUpdateScale(false);
 
 
+               }
 
+             }
 
     }
 
 
     useEffect(() => {
+      console.log("ineffect");
         drawChart();
-    }, [])
+    }, [props.updateScale]);
 
     return (
 
