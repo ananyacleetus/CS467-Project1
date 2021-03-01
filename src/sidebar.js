@@ -14,7 +14,7 @@ import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
          <div className="currentinfo">
 
            <h2 className="date">{props.date}</h2>
-           <h1 className="price">{"$" + props.price}</h1>
+           <h1 className="price">{props.price}</h1>
 
 
            <div className="priceChangeBox">

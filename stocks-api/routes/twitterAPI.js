@@ -23,8 +23,8 @@ var T = new Twit({
 
 
 
-  var options = { screen_name: 'elonmusk',
-  count: 3 };
+  var options = { screen_name: 'elonmusk', exclude_replies: true,
+  count: 500 };
 
 
 
@@ -32,7 +32,9 @@ router.get("/", function(req, res, next){
     T.get('statuses/user_timeline', options , function(err, data) {
         for (var i = 0; i < data.length ; i++) {
             console.log(data[i].text);
+            //res.send(data[i].text);
           }
+        res.send(data)
       })
       
       

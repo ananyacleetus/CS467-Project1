@@ -13,9 +13,12 @@ import Scalebar from "/lib/scalebar.js";
 function Layout (props) {
 
   const [date, setDate] = useState("Hover over a point to begin.");
-  const [price, setPrice] = useState("525.69");
+  const [price, setPrice] = useState("$525.69");
   const [priceChangeYesterday, setPriceChangeYesterday] = useState("$14.02");
   const [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
+  const [timeScale, setTimeScale] = useState('1yr');
+  const [updateScale, shouldUpdateScale] = useState(false);
+
 
   const changePrice = (price) => {
         setPrice(price)
@@ -35,6 +38,15 @@ function Layout (props) {
           setPriceChangeTweet(pricechngtweet)
       }
 
+    const changeTimeScale = (timeScale) => {
+            setTimeScale(timeScale)
+            shouldUpdateScale(true);
+      }
+
+      const changeUpdateScale = (updateScale) => {
+              shouldUpdateScale(updateScale)
+        }
+
 
     return (
 
@@ -43,10 +55,10 @@ function Layout (props) {
         <HeaderBar className="headerbar"/>
         </div>
         <div className="B">
-        <Chart className="chart" onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }}/>
+        <Chart className="chart" timeScale={timeScale} updateScale={updateScale} onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }} onChangeUpdateScale={(e) => { changeUpdateScale(e) }}/>
         </div>
         <div className="C">
-        <Scalebar className="scalebar"/>
+        <Scalebar className="scalebar" onChangeTimeScale={(e) => { changeTimeScale(e) }}  onChangeUpdateScale={(e) => { changeUpdateScale(e) }}/>
         </div>
         <div className="D">
         <Sidebar className="sidebar" date={date} price={price} priceChangeYesterday={priceChangeYesterday} priceChangeTweet={priceChangeTweet}/>
