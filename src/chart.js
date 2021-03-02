@@ -38,14 +38,23 @@ function Chart(props) {
 
     const setChangePriceYesterdayDataToSidebar = (x) => {
 
+      if (x == "N/A") {
+        props.onChangePriceYesterday(" No data");
+      } else {
+
         props.onChangePriceYesterday(d3.format(" $.2f")(x).toString());
+      }
 
     }
 
     const setChangePriceTweetDataToSidebar = (y) => {
 
-        props.onChangePriceTweet(d3.format(" $.2f")(y).toString());
+      if (y == "N/A") {
+        props.onChangePriceTweet(" No data");
+      } else {
 
+        props.onChangePriceTweet(d3.format(" $.2f")(y).toString());
+      }
     }
 
     const sendTweetDataToSidebar = (d) => {
