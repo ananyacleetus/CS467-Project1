@@ -30,7 +30,7 @@ html {
 
 .C {
   grid-area: C;
-  margin-top: -100px;
+  margin-top: -200px !important;
 }
 
 .D {
