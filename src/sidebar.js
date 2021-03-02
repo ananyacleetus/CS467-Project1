@@ -53,6 +53,7 @@ import TweetEmbed from 'react-tweet-embed';
 
 
            <div className="tweetBox">
+             <h2 className="topTweet">Top Elon Tweet of that Day:</h2>
                <TweetEmbed id={props.tweetID} />
            </div>
 

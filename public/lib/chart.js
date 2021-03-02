@@ -34,7 +34,7 @@ function Chart(props) {
   };
 
   var sendTweetDataToSidebar = d => {
-    props.onChangeTweetID("insert tweet data");
+    props.onChangeTweetID(d.id_str);
   };
 
   function drawChart() {
@@ -159,8 +159,9 @@ function Chart(props) {
         }).attr("stroke", "#FF0000").attr("fill", "transparent").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
-          tooltip.text("Twitter data here"); //TODO: send twitter id to sidebar and display twitter counts in tooltip
-          //sendTweetDataToSidebar(d);
+          tooltip.text(d.text); //TODO: send twitter id to sidebar and display twitter counts in tooltip
+
+          sendTweetDataToSidebar(d);
         }).on("mousemove", (mouseEvent, d) => {
           /* Runs when mouse moves inside a dot */
           // var leftOffset = d3.pointer(mouseEvent)[0] + 3

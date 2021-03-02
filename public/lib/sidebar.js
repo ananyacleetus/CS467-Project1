@@ -51,7 +51,9 @@ function Sidebar(props) {
     className: "priceChangeLastTweet"
   }, props.priceChangeTweet + " since last tweet")), /*#__PURE__*/React.createElement("div", {
     className: "tweetBox"
-  }, /*#__PURE__*/React.createElement(TweetEmbed, {
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "topTweet"
+  }, "Top Elon Tweet of that Day:"), /*#__PURE__*/React.createElement(TweetEmbed, {
     id: props.tweetID
   }))));
 }
