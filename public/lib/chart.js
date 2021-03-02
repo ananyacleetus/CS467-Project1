@@ -24,7 +24,7 @@ function Chart(props) {
 
   var sendDataToSidebar = d => {
     // props.onChangeDate(twitDateFormat(d.created_at).toString());
-    props.onChangeDate(utcToDate(d.date).toString());
+    props.onChangeDate(utcToDate(d.dateStr).toString());
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
   };
 
@@ -55,45 +55,50 @@ function Chart(props) {
         var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json());
         var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // console.log(stock_data[0])
 
-        console.log(twit_data); // console.log(twitDateFormat(new Date()))
-        // add price field to objects in twit data based on stock price of that date
+        console.log(twit_data); // set all dates to make comparisons later easier
+
+        var i = 0;
+
+        for (i = 0; i < Math.max(stock_data.length, twit_data.length); i++) {
+          if (i < stock_data.length) {
+            stock_data[i].dateStr = stock_data[i].date;
+            stock_data[i].date = utcToDate(stock_data[i].date).setHours(0, 0, 0, 0);
+          }
+
+          if (i < twit_data.length) {
+            twit_data[i].dateStr = twit_data[i].created_at;
+            twit_data[i].date = twitDateFormat(twit_data[i].created_at).setHours(0, 0, 0, 0);
+          }
+        } // add price field to objects in twit data based on stock price of that date
+
 
         var tw = 0;
         var st = 0;
         console.log("adding price");
 
         for (tw = 0; tw < twit_data.length; tw++) {
+          var t_date = twit_data[tw].date;
+
           while (st < stock_data.length) {
-            var t_date = twitDateFormat(twit_data[tw].created_at).setHours(0, 0, 0, 0);
-            var s_date = utcToDate(stock_data[st].date).setHours(0, 0, 0, 0); // console.log(typeof(t_date))
-            // console.log(s_date)
+            var s_date = stock_data[st].date;
 
             if (t_date === s_date) {
-              twit_data[tw].close = stock_data[st].close; // console.log(stock_data[st].close)
-              // console.log(twit_data[tw].close)
-
+              twit_data[tw].close = stock_data[st].close;
               break;
             } else if (t_date < s_date) {
               st++;
             } else {
               // there might not be a stock price for this day
-              // average of previous and next day instead
-              var prev = st - 1;
-
-              if (st - 1 >= 0) {
-                var avg = (stock_data[prev].close + stock_data[st].close) / 2;
-                twit_data[tw].close = avg;
-              } else {// elon's last tweet comes after our last stock data point,
-                //TODO: remove the tweet or smth??
-              } // tw++;
-
-
+              // insert a point in stocks for that day with previous day's stock price
+              stock_data.splice(st, 0, {
+                date: twit_data[tw].date,
+                dateStr: stock_data[st].dateStr,
+                close: stock_data[st].close
+              });
+              twit_data[tw].close = stock_data[st].close;
               break;
             }
-          } // for (j = stock_data.length - 1; j >= 0; j--) {
-          // }
-          // twit_data[i].close = 600;
-
+          }
         }
 
         console.log("done"); // draw line graph with both datasets
@@ -110,10 +115,10 @@ function Chart(props) {
     function drawLineGraph(stock_data, twit_data) {
       var svg = d3.select("#chart_svg");
       var minDate = d3.min(stock_data, function (d) {
-        return utcToDate(d.date);
+        return d.date;
       });
       var maxDate = d3.max(stock_data, function (d) {
-        return utcToDate(d.date);
+        return d.date;
       });
       var minPrice = d3.min(stock_data, function (d) {
         return parseFloat(d.close);
@@ -128,7 +133,7 @@ function Chart(props) {
       var dateScale = d3.scaleTime().domain([minDate, maxDate]).range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
       var priceScale = d3.scaleLinear().domain([0, maxPrice]).range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
       var currentline = d3.line().x(function (d) {
-        return dateScale(utcToDate(d.date));
+        return dateScale(d.date);
       }).y(function (d) {
         return priceScale(parseFloat(d.close));
       });
@@ -165,7 +170,7 @@ function Chart(props) {
         }).on("mousemove", (mouseEvent, d) => {
           /* Runs when mouse moves inside a dot */
           // var leftOffset = d3.pointer(mouseEvent)[0] + 3
-          var leftOffset = dateScale(twitDateFormat(d.created_at)) + 3;
+          var leftOffset = dateScale(d.date) + 3;
           tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
 
           var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
@@ -175,7 +180,7 @@ function Chart(props) {
           tooltip.style("opacity", 0);
         });
         var stockData = svg.selectAll(".stockData").data(stock_data).enter().append("circle").attr("class", "stockData").attr("r", dotSize).attr("cx", function (d) {
-          return dateScale(utcToDate(d.date));
+          return dateScale(d.date);
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
         }).attr("stroke", "#52C11F").attr("fill", "#52C11F").attr("priceChange", function (d, i) {
@@ -188,13 +193,13 @@ function Chart(props) {
         stockData.on("mouseover", function (mouseEvent, d, i) {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
-          tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + utcToDate(d.date));
+          tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + d.date);
           sendDataToSidebar(d);
           setChangeDataToSidebar(d3.select(this).attr("priceChange"));
         }).on("mousemove", function (mouseEvent, d, i) {
           /* Runs when mouse moves inside a dot */
           // var leftOffset = d3.pointer(mouseEvent)[0] + 3
-          var leftOffset = dateScale(utcToDate(d.date)) + 3;
+          var leftOffset = dateScale(d.date) + 3;
           tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
 
           var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
@@ -207,18 +212,21 @@ function Chart(props) {
       }
 
       if (props.updateScale) {
+        d3.selectAll(".chartLine").remove();
+        d3.selectAll(".twitterData").remove();
+        d3.selectAll(".stockData").remove();
         svg = d3.select("#chart_svg").transition(); // Update lines
 
         svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update tweet dots
 
         svg.selectAll(".twitterData").duration(1000).attr("cx", function (d) {
-          return dateScale(twitDateFormat(d.created_at));
+          return dateScale(d.date);
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
         }); // Update stock dots
 
         svg.selectAll(".stockData").duration(1000).attr("cx", function (d) {
-          return dateScale(utcToDate(d.date));
+          return dateScale(d.date);
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
         }); // Update axes and labels
