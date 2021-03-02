@@ -146,10 +146,10 @@ function Chart(props) {
         svg.append("g").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
         .attr("transform", "translate(0, ".concat(yTranslation, ")")).attr("class", "xAxis");
         svg.append("g").call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)")).attr("class", "yAxis");
-        svg.append("text").attr("font-size", 14).attr("font-weight", "bold").attr("font-family", "sans-serif").attr("x", xAxisX).attr("y", xAxisY).text("Date").attr("class", "xAxisLabel");
+        svg.append("text").attr("font-size", 14).attr("font-weight", "bold").attr("font-family", "Avenir").attr("x", xAxisX).attr("y", xAxisY).text("Date").attr("class", "xAxisLabel");
         svg.append("text").attr("font-size", 14) // This code duplication signals that these properties
         .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
-        .attr("font-family", "sans-serif") // way to simplify our directions to you.
+        .attr("font-family", "Avenir") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
         svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 1).attr("cx", function (d) {
