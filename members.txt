@@ -2,6 +2,13 @@ Members:
 
 Ananya Cleetus (netid: cleetus2):
 
+-Created storyboards on Marvel
+-Set up d3 with sample data and date/price info parsing
+-Set up React app with functional components and basic styling (set up Babel compiling for Typescript)
+-Created dashboard layout, Material UI scale buttons, sidebar with price changes and icon changes
+-Initiated tweet embed library and created tweet view
+-Set up states and callbacks to transfer props between sidebar, scalebar, and chart to/from layout
+-Wrote first intro page and styling
 
 Aarya Chandhok (netid: aaryac2):
 
