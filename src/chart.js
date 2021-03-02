@@ -29,12 +29,26 @@ function Chart(props) {
 
 
         // props.onChangeDate(twitDateFormat(d.created_at).toString());
-        props.onChangeDate(utcToDate(d.date).toString());
-        props.onChangePrice(d3.format("($.2f")(d.close).toString());
 
-        //NOTE: Once you calculate the changes, you can send it in to the props
-        // props.onChangePriceYesterday("".toString());
+        // var priceChange = d3.select(this).attr("priceChange");
+        // console.log("PRICE:" + priceChange);
+        props.onChangeDate(utcToDate(d.date).toString());
+        props.onChangePrice(d3.format(" $.2f")(d.close).toString());
+
+
+    }
+
+    const setChangeDataToSidebar = (x) => {
+
+        //TODO: Once you calculate the changes, you can send it in to the props
+        props.onChangePriceYesterday(d3.format(" $.2f")(x).toString());
         // props.onChangePriceTweet("".toString());
+
+    }
+
+    const sendTweetDataToSidebar = (d) => {
+
+        props.onChangeTweetID("insert tweet data");
 
     }
 
@@ -110,7 +124,7 @@ function Chart(props) {
             const svgwidth = svg.attr("width");
             const svgheight = svg.attr("height");
 
-            const dotSize = 2;
+            const dotSize = 3;
 
             var dateScale = d3.scaleTime()
                 .domain([minDate, maxDate])
@@ -185,17 +199,16 @@ function Chart(props) {
                     .attr("cx", function(d) {return dateScale(twitDateFormat(d.created_at)); })
                     .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
                     .attr("stroke", "#FF0000")
-                    .attr("fill", "#FF0000")
+                    .attr("fill", "transparent")
                     .on("mouseover", (mouseEvent, d) => {
                        // Runs when the mouse enters a dot.  d is the corresponding data point.
 
                        tooltip.style("opacity", 1);
-                       // tooltip.text("The price is " + d3.format("($.2f")(d.close) + " at " + utcToDate(d.date));
                        tooltip.text("Twitter data here");
 
 
                        //TODO: send twitter id to sidebar and display twitter counts in tooltip
-                       //sendDataToSidebar(d);
+                       //sendTweetDataToSidebar(d);
                      })
 
                        .on("mousemove", (mouseEvent, d) => {
@@ -207,16 +220,16 @@ function Chart(props) {
                        // var topOffset = d3.pointer(mouseEvent)[1] + 3
                        var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
                        tooltip.style("top", topOffset + "px");
-
+                       
                        //TODO: send twitter id to sidebar and display twitter counts in tooltip
-                       //sendDataToSidebar(d);
+                       //sendTweetDataToSidebar(d);
                      })
                        .on("mouseout", (mouseEvent, d) => {
                          tooltip.style("opacity", 0);
              });
 
 
-             svg.selectAll(".stockData")
+            var stockData = svg.selectAll(".stockData")
               .data(stock_data)
               .enter()
               .append("circle")
@@ -226,17 +239,48 @@ function Chart(props) {
               .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
               .attr("stroke", "#0000FF")
               .attr("fill", "#0000FF")
-              .on("mouseover", (mouseEvent, d) => {
+              .attr("priceChange", function(d, i) {
+
+                if (i != 0 && i + 1 < stock_data.length) {
+                  var lastPrice = parseFloat(stock_data[i].close);
+                  var currentPrice = parseFloat(stock_data[i+1].close);
+
+                  // console.log("Starting new set:");
+                  // console.log("LP:" + lastPrice);
+                  // console.log("CP:" + currentPrice);
+
+                  return lastPrice - currentPrice;
+
+
+                }
+              });
+
+
+              stockData.on("mouseover", function(mouseEvent, d, i) {
                  // Runs when the mouse enters a dot.  d is the corresponding data point.
-                 console.log(d);
+
                  tooltip.style("opacity", 1);
-                 tooltip.text("The price is " + d3.format("($.2f")(d.close) + " at " + utcToDate(d.date));
+                 tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + utcToDate(d.date));
+
+
+                  // var node = this;
+                  //
+                  // while (node = node.nextSibling) {
+                  //
+                  //   var priceChng = d3.select(node).attr("priceChange");
+                  //
+                  //
+                  //  setChangeDataToSidebar(priceChng);
+                  // }
 
                  sendDataToSidebar(d);
+                 setChangeDataToSidebar(d3.select(this).attr("priceChange"));
+
                })
 
-                 .on("mousemove", (mouseEvent, d) => {
+                 .on("mousemove", function(mouseEvent, d, i) {
                  /* Runs when mouse moves inside a dot */
+
                  // var leftOffset = d3.pointer(mouseEvent)[0] + 3
                  var leftOffset = dateScale(utcToDate(d.date)) + 3
                  tooltip.style("left", leftOffset + "px");
@@ -245,11 +289,38 @@ function Chart(props) {
                  var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3
                  tooltip.style("top", topOffset + "px");
 
+                 // var node = this;
+                 //
+                 // while(node = node.nextSibling) {
+                 //
+                 //   var priceChng = d3.select(node).attr("priceChange");
+                 //
+                 //
+                 //  setChangeDataToSidebar(priceChng);
+                // }
+
                  sendDataToSidebar(d);
+                 setChangeDataToSidebar(d3.select(this).attr("priceChange"));
+
                })
                  .on("mouseout", (mouseEvent, d) => {
                    tooltip.style("opacity", 0);
        });
+
+
+       // stockData.attr("priceChange", function(d, i) {
+       //
+       //   if (i!=0) {
+       //     var lastPrice = parseFloat(stockData.data()[i-1].close);
+       //     var currentPrice = parseFloat(stockData.data()[i].close);
+       //
+       //     return currentPrice - lastPrice;
+       //     // console.log("Starting new set:");
+       //     // console.log("LP:" + lastPrice);
+       //     // console.log("CP:" + currentPrice);
+       //
+       //   }
+       //      });
 
            }
              if (props.updateScale) {
