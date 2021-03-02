@@ -46,7 +46,7 @@ function Chart(props) {
 
     const sendTweetDataToSidebar = (d) => {
 
-        props.onChangeTweetID("insert tweet data");
+        props.onChangeTweetID(d.id_str);
 
     }
 
@@ -202,11 +202,11 @@ function Chart(props) {
                        // Runs when the mouse enters a dot.  d is the corresponding data point.
 
                        tooltip.style("opacity", 1);
-                       tooltip.text("Twitter data here");
+                       tooltip.text(d.text);
 
 
                        //TODO: send twitter id to sidebar and display twitter counts in tooltip
-                       //sendTweetDataToSidebar(d);
+                       sendTweetDataToSidebar(d);
                      })
 
                        .on("mousemove", (mouseEvent, d) => {
