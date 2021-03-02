@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Icon } from '@material-ui/core';
 import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
 import TweetEmbed from 'react-tweet-embed';
@@ -8,6 +8,32 @@ import TweetEmbed from 'react-tweet-embed';
 
 
  function Sidebar (props) {
+
+   const [arrowPriceChangeYesterday, setArrowPriceChangeYesterday] = useState("up");
+
+
+   let firstArrow = <ArrowDropUp className="arrowup"/>
+   let firstArrowDir = "up";
+
+   if (props.priceChangeYesterday[0] == " ") {
+     firstArrowDir = "up";
+   } else {
+     firstArrowDir = "down";
+   }
+
+   if (firstArrowDir == "up") {
+     firstArrow = <ArrowDropUp className="arrowup"/>;
+     console.log("true");
+   } else {
+     firstArrow = <ArrowDropDown className="arrowdown"/>;
+     console.log("false");
+   }
+
+
+      useEffect(() => {
+        setArrowPriceChangeYesterday(firstArrow);
+      }, [props.priceChangeYesterday]);
+
      return (
 
        <div className="fullsidebar">
@@ -19,8 +45,8 @@ import TweetEmbed from 'react-tweet-embed';
 
 
            <div className="priceChangeBox">
-           <ArrowDropUp className="arrowup"/>
-           <h2 className="priceChangeYesterday">{props.priceChangeYesterday + " since yesterday"}</h2>
+             {firstArrow}
+           <h2 className="priceChangeYesterday">{props.priceChangeYesterday.substring(1) + " since yesterday"}</h2>
             <ArrowDropDown className="arrowdown"/>
            <h2 className="priceChangeLastTweet">{props.priceChangeTweet + " since last tweet"}</h2>
            </div>

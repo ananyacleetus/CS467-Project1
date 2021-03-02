@@ -30,8 +30,6 @@ function Chart(props) {
 
         // props.onChangeDate(twitDateFormat(d.created_at).toString());
 
-        // var priceChange = d3.select(this).attr("priceChange");
-        // console.log("PRICE:" + priceChange);
         props.onChangeDate(utcToDate(d.date).toString());
         props.onChangePrice(d3.format(" $.2f")(d.close).toString());
 
@@ -220,7 +218,7 @@ function Chart(props) {
                        // var topOffset = d3.pointer(mouseEvent)[1] + 3
                        var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
                        tooltip.style("top", topOffset + "px");
-                       
+
                        //TODO: send twitter id to sidebar and display twitter counts in tooltip
                        //sendTweetDataToSidebar(d);
                      })
@@ -245,10 +243,6 @@ function Chart(props) {
                   var lastPrice = parseFloat(stock_data[i].close);
                   var currentPrice = parseFloat(stock_data[i+1].close);
 
-                  // console.log("Starting new set:");
-                  // console.log("LP:" + lastPrice);
-                  // console.log("CP:" + currentPrice);
-
                   return lastPrice - currentPrice;
 
 
@@ -261,17 +255,6 @@ function Chart(props) {
 
                  tooltip.style("opacity", 1);
                  tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + utcToDate(d.date));
-
-
-                  // var node = this;
-                  //
-                  // while (node = node.nextSibling) {
-                  //
-                  //   var priceChng = d3.select(node).attr("priceChange");
-                  //
-                  //
-                  //  setChangeDataToSidebar(priceChng);
-                  // }
 
                  sendDataToSidebar(d);
                  setChangeDataToSidebar(d3.select(this).attr("priceChange"));
@@ -289,16 +272,6 @@ function Chart(props) {
                  var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3
                  tooltip.style("top", topOffset + "px");
 
-                 // var node = this;
-                 //
-                 // while(node = node.nextSibling) {
-                 //
-                 //   var priceChng = d3.select(node).attr("priceChange");
-                 //
-                 //
-                 //  setChangeDataToSidebar(priceChng);
-                // }
-
                  sendDataToSidebar(d);
                  setChangeDataToSidebar(d3.select(this).attr("priceChange"));
 
@@ -306,21 +279,6 @@ function Chart(props) {
                  .on("mouseout", (mouseEvent, d) => {
                    tooltip.style("opacity", 0);
        });
-
-
-       // stockData.attr("priceChange", function(d, i) {
-       //
-       //   if (i!=0) {
-       //     var lastPrice = parseFloat(stockData.data()[i-1].close);
-       //     var currentPrice = parseFloat(stockData.data()[i].close);
-       //
-       //     return currentPrice - lastPrice;
-       //     // console.log("Starting new set:");
-       //     // console.log("LP:" + lastPrice);
-       //     // console.log("CP:" + currentPrice);
-       //
-       //   }
-       //      });
 
            }
              if (props.updateScale) {
@@ -376,7 +334,6 @@ function Chart(props) {
 
 
     useEffect(() => {
-      console.log("ineffect");
         drawChart();
     }, [props.updateScale]);
 
