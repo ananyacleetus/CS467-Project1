@@ -11,7 +11,7 @@ function Layout(props) {
   var [date, setDate] = useState("Hover over a point to begin.");
   var [price, setPrice] = useState("$525.69");
   var [priceChangeYesterday, setPriceChangeYesterday] = useState(" $14.02");
-  var [priceChangeTweet, setPriceChangeTweet] = useState("$2.96");
+  var [priceChangeTweet, setPriceChangeTweet] = useState(" $2.96");
   var [timeScale, setTimeScale] = useState('1yr');
   var [updateScale, shouldUpdateScale] = useState(false);
   var [tweetID, setTweetID] = React.useState('1364826301027115008');

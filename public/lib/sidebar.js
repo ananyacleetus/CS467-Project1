@@ -7,10 +7,15 @@ import "..//css/sidebar.css";
 
 function Sidebar(props) {
   var [arrowPriceChangeYesterday, setArrowPriceChangeYesterday] = useState("up");
+  var [arrowPriceChangeTweet, setArrowPriceChangeTweet] = useState("down");
   var firstArrow = /*#__PURE__*/React.createElement(ArrowDropUp, {
     className: "arrowup"
   });
   var firstArrowDir = "up";
+  var secondArrow = /*#__PURE__*/React.createElement(ArrowDropDown, {
+    className: "arrowdown"
+  });
+  var secondArrowDir = "down";
 
   if (props.priceChangeYesterday[0] == " ") {
     firstArrowDir = "up";
@@ -22,16 +27,31 @@ function Sidebar(props) {
     firstArrow = /*#__PURE__*/React.createElement(ArrowDropUp, {
       className: "arrowup"
     });
-    console.log("true");
   } else {
     firstArrow = /*#__PURE__*/React.createElement(ArrowDropDown, {
       className: "arrowdown"
     });
-    console.log("false");
+  }
+
+  if (props.priceChangeTweet[0] == " ") {
+    secondArrowDir = "up";
+  } else {
+    secondArrowDir = "down";
+  }
+
+  if (secondArrowDir == "up") {
+    secondArrow = /*#__PURE__*/React.createElement(ArrowDropUp, {
+      className: "arrowup"
+    });
+  } else {
+    secondArrow = /*#__PURE__*/React.createElement(ArrowDropDown, {
+      className: "arrowdown"
+    });
   }
 
   useEffect(() => {
     setArrowPriceChangeYesterday(firstArrow);
+    setArrowPriceChangeTweet(secondArrow);
   }, [props.priceChangeYesterday]);
   return /*#__PURE__*/React.createElement("div", {
     className: "fullsidebar"
@@ -45,11 +65,9 @@ function Sidebar(props) {
     className: "priceChangeBox"
   }, firstArrow, /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeYesterday"
-  }, props.priceChangeYesterday.substring(1) + " since yesterday"), /*#__PURE__*/React.createElement(ArrowDropDown, {
-    className: "arrowdown"
-  }), /*#__PURE__*/React.createElement("h2", {
+  }, props.priceChangeYesterday.substring(1) + " since yesterday"), secondArrow, /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeLastTweet"
-  }, props.priceChangeTweet + " since last tweet")), /*#__PURE__*/React.createElement("div", {
+  }, props.priceChangeTweet.substring(1) + " since last tweet")), /*#__PURE__*/React.createElement("div", {
     className: "tweetBox"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "topTweet"
