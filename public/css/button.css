@@ -4,7 +4,7 @@ body {
   font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
   line-height: 1.42;
   padding: 0;
-  margin: 0;
+  margin: 0 200px 0 200px;
   justify-content: center;
   text-align: center;
 }
@@ -30,10 +30,14 @@ a {
   color: #52C11F;
   transition: border-color 0.2s;
   font-size: 30px;
+  border-color: transparent;
+
 }
 
 a:hover {
   border-color: transparent;
+  color: #1EA1F2;
+
 }
 
 section {
