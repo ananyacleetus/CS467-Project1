@@ -34,6 +34,7 @@ html {
 
 .C {
   grid-area: C;
+  margin-top: -100px;
 }
 
 .D {
