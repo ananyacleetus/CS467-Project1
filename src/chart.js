@@ -282,6 +282,11 @@ function Chart(props) {
            }
              if (props.updateScale) {
 
+                d3.selectAll(".chartLine").remove()
+                d3.selectAll(".twitterData").remove()
+                d3.selectAll(".stockData").remove()
+
+
                svg = d3.select("#chart_svg").transition();
 
                // Update lines
