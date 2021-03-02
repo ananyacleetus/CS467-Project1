@@ -29,11 +29,19 @@ function Chart(props) {
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
-    props.onChangePriceYesterday(d3.format(" $.2f")(x).toString());
+    if (x == "N/A") {
+      props.onChangePriceYesterday(" No data");
+    } else {
+      props.onChangePriceYesterday(d3.format(" $.2f")(x).toString());
+    }
   };
 
   var setChangePriceTweetDataToSidebar = y => {
-    props.onChangePriceTweet(d3.format(" $.2f")(y).toString());
+    if (y == "N/A") {
+      props.onChangePriceTweet(" No data");
+    } else {
+      props.onChangePriceTweet(d3.format(" $.2f")(y).toString());
+    }
   };
 
   var sendTweetDataToSidebar = d => {
