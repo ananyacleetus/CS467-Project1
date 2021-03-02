@@ -30,7 +30,7 @@ function Chart(props) {
 
         // props.onChangeDate(twitDateFormat(d.created_at).toString());
 
-        props.onChangeDate(twitDateFormat(d.dateStr).toString());
+        props.onChangeDate(utcToDate(d.dateStr).toString());
         props.onChangePrice(d3.format(" $.2f")(d.close).toString());
 
 
