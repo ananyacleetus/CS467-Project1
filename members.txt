@@ -11,6 +11,20 @@ Ananya Cleetus (netid: cleetus2):
 -Wrote first intro page and styling
 
 Aarya Chandhok (netid: aaryac2):
+Design:
+
+Came up with the initial idea
+Finished slides 10-21 in the presentation, which covered:
+-ethical concerns of the data we analyzed
+-the fundamental reasoning behind the visualization [stock sentiment can be intrinsically tied to public sentiment]
+-a description and rationale for the tools needed, and
+-related works on the subject [including papers covered from class], citations
+
+Implementation:
+I have never used any of the development tools or languages involved in this project [hadn't even heard of 90% of them before] so this was a learning experience for me.
+
+I got the Twitter box data embedding to work, and gave suggestions on how things could be implemented. Most of my time was spent simply trying to understand the code and how the APIs fit into the model.
+
 
 
 Claudia Salazar (netid: cas18):
