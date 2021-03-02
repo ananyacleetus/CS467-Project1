@@ -92,7 +92,7 @@ function Chart(props) {
                     } else {
                         // there might not be a stock price for this day
                         // insert a point in stocks for that day with previous day's stock price
-                        stock_data.splice(st, 0, {date: twit_data[tw].date, close: stock_data[st].close})
+                        stock_data.splice(st, 0, {date: twit_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close})
                         twit_data[tw].close = stock_data[st].close
                         break;
                     }
