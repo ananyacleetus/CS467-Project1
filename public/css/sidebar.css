@@ -24,7 +24,7 @@ html {
 .priceChangeYesterday, .priceChangeLastTweet {
 
   font-weight: normal;
-  margin-top: -10px;
+  margin-top: -30px;
 
 }
 
@@ -40,6 +40,11 @@ html {
   color: #FF0000;
   font-size: 70px !important;;
 
+}
+
+.MuiSvgIcon-root {
+  height: 2em !important;
+  width: 2em !important;
 }
 
 .price {
