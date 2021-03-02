@@ -152,11 +152,11 @@ function Chart(props) {
         .attr("font-family", "Avenir") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 1).attr("cx", function (d) {
+        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 2).attr("cx", function (d) {
           return dateScale(twitDateFormat(d.created_at));
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
-        }).attr("stroke", "#FF0000").attr("fill", "transparent").on("mouseover", (mouseEvent, d) => {
+        }).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
           tooltip.text(d.text); //TODO: send twitter id to sidebar and display twitter counts in tooltip
@@ -178,7 +178,7 @@ function Chart(props) {
           return dateScale(utcToDate(d.date));
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
-        }).attr("stroke", "#0000FF").attr("fill", "#0000FF").attr("priceChange", function (d, i) {
+        }).attr("stroke", "#52C11F").attr("fill", "#52C11F").attr("priceChange", function (d, i) {
           if (i != 0 && i + 1 < stock_data.length) {
             var lastPrice = parseFloat(stock_data[i].close);
             var currentPrice = parseFloat(stock_data[i + 1].close);
