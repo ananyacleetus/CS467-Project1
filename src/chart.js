@@ -36,11 +36,15 @@ function Chart(props) {
 
     }
 
-    const setChangeDataToSidebar = (x) => {
+    const setChangePriceYesterdayDataToSidebar = (x) => {
 
-        //TODO: Once you calculate the changes, you can send it in to the props
         props.onChangePriceYesterday(d3.format(" $.2f")(x).toString());
-        // props.onChangePriceTweet("".toString());
+
+    }
+
+    const setChangePriceTweetDataToSidebar = (y) => {
+
+        props.onChangePriceTweet(d3.format(" $.2f")(y).toString());
 
     }
 
@@ -65,9 +69,10 @@ function Chart(props) {
             // set all dates to make comparisons later easier
             var i = 0;
             for (i = 0; i < Math.max(stock_data.length, twit_data.length); i++) {
-                if (i < stock_data.length) {                    
+                if (i < stock_data.length) {
                     stock_data[i].dateStr = stock_data[i].date
                     stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
+                    stock_data[i].twitterPt = "false";
                 }
 
                 if (i < twit_data.length) {
@@ -92,7 +97,7 @@ function Chart(props) {
                     } else {
                         // there might not be a stock price for this day
                         // insert a point in stocks for that day with previous day's stock price
-                        stock_data.splice(st, 0, {date: twit_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close})
+                        stock_data.splice(st, 0, {date: twit_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
                         twit_data[tw].close = stock_data[st].close
                         break;
                     }
@@ -243,20 +248,42 @@ function Chart(props) {
                   var currentPrice = parseFloat(stock_data[i+1].close);
 
                   return lastPrice - currentPrice;
-
-
                 }
-              });
+              })
+              .attr("priceChangeTweet", function(d, i) {
+
+              var tweetFiltered = stock_data.filter(function(d) {return d.twitterPt == "true";});
+              
+              if (i != 0 && i + 1 < stock_data.length) {
+              var currentPrice = parseFloat(stock_data[i].close);
+              var currentDate = stock_data[i+1].dateStr;
+
+              var beforePoints = tweetFiltered.filter(function(d) {return d.dateStr < currentDate;});
+
+              if (beforePoints.length == 0) {
+                return "N/A";
+              }
+
+              var lastDate = beforePoints[beforePoints.length - 1].dateStr;
+              var lastPrice = parseFloat(beforePoints[beforePoints.length - 1].close);
+
+              return lastPrice - currentPrice;
+            }
+
+            return "N/A";
+
+            });
 
 
               stockData.on("mouseover", function(mouseEvent, d, i) {
                  // Runs when the mouse enters a dot.  d is the corresponding data point.
 
                  tooltip.style("opacity", 1);
-                 tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + (d.date));
+                 tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + (d.dateStr));
 
                  sendDataToSidebar(d);
-                 setChangeDataToSidebar(d3.select(this).attr("priceChange"));
+                 setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
+                 setChangePriceTweetDataToSidebar(d3.select(this).attr("priceChangeTweet"));
 
                })
 
@@ -272,7 +299,9 @@ function Chart(props) {
                  tooltip.style("top", topOffset + "px");
 
                  sendDataToSidebar(d);
-                 setChangeDataToSidebar(d3.select(this).attr("priceChange"));
+                 setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
+                 setChangePriceTweetDataToSidebar(d3.select(this).attr("priceChangeTweet"));
+
 
                })
                  .on("mouseout", (mouseEvent, d) => {

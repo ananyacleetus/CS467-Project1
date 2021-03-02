@@ -10,10 +10,14 @@ import TweetEmbed from 'react-tweet-embed';
  function Sidebar (props) {
 
    const [arrowPriceChangeYesterday, setArrowPriceChangeYesterday] = useState("up");
+   const [arrowPriceChangeTweet, setArrowPriceChangeTweet] = useState("down");
 
 
-   let firstArrow = <ArrowDropUp className="arrowup"/>
+   let firstArrow = <ArrowDropUp className="arrowup"/>;
    let firstArrowDir = "up";
+
+   let secondArrow = <ArrowDropDown className="arrowdown"/>;
+   let secondArrowDir = "down";
 
    if (props.priceChangeYesterday[0] == " ") {
      firstArrowDir = "up";
@@ -23,15 +27,28 @@ import TweetEmbed from 'react-tweet-embed';
 
    if (firstArrowDir == "up") {
      firstArrow = <ArrowDropUp className="arrowup"/>;
-     console.log("true");
    } else {
      firstArrow = <ArrowDropDown className="arrowdown"/>;
-     console.log("false");
+   }
+
+
+   if (props.priceChangeTweet[0] == " ") {
+     secondArrowDir = "up";
+   } else {
+     secondArrowDir = "down";
+   }
+
+   if (secondArrowDir == "up") {
+     secondArrow = <ArrowDropUp className="arrowup"/>;
+   } else {
+     secondArrow = <ArrowDropDown className="arrowdown"/>;
    }
 
 
       useEffect(() => {
         setArrowPriceChangeYesterday(firstArrow);
+        setArrowPriceChangeTweet(secondArrow);
+
       }, [props.priceChangeYesterday]);
 
      return (
@@ -47,8 +64,8 @@ import TweetEmbed from 'react-tweet-embed';
            <div className="priceChangeBox">
              {firstArrow}
            <h2 className="priceChangeYesterday">{props.priceChangeYesterday.substring(1) + " since yesterday"}</h2>
-            <ArrowDropDown className="arrowdown"/>
-           <h2 className="priceChangeLastTweet">{props.priceChangeTweet + " since last tweet"}</h2>
+            {secondArrow}
+           <h2 className="priceChangeLastTweet">{props.priceChangeTweet.substring(1) + " since last tweet"}</h2>
            </div>
 
 
