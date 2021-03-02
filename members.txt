@@ -28,6 +28,8 @@ I got the Twitter box data embedding to work, and gave suggestions on how things
 
 
 Claudia Salazar (netid: cas18):
-
-
+- Apply and get the TwiterAPI key
+- filter the key to get the data only of the user at study 
+- With the set up of my teammate Kimi, send the data of elen musk to a localhost, which was going to be used as the data in the fron end 
+- Worked with Kimi to write code for sorting and getting the top twitter of the day of the user at study. 
 Kimi Hirano (netid: khirano2):
