@@ -28,8 +28,20 @@ I got the Twitter box data embedding to work, and gave suggestions on how things
 
 
 Claudia Salazar (netid: cas18):
-- Apply and get the TwiterAPI key
-- filter the key to get the data only of the user at study 
-- With the set up of my teammate Kimi, send the data of elen musk to a localhost, which was going to be used as the data in the fron end 
-- Worked with Kimi to write code for sorting and getting the top twitter of the day of the user at study. 
+- Did the "Motivation" and "Intended Audience" slides for the presentation
+- Applied and got the TwiterAPI key/tokens
+- Set up Twitter API call to get the specific tweet data we needed  
+    - (only tweets by Elon Musk, filtered out replies, etc)
+- Sent the data of Elon Musk's tweets to a local server to be used as the data in the front end 
+- Parsed the twitter data json
+- Wrote code for sorting and determining the top tweet of the day of the user at study. 
+
 Kimi Hirano (netid: khirano2):
+- Came up with the initial idea
+- Did the "Questions and Problems we plan to answer" slide for presentation
+- Set up Express app for retrieving stock data and tweets
+- Set up route + parameters to dynamically get yahoo-finance data for Tesla stock based on given range
+- Connected Express app to React app to send stock data to be manipulated/displayed on the frontend
+- Handled stock-data-specific json parsing
+- Helped create the tweet points that would get overlayed over the stock data on the frontend
+- Helped teamates debug/fix problems when I could
