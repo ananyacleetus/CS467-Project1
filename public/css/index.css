@@ -4,11 +4,6 @@ html {
   font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
 }
 
-body {
-
-  justify-content:center;
-}
-
 #visualization {
   align-items: center;
 }
