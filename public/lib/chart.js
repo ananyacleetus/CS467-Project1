@@ -200,7 +200,7 @@ function Chart(props) {
           });
 
           if (i != 0 && i + 1 < stock_data.length) {
-            var currentPrice = parseFloat(stock_data[i].close);
+            var currentPrice = parseFloat(stock_data[i + 1].close);
             var currentDate = stock_data[i + 1].dateStr;
             var beforePoints = tweetFiltered.filter(function (d) {
               return d.dateStr < currentDate;
@@ -212,6 +212,11 @@ function Chart(props) {
 
             var lastDate = beforePoints[beforePoints.length - 1].dateStr;
             var lastPrice = parseFloat(beforePoints[beforePoints.length - 1].close);
+
+            if (lastPrice - currentPrice < 0) {
+              console.log("negative");
+            }
+
             return lastPrice - currentPrice;
           }
 
