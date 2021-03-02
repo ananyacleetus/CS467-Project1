@@ -23,7 +23,8 @@ function Chart(props) {
   var timeFormat = d3.timeParse("%I:%M %p");
 
   var sendDataToSidebar = d => {
-    props.onChangeDate(twitDateFormat(d.created_at).toString());
+    // props.onChangeDate(twitDateFormat(d.created_at).toString());
+    props.onChangeDate(utcToDate(d.date).toString());
     props.onChangePrice(d3.format("($.2f")(d.close).toString()); //NOTE: Once you calculate the changes, you can send it in to the props
     // props.onChangePriceYesterday("".toString());
     // props.onChangePriceTweet("".toString());
@@ -144,15 +145,33 @@ function Chart(props) {
         .attr("font-family", "sans-serif") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-        svg.selectAll("dot").data(twit_data).enter().append("circle").attr("r", dotSize).attr("cx", function (d) {
-          // console.log(d)
-          // console.log(d.created_at)
-          // console.log(twitDateFormat(d.created_at))
+        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 1).attr("cx", function (d) {
           return dateScale(twitDateFormat(d.created_at));
         }).attr("cy", function (d) {
-          console.log(d.close);
           return priceScale(parseFloat(d.close));
         }).attr("stroke", "#FF0000").attr("fill", "#FF0000").on("mouseover", (mouseEvent, d) => {
+          // Runs when the mouse enters a dot.  d is the corresponding data point.
+          tooltip.style("opacity", 1); // tooltip.text("The price is " + d3.format("($.2f")(d.close) + " at " + utcToDate(d.date));
+
+          tooltip.text("Twitter data here"); //TODO: send twitter id to sidebar and display twitter counts in tooltip
+          //sendDataToSidebar(d);
+        }).on("mousemove", (mouseEvent, d) => {
+          /* Runs when mouse moves inside a dot */
+          // var leftOffset = d3.pointer(mouseEvent)[0] + 3
+          var leftOffset = dateScale(twitDateFormat(d.created_at)) + 3;
+          tooltip.style("left", leftOffset + "px"); // var topOffset = d3.pointer(mouseEvent)[1] + 3
+
+          var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
+          tooltip.style("top", topOffset + "px"); //TODO: send twitter id to sidebar and display twitter counts in tooltip
+          //sendDataToSidebar(d);
+        }).on("mouseout", (mouseEvent, d) => {
+          tooltip.style("opacity", 0);
+        });
+        svg.selectAll(".stockData").data(stock_data).enter().append("circle").attr("class", "stockData").attr("r", dotSize).attr("cx", function (d) {
+          return dateScale(utcToDate(d.date));
+        }).attr("cy", function (d) {
+          return priceScale(parseFloat(d.close));
+        }).attr("stroke", "#0000FF").attr("fill", "#0000FF").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           console.log(d);
           tooltip.style("opacity", 1);
@@ -175,13 +194,19 @@ function Chart(props) {
       if (props.updateScale) {
         svg = d3.select("#chart_svg").transition(); // Update lines
 
-        svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update dots
+        svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update tweet dots
 
-        svg.selectAll("circle").duration(1000).attr("r", dotSize).attr("cx", function (d) {
+        svg.selectAll(".twitterData").duration(1000).attr("cx", function (d) {
+          return dateScale(twitDateFormat(d.created_at));
+        }).attr("cy", function (d) {
+          return priceScale(parseFloat(d.close));
+        }); // Update stock dots
+
+        svg.selectAll(".stockData").duration(1000).attr("cx", function (d) {
           return dateScale(utcToDate(d.date));
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
-        }).attr("stroke", "#FF0000").attr("fill", "#FF0000"); // Update axes and labels
+        }); // Update axes and labels
 
         svg.selectAll(".xAxisLabel").attr("x", xAxisX).attr("y", xAxisY);
         svg.selectAll(".yAxisLabel").attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)"));
