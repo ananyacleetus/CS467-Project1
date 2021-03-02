@@ -1,3 +1,9 @@
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
+
+html {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+}
+
 .fullscalebar {
   width: 100%;
   text-align: center;
@@ -7,4 +13,10 @@
     display: inline-block;
     margin: 0 auto;
     padding: 3px;
+
   }
+
+
+.MuiToggleButton-root {
+  text-transform: capitalize !important;
+}

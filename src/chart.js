@@ -166,7 +166,7 @@ function Chart(props) {
             svg.append("text")
                 .attr("font-size", 14)
                 .attr("font-weight", "bold")
-                .attr("font-family", "sans-serif")
+                .attr("font-family", "Avenir")
                 .attr("x", xAxisX)
                 .attr("y", xAxisY)
                 .text("Date")
@@ -175,7 +175,7 @@ function Chart(props) {
             svg.append("text")
                 .attr("font-size", 14) // This code duplication signals that these properties
                 .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
-                .attr("font-family", "sans-serif") // way to simplify our directions to you.
+                .attr("font-family", "Avenir") // way to simplify our directions to you.
                 .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`)
                 .text("Price (USD)")
                 .attr("class", "yAxisLabel");

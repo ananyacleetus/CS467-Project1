@@ -1,11 +1,7 @@
-/* *{
-  margin:0;
-  padding: 0;
-} */
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
 
 html {
-
-
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
 }
 
 .grid-container {
@@ -34,7 +30,7 @@ html {
 
 .C {
   grid-area: C;
-  margin-top: -100px;
+  margin-top: -200px !important;
 }
 
 .D {
