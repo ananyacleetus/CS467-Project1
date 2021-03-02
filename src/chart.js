@@ -192,11 +192,11 @@ function Chart(props) {
                     .enter()
                     .append("circle")
                     .attr("class", "twitterData")
-                    .attr("r", dotSize+1)
-                    .attr("cx", function(d) {return dateScale((d.date)); })
+                    .attr("r", dotSize+2)
+                    .attr("cx", function(d) {return dateScale(twitDateFormat(d.created_at)); })
                     .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
-                    .attr("stroke", "#FF0000")
-                    .attr("fill", "transparent")
+                    .attr("stroke", "#1EA1F2")
+                    .attr("fill", "#1EA1F2")
                     .on("mouseover", (mouseEvent, d) => {
                        // Runs when the mouse enters a dot.  d is the corresponding data point.
 
@@ -234,8 +234,8 @@ function Chart(props) {
               .attr("r", dotSize)
               .attr("cx", function(d) {return dateScale((d.date)); })
               .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
-              .attr("stroke", "#0000FF")
-              .attr("fill", "#0000FF")
+              .attr("stroke", "#52C11F")
+              .attr("fill", "#52C11F")
               .attr("priceChange", function(d, i) {
 
                 if (i != 0 && i + 1 < stock_data.length) {
