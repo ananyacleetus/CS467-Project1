@@ -64,7 +64,7 @@ function Chart(props) {
     function _callAPI() {
       _callAPI = _asyncToGenerator(function* (timescale) {
         var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json());
-        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // console.log(stock_data[0])
+        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
 
         console.log(twit_data); // set all dates to make comparisons later easier
 
@@ -80,11 +80,51 @@ function Chart(props) {
           if (i < twit_data.length) {
             twit_data[i].dateStr = twit_data[i].created_at;
             twit_data[i].date = twitDateFormat(twit_data[i].created_at).setHours(0, 0, 0, 0);
+            twit_data[i].is_max = "false";
           }
-        } // add price field to objects in twit data based on stock price of that date
+        } // find the most "influential" tweet by elon for each day, by retweets and favorites
+        // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
+        // so we can only display most influential for now
 
 
         var tw = 0;
+        console.log(twit_data.length);
+
+        while (tw < twit_data.length) {
+          var current = twit_data[tw].date;
+          var max_tweets = twit_data[tw].retweet_count + twit_data[tw].favorite_count;
+          var max_index = tw;
+          tw++;
+
+          if (tw >= twit_data.length) {
+            twit_data[tw - 1].is_max = "true";
+            break;
+          }
+
+          var next_day = twit_data[tw].date;
+
+          while (current == next_day) {
+            var sum = twit_data[tw].retweet_count + twit_data[tw].favorite_count;
+
+            if (sum > max_tweets) {
+              max_tweets = sum;
+              max_index = tw;
+            }
+
+            tw++;
+
+            if (tw >= twit_data.length) {
+              break;
+            }
+
+            next_day = twit_data[tw].date;
+          }
+
+          twit_data[max_index].is_max = "true";
+        } // add price field to objects in twit data based on stock price of that date
+        // and add dummy stock points for missing dates
+
+
         var st = 0;
         console.log("adding price");
 
@@ -116,11 +156,7 @@ function Chart(props) {
 
         console.log("done"); // draw line graph with both datasets
 
-        drawLineGraph(stock_data, twit_data); // fetch("http://localhost:9000/stockAPI/" + timescale)
-        //     .then(res => res.json())
-        //     .then(res => {
-        //         drawLineGraph(res)
-        //     })
+        drawLineGraph(stock_data, twit_data);
       });
       return _callAPI.apply(this, arguments);
     }
@@ -170,8 +206,10 @@ function Chart(props) {
         .attr("font-family", "Avenir") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 2).attr("cx", function (d) {
-          return dateScale(twitDateFormat(d.created_at));
+        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").filter(function (d) {
+          return d.is_max == "true";
+        }).attr("class", "twitterData").attr("r", dotSize + 2).attr("cx", function (d) {
+          return dateScale(d.date);
         }).attr("cy", function (d) {
           return priceScale(parseFloat(d.close));
         }).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
@@ -254,6 +292,7 @@ function Chart(props) {
       }
 
       if (props.updateScale) {
+        // remove duplicates of data being drawn
         d3.selectAll(".chartLine").remove();
         d3.selectAll(".twitterData").remove();
         d3.selectAll(".stockData").remove();
