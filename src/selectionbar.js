@@ -20,7 +20,7 @@ import "..//css/selectionbar.css";
 
 function SelectionBar(props) {
 
-  const [state, setState] = React.useState({
+  const [stockState, setStockState] = React.useState({
   tsla: true,
   etsy: false,
   gme: false,
@@ -29,10 +29,12 @@ function SelectionBar(props) {
 });
 
 const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setStockState({ ...stockState, [event.target.name]: event.target.checked });
+    props.onChangeStockState({ ...stockState, [event.target.name]: event.target.checked });
   };
 
-  const { tsla, etsy, gme, sigl, btcusd} = state;
+  const { tsla, etsy, gme, sigl, btcusd} = stockState;
+
   const error = [tsla, etsy, gme, sigl, btcusd].filter((v) => v).length == 0;
 
     return (

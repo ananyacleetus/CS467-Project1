@@ -19,7 +19,7 @@ import drawChart from "/lib/chart.js"; //stylesheet
 import "..//css/selectionbar.css";
 
 function SelectionBar(props) {
-  var [state, setState] = React.useState({
+  var [stockState, setStockState] = React.useState({
     tsla: true,
     etsy: false,
     gme: false,
@@ -28,7 +28,10 @@ function SelectionBar(props) {
   });
 
   var handleChange = event => {
-    setState(_objectSpread(_objectSpread({}, state), {}, {
+    setStockState(_objectSpread(_objectSpread({}, stockState), {}, {
+      [event.target.name]: event.target.checked
+    }));
+    props.onChangeStockState(_objectSpread(_objectSpread({}, stockState), {}, {
       [event.target.name]: event.target.checked
     }));
   };
@@ -39,7 +42,7 @@ function SelectionBar(props) {
     gme,
     sigl,
     btcusd
-  } = state;
+  } = stockState;
   var error = [tsla, etsy, gme, sigl, btcusd].filter(v => v).length == 0;
   return /*#__PURE__*/React.createElement("div", {
     className: "fullselectionbar"
