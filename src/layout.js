@@ -8,6 +8,7 @@ import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
+import SelectionBar from "/lib/selectionbar.js";
 
 
 function Layout (props) {
@@ -59,6 +60,9 @@ function Layout (props) {
       <div className="grid-container">
         <div className="A">
         <HeaderBar className="headerbar"/>
+        </div>
+        <div className="E">
+          <SelectionBar className="selectionbar" />
         </div>
         <div className="B">
         <Chart className="chart" timeScale={timeScale} updateScale={updateScale} onChangeTweetID={(e) => { changeTweetID(e) }} onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }} onChangeUpdateScale={(e) => { changeUpdateScale(e) }} />

@@ -4,20 +4,26 @@ html {
   font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
 }
 
-.fullscalebar {
+.fullselectionbar {
   width: 100%;
   text-align: center;
-  padding-top: 100px;
 }
 
-.buttonbar {
-    display: inline-block;
-    margin: 0 auto;
-    padding: 3px;
 
-  }
-
+.stockselection {
+  padding-top: 300px;
+}
 
 .MuiToggleButton-root {
   text-transform: capitalize !important;
+}
+
+/*
+.MuiTouchRipple-root {
+  width: 5px !important;
+} */
+
+.MuiSvgIcon-root {
+  height: 30px !important;
+  width: 30px !important;
 }

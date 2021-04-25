@@ -6,6 +6,7 @@ import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
+import SelectionBar from "/lib/selectionbar.js";
 
 function Layout(props) {
   var [date, setDate] = useState("Hover over a point to begin.");
@@ -51,6 +52,10 @@ function Layout(props) {
     className: "A"
   }, /*#__PURE__*/React.createElement(HeaderBar, {
     className: "headerbar"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "E"
+  }, /*#__PURE__*/React.createElement(SelectionBar, {
+    className: "selectionbar"
   })), /*#__PURE__*/React.createElement("div", {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
