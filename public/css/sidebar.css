@@ -42,7 +42,7 @@ html {
 
 }
 
-.MuiSvgIcon-root {
+.priceChangeBox .MuiSvgIcon-root {
   height: 2em !important;
   width: 2em !important;
 }
