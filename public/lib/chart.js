@@ -192,6 +192,8 @@ function Chart(props) {
       var xAxisY = svgheight - PADDING.BOTTOM / 3;
       var yAxisX = 0 + PADDING.RIGHT / 3;
       var yAxisY = svgheight - yTranslation / 2;
+      var maxLinePoint = svgheight - PADDING.BOTTOM;
+      var minLinePoint = 0;
       var tooltip = d3.select("#tooltip");
 
       if (!props.updateScale) {
@@ -206,13 +208,20 @@ function Chart(props) {
         .attr("font-family", "Avenir") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").filter(function (d) {
+        svg.selectAll(".twitterData").data(twit_data).enter() //TWITTER DOTS
+        // .append("circle")
+        // .filter(function (d) {return d.is_max == "true"})
+        // .attr("class", "twitterData")
+        // .attr("r", dotSize+2)
+        // .attr("cx", function(d) {return dateScale((d.date)); })
+        // .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
+        .append("line").filter(function (d) {
           return d.is_max == "true";
-        }).attr("class", "twitterData").attr("r", dotSize + 2).attr("cx", function (d) {
+        }).attr("class", "twitterData").style("stroke-dasharray", "3, 3").attr('x1', function (d) {
           return dateScale(d.date);
-        }).attr("cy", function (d) {
-          return priceScale(parseFloat(d.close));
-        }).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
+        }).attr('y1', maxLinePoint).attr('x2', function (d) {
+          return dateScale(d.date);
+        }).attr('y2', minLinePoint).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
           tooltip.text(d.text); //TODO: send twitter id to sidebar and display twitter counts in tooltip
@@ -300,11 +309,13 @@ function Chart(props) {
 
         svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update tweet dots
 
-        svg.selectAll(".twitterData").duration(1000).attr("cx", function (d) {
+        svg.selectAll(".twitterData").duration(1000) // .attr("cx", function(d) {return dateScale((d.date)); })
+        // .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
+        .attr('x1', function (d) {
           return dateScale(d.date);
-        }).attr("cy", function (d) {
-          return priceScale(parseFloat(d.close));
-        }); // Update stock dots
+        }).attr('y1', maxLinePoint).attr('x2', function (d) {
+          return dateScale(d.date);
+        }).attr('y2', minLinePoint); // Update stock dots
 
         svg.selectAll(".stockData").duration(1000).attr("cx", function (d) {
           return dateScale(d.date);
