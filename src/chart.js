@@ -9,6 +9,7 @@ import "..//css/chart.css";
 function Chart(props) {
 
     var timescale = props.timeScale;
+    var stockID = "TLSA";
 
 
     // Should return month-day-year
@@ -70,7 +71,7 @@ function Chart(props) {
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
 
         async function callAPI(timescale) {
-            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json())
+            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json())
             const twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
 
             // sometimes twitter api doesn't send all the data

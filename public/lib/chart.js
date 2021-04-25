@@ -10,7 +10,8 @@ import React, { useState, useEffect } from "react"; // import fs from "fs";
 import "..//css/chart.css";
 
 function Chart(props) {
-  var timescale = props.timeScale; // Should return month-day-year
+  var timescale = props.timeScale;
+  var stockID = "TLSA"; // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); // %a - abbrevieated weekday name
@@ -63,7 +64,7 @@ function Chart(props) {
 
     function _callAPI() {
       _callAPI = _asyncToGenerator(function* (timescale) {
-        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json());
+        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json());
         var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
 
         console.log(twit_data); // set all dates to make comparisons later easier
