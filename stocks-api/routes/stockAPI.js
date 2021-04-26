@@ -9,6 +9,7 @@ var max = new Date("June 29, 2010");
 
 var toStr = d.toISOString().slice(0,10);
 var fromStr = "";
+var stockStr = "";
 
 /*
     http://localhost:9000/stockAPI/1mo - last month of stock data
@@ -47,11 +48,17 @@ router.param("timescale", (req, res, next, id) => {
     next();
 })
 
-router.get("/:timescale", function(req, res, next) {
+router.param("stockId", (req, res, next, id) => {
+    console.log(id)
+    stockStr = id.toUpperCase();
+    next();
+})
+
+router.get("/:timescale/:stockId", function(req, res, next) {
     console.log(toStr);
     console.log(fromStr);
     yahooFinance.historical({
-        symbol: 'TSLA',
+        symbol: stockStr,
         from: fromStr,
         to: toStr,
         // period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only)
