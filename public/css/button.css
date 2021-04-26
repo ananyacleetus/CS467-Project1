@@ -23,6 +23,12 @@ p {
   margin-top: 200px;
 }
 
+.elonpicture {
+  height: 30%;
+  width: 30%;
+
+}
+
 a {
   text-decoration: none;
   padding-bottom: 2px;
