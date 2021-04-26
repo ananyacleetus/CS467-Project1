@@ -9,7 +9,7 @@ import React from "react";
      return (
 
      <div className="headerbox">
-     <h1 className="title">Tesla Stock Price (TSLA) compared to Elon Musk Tweets</h1>
+     <h1 className="title">Stock Prices compared to Elon Musk Tweets</h1>
      </div>
 
    );

@@ -9,7 +9,10 @@ import "..//css/chart.css";
 function Chart(props) {
 
     var timescale = props.timeScale;
-    var stockID = "TLSA";
+    var stockState = props.stockState;
+    // console.log(props.stockState);
+    var stockIds = Object.keys(stockState).filter(i => stockState[i] == true)
+    console.log(stockIds);
 
 
     // Should return month-day-year
@@ -71,7 +74,7 @@ function Chart(props) {
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
 
         async function callAPI(timescale) {
-            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json())
+            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockIds).then(res => res.json())
             const twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
 
             // sometimes twitter api doesn't send all the data
@@ -192,7 +195,7 @@ function Chart(props) {
             const tooltip = d3.select("#tooltip");
 
 
-             if (!props.updateScale) {
+             if (!props.updateScale && ! props.updateStocks) {
 
              // svg.append("g") creates an SVG <g> element, short for "group."
              // It doesn’t draw anything by itself, but serves to group child elements together.
@@ -363,7 +366,7 @@ function Chart(props) {
        });
 
            }
-             if (props.updateScale) {
+             if (props.updateScale || props.updateStocks) {
 
                 // remove duplicates of data being drawn
                 d3.selectAll(".chartLine").remove()
@@ -416,6 +419,8 @@ function Chart(props) {
                  .attr("transform", `translate(${xTranslation}, 0)`);
 
                  props.onChangeUpdateScale(false);
+                 props.onChangeUpdateStocks(false);
+
 
 
                }
@@ -427,7 +432,7 @@ function Chart(props) {
 
     useEffect(() => {
         drawChart();
-    }, [props.updateScale]);
+    }, [props.updateScale, props.updateStocks]);
 
     return (
 

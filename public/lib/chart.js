@@ -11,7 +11,10 @@ import "..//css/chart.css";
 
 function Chart(props) {
   var timescale = props.timeScale;
-  var stockID = "TLSA"; // Should return month-day-year
+  var stockState = props.stockState; // console.log(props.stockState);
+
+  var stockIds = Object.keys(stockState).filter(i => stockState[i] == true);
+  console.log(stockIds); // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); // %a - abbrevieated weekday name
@@ -64,7 +67,7 @@ function Chart(props) {
 
     function _callAPI() {
       _callAPI = _asyncToGenerator(function* (timescale) {
-        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json());
+        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockIds).then(res => res.json());
         var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
 
         console.log(twit_data); // set all dates to make comparisons later easier
@@ -197,7 +200,7 @@ function Chart(props) {
       var minLinePoint = 0;
       var tooltip = d3.select("#tooltip");
 
-      if (!props.updateScale) {
+      if (!props.updateScale && !props.updateStocks) {
         // svg.append("g") creates an SVG <g> element, short for "group."
         // It doesn’t draw anything by itself, but serves to group child elements together.
         svg.append("g").call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
@@ -301,7 +304,7 @@ function Chart(props) {
         });
       }
 
-      if (props.updateScale) {
+      if (props.updateScale || props.updateStocks) {
         // remove duplicates of data being drawn
         d3.selectAll(".chartLine").remove();
         d3.selectAll(".twitterData").remove();
@@ -330,13 +333,14 @@ function Chart(props) {
         .attr("transform", "translate(0, ".concat(yTranslation, ")"));
         svg.selectAll(".yAxis").duration(1000).call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
         props.onChangeUpdateScale(false);
+        props.onChangeUpdateStocks(false);
       }
     }
   }
 
   useEffect(() => {
     drawChart();
-  }, [props.updateScale]);
+  }, [props.updateScale, props.updateStocks]);
   return /*#__PURE__*/React.createElement("div", {
     id: "fullChart"
   }, /*#__PURE__*/React.createElement("div", {

@@ -17,12 +17,13 @@ function Layout(props) {
   var [updateScale, shouldUpdateScale] = useState(false);
   var [tweetID, setTweetID] = React.useState('1364826301027115008');
   var [stockState, setStockState] = React.useState({
-    tsla: true,
-    etsy: false,
+    tsla: false,
+    etsy: true,
     gme: false,
     sigl: false,
     btcusd: false
   });
+  var [updateStocks, shouldUpdateStocks] = useState(false);
 
   var changePrice = price => {
     setPrice(price); // console.log("Price:", price);
@@ -55,6 +56,11 @@ function Layout(props) {
 
   var changeStockState = stockState => {
     setStockState(stockState);
+    shouldUpdateStocks(true);
+  };
+
+  var changeUpdateStocks = updateStocks => {
+    shouldUpdateStocks(updateStocks);
   };
 
   return /*#__PURE__*/React.createElement("div", {
@@ -75,6 +81,7 @@ function Layout(props) {
   }, /*#__PURE__*/React.createElement(Chart, {
     className: "chart",
     stockState: stockState,
+    updateStocks: updateStocks,
     timeScale: timeScale,
     updateScale: updateScale,
     onChangeTweetID: e => {

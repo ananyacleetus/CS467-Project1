@@ -21,8 +21,8 @@ import "..//css/selectionbar.css";
 function SelectionBar(props) {
 
   const [stockState, setStockState] = React.useState({
-  tsla: true,
-  etsy: false,
+  tsla: false,
+  etsy: true,
   gme: false,
   sigl: false,
   btcusd: false,
