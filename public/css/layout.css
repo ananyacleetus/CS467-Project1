@@ -8,16 +8,16 @@ html {
   /* max-height: 100%; */
 
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr 3fr 2fr;
   grid-template-rows: 1fr 6fr 1fr;
   gap: 0px 0px;
   /* position: fixed;
   height: 100%;
   overflow-y: auto; */
   grid-template-areas:
-    "A D"
-    "B D"
-    "C D";
+    "E A D"
+    "E B D"
+    "E C D";
 }
 
 .A {
@@ -35,6 +35,10 @@ html {
 
 .D {
   grid-area: D;
+}
+
+.E {
+  grid-area:E;
 }
 
 .headerbar {

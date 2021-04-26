@@ -6,6 +6,7 @@ import HeaderBar from "/lib/headerbar.js";
 import Chart from "/lib/chart.js";
 import Sidebar from "/lib/sidebar.js";
 import Scalebar from "/lib/scalebar.js";
+import SelectionBar from "/lib/selectionbar.js";
 
 function Layout(props) {
   var [date, setDate] = useState("Hover over a point to begin.");
@@ -15,6 +16,13 @@ function Layout(props) {
   var [timeScale, setTimeScale] = useState('1yr');
   var [updateScale, shouldUpdateScale] = useState(false);
   var [tweetID, setTweetID] = React.useState('1364826301027115008');
+  var [stockState, setStockState] = React.useState({
+    tsla: true,
+    etsy: false,
+    gme: false,
+    sigl: false,
+    btcusd: false
+  });
 
   var changePrice = price => {
     setPrice(price); // console.log("Price:", price);
@@ -45,6 +53,10 @@ function Layout(props) {
     setTweetID(tweetID);
   };
 
+  var changeStockState = stockState => {
+    setStockState(stockState);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -52,9 +64,17 @@ function Layout(props) {
   }, /*#__PURE__*/React.createElement(HeaderBar, {
     className: "headerbar"
   })), /*#__PURE__*/React.createElement("div", {
+    className: "E"
+  }, /*#__PURE__*/React.createElement(SelectionBar, {
+    className: "selectionbar",
+    onChangeStockState: e => {
+      changeStockState(e);
+    }
+  })), /*#__PURE__*/React.createElement("div", {
     className: "B"
   }, /*#__PURE__*/React.createElement(Chart, {
     className: "chart",
+    stockState: stockState,
     timeScale: timeScale,
     updateScale: updateScale,
     onChangeTweetID: e => {

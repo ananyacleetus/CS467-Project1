@@ -74,6 +74,11 @@ import TweetEmbed from 'react-tweet-embed';
                <TweetEmbed id={props.tweetID} />
            </div>
 
+           <div className="sentimentBox">
+             <h2 className="sentimentTitle">Sentiment Score:</h2>
+
+           </div>
+
      </div>
 
    </div>

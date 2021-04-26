@@ -9,6 +9,7 @@ import "..//css/chart.css";
 function Chart(props) {
 
     var timescale = props.timeScale;
+    var stockID = "TLSA";
 
 
     // Should return month-day-year
@@ -70,7 +71,7 @@ function Chart(props) {
         var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
 
         async function callAPI(timescale) {
-            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json())
+            const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json())
             const twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
 
             // sometimes twitter api doesn't send all the data
@@ -109,7 +110,7 @@ function Chart(props) {
                 while(current == next_day){
                     var sum = twit_data[tw].retweet_count + twit_data[tw].favorite_count
                     if (sum > max_tweets){
-                        max_tweets = sum 
+                        max_tweets = sum
                         max_index = tw
                     }
 
@@ -117,7 +118,7 @@ function Chart(props) {
                     if (tw >= twit_data.length) {break;}
                     next_day = twit_data[tw].date;
                 }
-                twit_data[max_index].is_max = "true"; 
+                twit_data[max_index].is_max = "true";
             }
 
             // add price field to objects in twit data based on stock price of that date
@@ -185,7 +186,10 @@ function Chart(props) {
             const yAxisX = 0 + PADDING.RIGHT / 3;
             const yAxisY = svgheight - yTranslation / 2;
 
-             const tooltip = d3.select("#tooltip");
+            const maxLinePoint = svgheight - PADDING.BOTTOM;
+            const minLinePoint = 0;
+
+            const tooltip = d3.select("#tooltip");
 
 
              if (!props.updateScale) {
@@ -230,12 +234,23 @@ function Chart(props) {
                    svg.selectAll(".twitterData")
                     .data(twit_data)
                     .enter()
-                    .append("circle")
+
+                    //TWITTER DOTS
+                    // .append("circle")
+                    // .filter(function (d) {return d.is_max == "true"})
+                    // .attr("class", "twitterData")
+                    // .attr("r", dotSize+2)
+                    // .attr("cx", function(d) {return dateScale((d.date)); })
+                    // .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
+
+                    .append("line")
                     .filter(function (d) {return d.is_max == "true"})
                     .attr("class", "twitterData")
-                    .attr("r", dotSize+2)
-                    .attr("cx", function(d) {return dateScale((d.date)); })
-                    .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
+                    .style("stroke-dasharray", ("3, 3"))
+                    .attr('x1', function(d) {return dateScale((d.date)); })
+                    .attr('y1', maxLinePoint)
+                    .attr('x2', function(d) {return dateScale((d.date)); })
+                    .attr('y2', minLinePoint)
                     .attr("stroke", "#1EA1F2")
                     .attr("fill", "#1EA1F2")
                     .on("mouseover", (mouseEvent, d) => {
@@ -365,8 +380,13 @@ function Chart(props) {
                // Update tweet dots
                svg.selectAll(".twitterData")
                 .duration(1000)
-                .attr("cx", function(d) {return dateScale((d.date)); })
-                .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
+                // .attr("cx", function(d) {return dateScale((d.date)); })
+                // .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
+                .attr('x1', function(d) {return dateScale((d.date)); })
+                .attr('y1', maxLinePoint)
+                .attr('x2', function(d) {return dateScale((d.date)); })
+                .attr('y2', minLinePoint)
+
 
 
                 // Update stock dots

@@ -10,7 +10,8 @@ import React, { useState, useEffect } from "react"; // import fs from "fs";
 import "..//css/chart.css";
 
 function Chart(props) {
-  var timescale = props.timeScale; // Should return month-day-year
+  var timescale = props.timeScale;
+  var stockID = "TLSA"; // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); // %a - abbrevieated weekday name
@@ -63,8 +64,8 @@ function Chart(props) {
 
     function _callAPI() {
       _callAPI = _asyncToGenerator(function* (timescale) {
-        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale).then(res => res.json());
-        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // console.log(stock_data[0])
+        var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockID).then(res => res.json());
+        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
 
         console.log(twit_data); // set all dates to make comparisons later easier
 
@@ -80,11 +81,51 @@ function Chart(props) {
           if (i < twit_data.length) {
             twit_data[i].dateStr = twit_data[i].created_at;
             twit_data[i].date = twitDateFormat(twit_data[i].created_at).setHours(0, 0, 0, 0);
+            twit_data[i].is_max = "false";
           }
-        } // add price field to objects in twit data based on stock price of that date
+        } // find the most "influential" tweet by elon for each day, by retweets and favorites
+        // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
+        // so we can only display most influential for now
 
 
         var tw = 0;
+        console.log(twit_data.length);
+
+        while (tw < twit_data.length) {
+          var current = twit_data[tw].date;
+          var max_tweets = twit_data[tw].retweet_count + twit_data[tw].favorite_count;
+          var max_index = tw;
+          tw++;
+
+          if (tw >= twit_data.length) {
+            twit_data[tw - 1].is_max = "true";
+            break;
+          }
+
+          var next_day = twit_data[tw].date;
+
+          while (current == next_day) {
+            var sum = twit_data[tw].retweet_count + twit_data[tw].favorite_count;
+
+            if (sum > max_tweets) {
+              max_tweets = sum;
+              max_index = tw;
+            }
+
+            tw++;
+
+            if (tw >= twit_data.length) {
+              break;
+            }
+
+            next_day = twit_data[tw].date;
+          }
+
+          twit_data[max_index].is_max = "true";
+        } // add price field to objects in twit data based on stock price of that date
+        // and add dummy stock points for missing dates
+
+
         var st = 0;
         console.log("adding price");
 
@@ -116,11 +157,7 @@ function Chart(props) {
 
         console.log("done"); // draw line graph with both datasets
 
-        drawLineGraph(stock_data, twit_data); // fetch("http://localhost:9000/stockAPI/" + timescale)
-        //     .then(res => res.json())
-        //     .then(res => {
-        //         drawLineGraph(res)
-        //     })
+        drawLineGraph(stock_data, twit_data);
       });
       return _callAPI.apply(this, arguments);
     }
@@ -156,6 +193,8 @@ function Chart(props) {
       var xAxisY = svgheight - PADDING.BOTTOM / 3;
       var yAxisX = 0 + PADDING.RIGHT / 3;
       var yAxisY = svgheight - yTranslation / 2;
+      var maxLinePoint = svgheight - PADDING.BOTTOM;
+      var minLinePoint = 0;
       var tooltip = d3.select("#tooltip");
 
       if (!props.updateScale) {
@@ -170,11 +209,20 @@ function Chart(props) {
         .attr("font-family", "Avenir") // way to simplify our directions to you.
         .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
         svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-        svg.selectAll(".twitterData").data(twit_data).enter().append("circle").attr("class", "twitterData").attr("r", dotSize + 2).attr("cx", function (d) {
-          return dateScale(twitDateFormat(d.created_at));
-        }).attr("cy", function (d) {
-          return priceScale(parseFloat(d.close));
-        }).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
+        svg.selectAll(".twitterData").data(twit_data).enter() //TWITTER DOTS
+        // .append("circle")
+        // .filter(function (d) {return d.is_max == "true"})
+        // .attr("class", "twitterData")
+        // .attr("r", dotSize+2)
+        // .attr("cx", function(d) {return dateScale((d.date)); })
+        // .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
+        .append("line").filter(function (d) {
+          return d.is_max == "true";
+        }).attr("class", "twitterData").style("stroke-dasharray", "3, 3").attr('x1', function (d) {
+          return dateScale(d.date);
+        }).attr('y1', maxLinePoint).attr('x2', function (d) {
+          return dateScale(d.date);
+        }).attr('y2', minLinePoint).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
           // Runs when the mouse enters a dot.  d is the corresponding data point.
           tooltip.style("opacity", 1);
           tooltip.text(d.text); //TODO: send twitter id to sidebar and display twitter counts in tooltip
@@ -254,6 +302,7 @@ function Chart(props) {
       }
 
       if (props.updateScale) {
+        // remove duplicates of data being drawn
         d3.selectAll(".chartLine").remove();
         d3.selectAll(".twitterData").remove();
         d3.selectAll(".stockData").remove();
@@ -261,11 +310,13 @@ function Chart(props) {
 
         svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update tweet dots
 
-        svg.selectAll(".twitterData").duration(1000).attr("cx", function (d) {
+        svg.selectAll(".twitterData").duration(1000) // .attr("cx", function(d) {return dateScale((d.date)); })
+        // .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
+        .attr('x1', function (d) {
           return dateScale(d.date);
-        }).attr("cy", function (d) {
-          return priceScale(parseFloat(d.close));
-        }); // Update stock dots
+        }).attr('y1', maxLinePoint).attr('x2', function (d) {
+          return dateScale(d.date);
+        }).attr('y2', minLinePoint); // Update stock dots
 
         svg.selectAll(".stockData").duration(1000).attr("cx", function (d) {
           return dateScale(d.date);

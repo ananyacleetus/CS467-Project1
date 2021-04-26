@@ -73,7 +73,11 @@ function Sidebar(props) {
     className: "topTweet"
   }, "Top Elon Tweet of that Day:"), /*#__PURE__*/React.createElement(TweetEmbed, {
     id: props.tweetID
-  }))));
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sentimentBox"
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "sentimentTitle"
+  }, "Sentiment Score:"))));
 }
 
 export default Sidebar;
