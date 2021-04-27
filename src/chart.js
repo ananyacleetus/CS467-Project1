@@ -77,6 +77,8 @@ function Chart(props) {
             const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockIds).then(res => res.json())
             const twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
 
+            console.log(stock_data);
+
             // sometimes twitter api doesn't send all the data
             console.log(twit_data)
 

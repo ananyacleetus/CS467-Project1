@@ -68,7 +68,8 @@ function Chart(props) {
     function _callAPI() {
       _callAPI = _asyncToGenerator(function* (timescale) {
         var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockIds).then(res => res.json());
-        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
+        var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json());
+        console.log(stock_data); // sometimes twitter api doesn't send all the data
 
         console.log(twit_data); // set all dates to make comparisons later easier
 

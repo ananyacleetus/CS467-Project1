@@ -60,8 +60,11 @@ router.get("/:timescale/:stockId", function(req, res, next) {
     console.log(fromStr);
     console.log("stocksssss");
     console.log(stockStr);
+    var stockArr = stockStr.split(',');
+    stockArr = ['etsy', 'tsla'];
+    console.log(stockArr);
     yahooFinance.historical({
-        symbol: stockStr,
+        symbol: stockArr,
         from: fromStr,
         to: toStr,
         // period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only)
