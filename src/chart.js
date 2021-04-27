@@ -12,7 +12,7 @@ function Chart(props) {
   var stockState = props.stockState;
   // console.log(props.stockState);
   var stockIds = Object.keys(stockState).filter(i => stockState[i] == true)
-  console.log(stockIds);
+  // console.log(stockIds);
 
 
   // Should return month-day-year
@@ -84,84 +84,110 @@ function Chart(props) {
 
   }
 
-  async function getStockData(twitter_data, timescale, stockSym) {
+  async function getStockData(twitter_data, timescale, stockSymbols) {
 
     // const twit_data = twitter_data;
 
-    var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
+    // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
 
-    console.log(stock_data);
+    var symbols = ['tsla', 'etsy'];
 
-    // find the most "influential" tweet by elon for each day, by retweets and favorites
-    // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
-    // so we can only display most influential for now
-    var tw = 0;
-    console.log(twitter_data.length)
-    while (tw < twitter_data.length) {
-      var current = twitter_data[tw].date;
-      var max_tweets = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count;
-      var max_index = tw;
+    var allSymbolData = []
 
-      tw++;
-      if (tw >= twitter_data.length) {twitter_data[tw-1].is_max = "true"; break;}
+    symbols.forEach(stockSym => {
+      fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
+        allSymbolData.push(data)
+      }).catch(e => console.log(e))
+    })
 
-      var next_day = twitter_data[tw].date;
-      while(current == next_day){
-        var sum = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count
-        if (sum > max_tweets){
-          max_tweets = sum
-          max_index = tw
-        }
+    processStockData(allSymbolData, twitter_data);
+
+  }
+
+  function processStockData(allStockData, twitter_data) {
+
+    // do whatever with allSymbolData
+    console.log(allStockData);
+    console.log(allStockData.length);
+
+    // allSymbolData.forEach(stock_data => {
+
+      for (var i = 0; i < allStockData.length; i++) {
+        var stock_data = allStockData[i];
+
+
+      console.log(stock_data);
+
+
+      // find the most "influential" tweet by elon for each day, by retweets and favorites
+      // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
+      // so we can only display most influential for now
+      var tw = 0;
+      console.log(twitter_data.length)
+      while (tw < twitter_data.length) {
+        var current = twitter_data[tw].date;
+        var max_tweets = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count;
+        var max_index = tw;
 
         tw++;
-        if (tw >= twitter_data.length) {break;}
-        next_day = twitter_data[tw].date;
-      }
-      twitter_data[max_index].is_max = "true";
-    }
+        if (tw >= twitter_data.length) {twitter_data[tw-1].is_max = "true"; break;}
 
-    // set all dates to make comparisons later easier
-    var i = 0;
-    for (i = 0; i < Math.max(stock_data.length, twitter_data.length); i++) {
-      if (i < stock_data.length) {
-        stock_data[i].dateStr = stock_data[i].date
-        stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
-        stock_data[i].twitterPt = "false";
+        var next_day = twitter_data[tw].date;
+        while(current == next_day){
+          var sum = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count
+          if (sum > max_tweets){
+            max_tweets = sum
+            max_index = tw
+          }
+
+          tw++;
+          if (tw >= twitter_data.length) {break;}
+          next_day = twitter_data[tw].date;
+        }
+        twitter_data[max_index].is_max = "true";
       }
 
-      if (i < twitter_data.length) {
-        twitter_data[i].dateStr = twitter_data[i].created_at
-        twitter_data[i].date = twitDateFormat(twitter_data[i].created_at).setHours(0,0,0,0);
-        twitter_data[i].is_max = "false"
-      }
-    }
+      // set all dates to make comparisons later easier
+      var i = 0;
+      for (i = 0; i < Math.max(stock_data.length, twitter_data.length); i++) {
+        if (i < stock_data.length) {
+          stock_data[i].dateStr = stock_data[i].date
+          stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
+          stock_data[i].twitterPt = "false";
+        }
 
-    // add price field to objects in twit data based on stock price of that date
-    // and add dummy stock points for missing dates
-    var st = 0;
-    console.log("adding price")
-    for (tw = 0; tw < twitter_data.length; tw++) {
-      var t_date = twitter_data[tw].date;
-      while (st < stock_data.length) {
-        var s_date = stock_data[st].date;
-        if (t_date === s_date) {
-          twitter_data[tw].close = stock_data[st].close
-          break;
-        } else if (t_date < s_date) {
-          st++;
-        } else {
-          // there might not be a stock price for this day
-          // insert a point in stocks for that day with previous day's stock price
-          stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
-          twitter_data[tw].close = stock_data[st].close
-          break;
+        if (i < twitter_data.length) {
+          twitter_data[i].dateStr = twitter_data[i].created_at
+          twitter_data[i].date = twitDateFormat(twitter_data[i].created_at).setHours(0,0,0,0);
+          twitter_data[i].is_max = "false"
         }
       }
+
+      // add price field to objects in twit data based on stock price of that date
+      // and add dummy stock points for missing dates
+      var st = 0;
+      console.log("adding price")
+      for (tw = 0; tw < twitter_data.length; tw++) {
+        var t_date = twitter_data[tw].date;
+        while (st < stock_data.length) {
+          var s_date = stock_data[st].date;
+          if (t_date === s_date) {
+            twitter_data[tw].close = stock_data[st].close
+            break;
+          } else if (t_date < s_date) {
+            st++;
+          } else {
+            // there might not be a stock price for this day
+            // insert a point in stocks for that day with previous day's stock price
+            stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
+            twitter_data[tw].close = stock_data[st].close
+            break;
+          }
+        }
+      }
+      console.log("done");
     }
-    console.log("done");
-
-    drawLineGraph(stock_data, twitter_data);
-
+    // drawLineGraph(stock_data, twitter_data);
 
   }
 
@@ -474,14 +500,14 @@ function Chart(props) {
       .text("Price (USD)")
       .attr("class", "yAxisLabel");
 
-      drawTwitterGraph(twitter_data, dateScale, priceScale);
-      drawStockGraph(stock_data, dateScale, priceScale);
+      // drawTwitterGraph(twitter_data, dateScale, priceScale);
+      // drawStockGraph(stock_data, dateScale, priceScale);
 
     }
     if (props.updateScale || props.updateStocks) {
 
-      drawTwitterGraph(twitter_data, dateScale, priceScale);
-      drawStockGraph(stock_data, dateScale, priceScale);
+      // drawTwitterGraph(twitter_data, dateScale, priceScale);
+      // drawStockGraph(stock_data, dateScale, priceScale);
 
       // remove duplicates of data being drawn
       svg.selectAll(".xAxisLabel").remove()
@@ -509,14 +535,15 @@ function Chart(props) {
       .call(d3.axisLeft(priceScale))
       .attr("transform", `translate(${xTranslation}, 0)`);
 
-
-
       props.onChangeUpdateScale(false);
       props.onChangeUpdateStocks(false);
 
 
 
     }
+
+    drawTwitterGraph(twitter_data, dateScale, priceScale);
+    drawStockGraph(stock_data, dateScale, priceScale);
 
 
 

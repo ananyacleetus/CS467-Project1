@@ -13,8 +13,8 @@ function Chart(props) {
   var timescale = props.timeScale;
   var stockState = props.stockState; // console.log(props.stockState);
 
-  var stockIds = Object.keys(stockState).filter(i => stockState[i] == true);
-  console.log(stockIds); // Should return month-day-year
+  var stockIds = Object.keys(stockState).filter(i => stockState[i] == true); // console.log(stockIds);
+  // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); // %a - abbrevieated weekday name
@@ -75,9 +75,28 @@ function Chart(props) {
   }
 
   function _getStockData() {
-    _getStockData = _asyncToGenerator(function* (twitter_data, timescale, stockSym) {
+    _getStockData = _asyncToGenerator(function* (twitter_data, timescale, stockSymbols) {
       // const twit_data = twitter_data;
-      var stock_data = yield fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json());
+      // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
+      var symbols = ['tsla', 'etsy'];
+      var allSymbolData = [];
+      symbols.forEach(stockSym => {
+        fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
+          allSymbolData.push(data);
+        }).catch(e => console.log(e));
+      });
+      processStockData(allSymbolData, twitter_data);
+    });
+    return _getStockData.apply(this, arguments);
+  }
+
+  function processStockData(allStockData, twitter_data) {
+    // do whatever with allSymbolData
+    console.log(allStockData);
+    console.log(allStockData.length); // allSymbolData.forEach(stock_data => {
+
+    for (var i = 0; i < allStockData.length; i++) {
+      var stock_data = allStockData[i];
       console.log(stock_data); // find the most "influential" tweet by elon for each day, by retweets and favorites
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
       // so we can only display most influential for now
@@ -167,9 +186,8 @@ function Chart(props) {
       }
 
       console.log("done");
-      drawLineGraph(stock_data, twitter_data);
-    });
-    return _getStockData.apply(this, arguments);
+    } // drawLineGraph(stock_data, twitter_data);
+
   }
 
   function drawTwitterGraph(twitter_data, date_scale, price_scale) {
@@ -394,15 +412,14 @@ function Chart(props) {
       svg.append("text").attr("font-size", 14) // This code duplication signals that these properties
       .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
       .attr("font-family", "Avenir") // way to simplify our directions to you.
-      .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel");
-      drawTwitterGraph(twitter_data, dateScale, priceScale);
-      drawStockGraph(stock_data, dateScale, priceScale);
+      .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel"); // drawTwitterGraph(twitter_data, dateScale, priceScale);
+      // drawStockGraph(stock_data, dateScale, priceScale);
     }
 
     if (props.updateScale || props.updateStocks) {
-      drawTwitterGraph(twitter_data, dateScale, priceScale);
-      drawStockGraph(stock_data, dateScale, priceScale); // remove duplicates of data being drawn
-
+      // drawTwitterGraph(twitter_data, dateScale, priceScale);
+      // drawStockGraph(stock_data, dateScale, priceScale);
+      // remove duplicates of data being drawn
       svg.selectAll(".xAxisLabel").remove();
       svg.selectAll(".yAxisLabel").remove();
       svg.selectAll(".xAxis").remove();
@@ -417,6 +434,9 @@ function Chart(props) {
       props.onChangeUpdateScale(false);
       props.onChangeUpdateStocks(false);
     }
+
+    drawTwitterGraph(twitter_data, dateScale, priceScale);
+    drawStockGraph(stock_data, dateScale, priceScale);
   }
 
   useEffect(() => {
