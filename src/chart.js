@@ -165,181 +165,23 @@ function Chart(props) {
 
   }
 
-  function drawTwitterGraph(twit_data) {}
-
-  function drawStockGraph(stock_data) {}
-
-  async function callAPI() {
-
-    getTwitterData();
-
-
-    // const stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockIds).then(res => res.json())
-    // const twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
-
-    // console.log(stock_data);
-
-    // sometimes twitter api doesn't send all the data
-    // console.log(twit_data)
-
-    // set all dates to make comparisons later easier
-    // var i = 0;
-    // for (i = 0; i < Math.max(stock_data.length, twit_data.length); i++) {
-    //     if (i < stock_data.length) {
-    //         stock_data[i].dateStr = stock_data[i].date
-    //         stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
-    //         stock_data[i].twitterPt = "false";
-    //     }
-    //
-    //     if (i < twit_data.length) {
-    //         twit_data[i].dateStr = twit_data[i].created_at
-    //         twit_data[i].date = twitDateFormat(twit_data[i].created_at).setHours(0,0,0,0);
-    //         twit_data[i].is_max = "false"
-    //     }
-    // }
-
-    // find the most "influential" tweet by elon for each day, by retweets and favorites
-    // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
-    // so we can only display most influential for now
-    // var tw = 0;
-    // console.log(twit_data.length)
-    // while (tw < twit_data.length) {
-    //     var current = twit_data[tw].date;
-    //     var max_tweets = twit_data[tw].retweet_count + twit_data[tw].favorite_count;
-    //     var max_index = tw;
-    //
-    //     tw++;
-    //     if (tw >= twit_data.length) {twit_data[tw-1].is_max = "true"; break;}
-    //
-    //     var next_day = twit_data[tw].date;
-    //     while(current == next_day){
-    //         var sum = twit_data[tw].retweet_count + twit_data[tw].favorite_count
-    //         if (sum > max_tweets){
-    //             max_tweets = sum
-    //             max_index = tw
-    //         }
-    //
-    //         tw++;
-    //         if (tw >= twit_data.length) {break;}
-    //         next_day = twit_data[tw].date;
-    //     }
-    //     twit_data[max_index].is_max = "true";
-    // }
-
-    // add price field to objects in twit data based on stock price of that date
-    // and add dummy stock points for missing dates
-    // var st = 0;
-    // console.log("adding price")
-    // for (tw = 0; tw < twit_data.length; tw++) {
-    //     var t_date = twit_data[tw].date;
-    //     while (st < stock_data.length) {
-    //         var s_date = stock_data[st].date;
-    //         if (t_date === s_date) {
-    //             twit_data[tw].close = stock_data[st].close
-    //             break;
-    //         } else if (t_date < s_date) {
-    //             st++;
-    //         } else {
-    //             // there might not be a stock price for this day
-    //             // insert a point in stocks for that day with previous day's stock price
-    //             stock_data.splice(st, 0, {date: twit_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
-    //             twit_data[tw].close = stock_data[st].close
-    //             break;
-    //         }
-    //     }
-    // }
-    // console.log("done")
-
-    // draw line graph with both datasets
-    // drawLineGraph(stock_data, twit_data)
-  }
-
-  function drawLineGraph(stock_data, twitter_data) {
-
-    var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
+  function drawTwitterGraph(twitter_data, date_scale, price_scale) {
 
     var svg = d3.select("#chart_svg");
-
-    //TODO: find min and max of all the stock data sets
-    const minDate = d3.min(stock_data, function (d) { return (d.date); });
-    const maxDate = d3.max(stock_data, function (d) { return (d.date); });
-    const minPrice = d3.min(stock_data, function (d) { return parseFloat(d.close); });
-    const maxPrice = d3.max(stock_data, function (d) { return parseFloat(d.close); });
 
     //Get the current height and width of the SVG
     const svgwidth = svg.attr("width");
     const svgheight = svg.attr("height");
 
-    const dotSize = 3;
-
-    var dateScale = d3.scaleTime()
-    .domain([minDate, maxDate])
-    .range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
-
-    var priceScale = d3.scaleLinear()
-    .domain([0, maxPrice])
-    .range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
-
-    var currentline = d3.line()
-    .x(function (d) { return dateScale((d.date));  })
-    .y(function (d) { return priceScale(parseFloat(d.close)); })
-
-
-    const yTranslation = svgheight - PADDING.LEFT;
-    const xTranslation = 0 + PADDING.TOP;
-
-    const xAxisX = (svgwidth - xTranslation) / 2;
-    const xAxisY = svgheight - PADDING.BOTTOM / 3;
-
-    const yAxisX = 0 + PADDING.RIGHT / 3;
-    const yAxisY = svgheight - yTranslation / 2;
+    var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 };
 
     const maxLinePoint = svgheight - PADDING.BOTTOM;
     const minLinePoint = 0;
 
     const tooltip = d3.select("#tooltip");
 
-
     if (!props.updateScale && ! props.updateStocks) {
 
-      // svg.append("g") creates an SVG <g> element, short for "group."
-      // It doesn’t draw anything by itself, but serves to group child elements together.
-      svg.append("g")
-      .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
-      .attr("transform", `translate(0, ${yTranslation})`)
-      .attr("class", "xAxis");
-
-      svg.append("g")
-      .call(d3.axisLeft(priceScale))
-      .attr("transform", `translate(${xTranslation}, 0)`)
-      .attr("class", "yAxis");
-
-
-      svg.append("text")
-      .attr("font-size", 14)
-      .attr("font-weight", "bold")
-      .attr("font-family", "Avenir")
-      .attr("x", xAxisX)
-      .attr("y", xAxisY)
-      .text("Date")
-      .attr("class", "xAxisLabel");
-
-      svg.append("text")
-      .attr("font-size", 14) // This code duplication signals that these properties
-      .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
-      .attr("font-family", "Avenir") // way to simplify our directions to you.
-      .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`)
-      .text("Price (USD)")
-      .attr("class", "yAxisLabel");
-
-
-
-      svg.append("path")
-      .data([stock_data])
-      .attr("d", currentline)
-      .attr("class", "chartLine");
-
-      // console.log(twitter_data);
 
 
       svg.selectAll(".twitterData")
@@ -359,9 +201,9 @@ function Chart(props) {
       // .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData")
       .style("stroke-dasharray", ("3, 3"))
-      .attr('x1', function(d) {return dateScale((d.date)); })
+      .attr('x1', function(d) {return date_scale((d.date)); })
       .attr('y1', maxLinePoint)
-      .attr('x2', function(d) {return dateScale((d.date)); })
+      .attr('x2', function(d) {return date_scale((d.date)); })
       .attr('y2', minLinePoint)
       .attr("stroke", "#1EA1F2")
       .attr("fill", "#1EA1F2")
@@ -379,11 +221,11 @@ function Chart(props) {
       .on("mousemove", (mouseEvent, d) => {
         /* Runs when mouse moves inside a dot */
         // var leftOffset = d3.pointer(mouseEvent)[0] + 3
-        var leftOffset = dateScale((d.date)) + 3;
+        var leftOffset = date_scale((d.date)) + 3;
         tooltip.style("left", leftOffset + "px");
 
         // var topOffset = d3.pointer(mouseEvent)[1] + 3
-        var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3;
+        var topOffset = price_scale(parseFloat(d.close)) + PADDING.TOP + 3;
         tooltip.style("top", topOffset + "px");
 
         //TODO: send twitter id to sidebar and display twitter counts in tooltip
@@ -393,6 +235,58 @@ function Chart(props) {
         tooltip.style("opacity", 0);
       });
 
+    }
+
+    if (props.updateScale || props.updateStocks) {
+
+      // remove duplicates of data being drawn
+      d3.selectAll(".twitterData").remove()
+      svg = d3.select("#chart_svg").transition();
+
+      // Update tweet dots
+      svg.selectAll(".twitterData")
+      .duration(1000)
+      // .attr("cx", function(d) {return dateScale((d.date)); })
+      // .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
+      .attr('x1', function(d) {return dateScale((d.date)); })
+      .attr('y1', maxLinePoint)
+      .attr('x2', function(d) {return dateScale((d.date)); })
+      .attr('y2', minLinePoint)
+
+
+    }
+  }
+
+  function drawStockGraph(stock_data, date_scale, price_scale) {
+
+    var svg = d3.select("#chart_svg");
+
+    //Get the current height and width of the SVG
+    const svgwidth = svg.attr("width");
+    const svgheight = svg.attr("height");
+
+    var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 };
+
+    const maxLinePoint = svgheight - PADDING.BOTTOM;
+    const minLinePoint = 0;
+
+    const dotSize = 3;
+
+    const tooltip = d3.select("#tooltip");
+
+
+    var currentline = d3.line()
+    .x(function (d) { return date_scale((d.date));  })
+    .y(function (d) { return price_scale(parseFloat(d.close)); })
+
+
+
+    if (!props.updateScale && ! props.updateStocks) {
+
+      svg.append("path")
+      .data([stock_data])
+      .attr("d", currentline)
+      .attr("class", "chartLine");
 
       var stockData = svg.selectAll(".stockData")
       .data(stock_data)
@@ -400,8 +294,8 @@ function Chart(props) {
       .append("circle")
       .attr("class", "stockData")
       .attr("r", dotSize)
-      .attr("cx", function(d) {return dateScale((d.date)); })
-      .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
+      .attr("cx", function(d) {return date_scale((d.date)); })
+      .attr("cy", function(d) {return price_scale(parseFloat(d.close)); })
       .attr("stroke", "#52C11F")
       .attr("fill", "#52C11F")
       .attr("priceChange", function(d, i) {
@@ -457,11 +351,11 @@ function Chart(props) {
         /* Runs when mouse moves inside a dot */
 
         // var leftOffset = d3.pointer(mouseEvent)[0] + 3
-        var leftOffset = dateScale((d.date)) + 3
+        var leftOffset = date_scale((d.date)) + 3
         tooltip.style("left", leftOffset + "px");
 
         // var topOffset = d3.pointer(mouseEvent)[1] + 3
-        var topOffset = priceScale(parseFloat(d.close)) + PADDING.TOP + 3
+        var topOffset = price_scale(parseFloat(d.close)) + PADDING.TOP + 3
         tooltip.style("top", topOffset + "px");
 
         sendDataToSidebar(d);
@@ -475,12 +369,13 @@ function Chart(props) {
       });
 
     }
+
     if (props.updateScale || props.updateStocks) {
 
       // remove duplicates of data being drawn
       d3.selectAll(".chartLine").remove()
-      d3.selectAll(".twitterData").remove()
       d3.selectAll(".stockData").remove()
+
 
       svg = d3.select("#chart_svg").transition();
 
@@ -489,25 +384,112 @@ function Chart(props) {
       .duration(1000)
       .attr("d", currentline);
 
-      // Update tweet dots
-      svg.selectAll(".twitterData")
-      .duration(1000)
-      // .attr("cx", function(d) {return dateScale((d.date)); })
-      // .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
-      .attr('x1', function(d) {return dateScale((d.date)); })
-      .attr('y1', maxLinePoint)
-      .attr('x2', function(d) {return dateScale((d.date)); })
-      .attr('y2', minLinePoint)
-
-
-
       // Update stock dots
       svg.selectAll(".stockData")
       .duration(1000)
       .attr("cx", function(d) {return dateScale((d.date)); })
       .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
 
+    }
 
+  }
+
+  async function callAPI() {
+
+    getTwitterData();
+
+  }
+
+  function drawLineGraph(stock_data, twitter_data) {
+
+    var PADDING = { TOP: 50, RIGHT: 50, BOTTOM: 50, LEFT: 50 }
+
+    var svg = d3.select("#chart_svg");
+
+    //TODO: find min and max of all the stock data sets
+    const minDate = d3.min(stock_data, function (d) { return (d.date); });
+    const maxDate = d3.max(stock_data, function (d) { return (d.date); });
+    const minPrice = d3.min(stock_data, function (d) { return parseFloat(d.close); });
+    const maxPrice = d3.max(stock_data, function (d) { return parseFloat(d.close); });
+
+    //Get the current height and width of the SVG
+    const svgwidth = svg.attr("width");
+    const svgheight = svg.attr("height");
+
+    // const dotSize = 3;
+
+    var dateScale = d3.scaleTime()
+    .domain([minDate, maxDate])
+    .range([0 + PADDING.LEFT, svgwidth - PADDING.RIGHT]);
+
+    var priceScale = d3.scaleLinear()
+    .domain([0, maxPrice])
+    .range([svgheight - PADDING.TOP, 0 + PADDING.BOTTOM]);
+
+
+    const yTranslation = svgheight - PADDING.LEFT;
+    const xTranslation = 0 + PADDING.TOP;
+
+    const xAxisX = (svgwidth - xTranslation) / 2;
+    const xAxisY = svgheight - PADDING.BOTTOM / 3;
+
+    const yAxisX = 0 + PADDING.RIGHT / 3;
+    const yAxisY = svgheight - yTranslation / 2;
+
+    const maxLinePoint = svgheight - PADDING.BOTTOM;
+    const minLinePoint = 0;
+
+    const tooltip = d3.select("#tooltip");
+
+
+    if (!props.updateScale && ! props.updateStocks) {
+
+      // svg.append("g") creates an SVG <g> element, short for "group."
+      // It doesn’t draw anything by itself, but serves to group child elements together.
+      svg.append("g")
+      .call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
+      .attr("transform", `translate(0, ${yTranslation})`)
+      .attr("class", "xAxis");
+
+      svg.append("g")
+      .call(d3.axisLeft(priceScale))
+      .attr("transform", `translate(${xTranslation}, 0)`)
+      .attr("class", "yAxis");
+
+
+      svg.append("text")
+      .attr("font-size", 14)
+      .attr("font-weight", "bold")
+      .attr("font-family", "Avenir")
+      .attr("x", xAxisX)
+      .attr("y", xAxisY)
+      .text("Date")
+      .attr("class", "xAxisLabel");
+
+      svg.append("text")
+      .attr("font-size", 14) // This code duplication signals that these properties
+      .attr("font-weight", "bold") // should be moved to CSS. For now, the code is this
+      .attr("font-family", "Avenir") // way to simplify our directions to you.
+      .attr("transform", `translate(${yAxisX} ${yAxisY}) rotate(-90)`)
+      .text("Price (USD)")
+      .attr("class", "yAxisLabel");
+
+      drawTwitterGraph(twitter_data, dateScale, priceScale);
+      drawStockGraph(stock_data, dateScale, priceScale);
+
+    }
+    if (props.updateScale || props.updateStocks) {
+
+      drawTwitterGraph(twitter_data, dateScale, priceScale);
+      drawStockGraph(stock_data, dateScale, priceScale);
+
+      // remove duplicates of data being drawn
+      svg.selectAll(".xAxisLabel").remove()
+      svg.selectAll(".yAxisLabel").remove()
+      svg.selectAll(".xAxis").remove()
+      svg.selectAll(".yAxis").remove()
+
+      svg = d3.select("#chart_svg").transition();
 
       // Update axes and labels
       svg.selectAll(".xAxisLabel")
@@ -527,6 +509,8 @@ function Chart(props) {
       .call(d3.axisLeft(priceScale))
       .attr("transform", `translate(${xTranslation}, 0)`);
 
+
+
       props.onChangeUpdateScale(false);
       props.onChangeUpdateStocks(false);
 
@@ -536,23 +520,23 @@ function Chart(props) {
 
 
 
-}
+  }
 
 
-useEffect(() => {
-  drawChart();
-}, [props.updateScale, props.updateStocks]);
+  useEffect(() => {
+    drawChart();
+  }, [props.updateScale, props.updateStocks]);
 
-return (
+  return (
 
-  <div id="fullChart">
+    <div id="fullChart">
 
-    <div id="tooltip" className="tooltip" style={{ "opacity": 0 }}>Hover over a point to start!</div>
-    <svg id="chart_svg" width="1000" height="700"></svg>
+      <div id="tooltip" className="tooltip" style={{ "opacity": 0 }}>Hover over a point to start!</div>
+      <svg id="chart_svg" width="1000" height="700"></svg>
 
-  </div>
+    </div>
 
-);
+  );
 
 
 }
