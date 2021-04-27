@@ -22,8 +22,8 @@ function Layout (props) {
   const [tweetID, setTweetID] = React.useState('1364826301027115008');
 
   const [stockState, setStockState] = React.useState({
-  tsla: false,
-  etsy: true,
+  tsla: true,
+  etsy: false,
   gme: false,
   sigl: false,
   btcusd: false,
@@ -81,10 +81,10 @@ const [updateStocks, shouldUpdateStocks] = useState(false);
         <HeaderBar className="headerbar"/>
         </div>
         <div className="E">
-          <SelectionBar className="selectionbar" onChangeStockState={(e) => { changeStockState(e) }}/>
+          <SelectionBar className="selectionbar" onChangeStockState={(e) => { changeStockState(e) }} onChangeUpdateStocks={(e) => { changeUpdateStocks(e) }}/>
         </div>
         <div className="B">
-        <Chart className="chart" stockState={stockState}  updateStocks={updateStocks} timeScale={timeScale} updateScale={updateScale} onChangeTweetID={(e) => { changeTweetID(e) }} onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }} onChangeUpdateScale={(e) => { changeUpdateScale(e) }} />
+        <Chart className="chart" stockState={stockState}  updateStocks={updateStocks} timeScale={timeScale} updateScale={updateScale} onChangeTweetID={(e) => { changeTweetID(e) }} onChangePrice={(e) => { changePrice(e) }} onChangeDate={(e) => { changeDate(e) }}  onChangePriceYesterday={(e) => { changePriceYesterday(e) }} onChangePriceTweet={(e) => { changePriceTweet(e) }} onChangeUpdateScale={(e) => { changeUpdateScale(e) }} onChangeUpdateStocks={(e) => { changeUpdateStocks(e) }}/>
         </div>
         <div className="C">
         <Scalebar className="scalebar" onChangeTimeScale={(e) => { changeTimeScale(e) }}  onChangeUpdateScale={(e) => { changeUpdateScale(e) }}/>
