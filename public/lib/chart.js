@@ -65,7 +65,7 @@ function Chart(props) {
       var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
 
       console.log(twit_data);
-      getStockData(twit_data, timescale, 'tsla');
+      getStockData(twit_data, timescale, stockIds);
     });
     return _getTwitterData.apply(this, arguments);
   }
@@ -78,8 +78,8 @@ function Chart(props) {
     _getStockData = _asyncToGenerator(function* (twitter_data, timescale, stockSymbols) {
       // const twit_data = twitter_data;
       // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
-      var symbols = ['tsla', 'etsy'];
-      var waiting = symbols.length; // var allSymbolData = [];
+      // var symbols = ['tsla', 'etsy'];
+      var waiting = stockSymbols.length; // var allSymbolData = [];
       // var allSymbolPromises = symbols.map((symbol) => {
       //   return new Promise((resolve) => fetch("http://localhost:9000/stockAPI/" + timescale + "/" + symbol, resolve).then(data => {
       //       allSymbolData.push(data)
@@ -89,7 +89,7 @@ function Chart(props) {
       // Promise.all(allSymbolPromises).then(() => processStockData(allSymbolData, twitter_data));
 
       var allSymbolData = [];
-      symbols.forEach(stockSym => {
+      stockSymbols.forEach(stockSym => {
         fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
           // processStockData()
           allSymbolData.push(data);
@@ -113,12 +113,12 @@ function Chart(props) {
 
   function processStockData(allStockData, twitter_data) {
     // do whatever with allSymbolData
-    console.log(allStockData);
-    console.log(allStockData.length); // allSymbolData.forEach(stock_data => {
+    console.log(allStockData); // console.log(allStockData.length);
+    // allSymbolData.forEach(stock_data => {
 
     for (var i = 0; i < allStockData.length; i++) {
-      var stock_data = allStockData[i];
-      console.log(stock_data); // find the most "influential" tweet by elon for each day, by retweets and favorites
+      var stock_data = allStockData[i]; // console.log(stock_data);
+      // find the most "influential" tweet by elon for each day, by retweets and favorites
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
       // so we can only display most influential for now
 
@@ -165,7 +165,7 @@ function Chart(props) {
         if (i < stock_data.length) {
           stock_data[i].dateStr = stock_data[i].date;
           stock_data[i].date = utcToDate(stock_data[i].date).setHours(0, 0, 0, 0);
-          stock_data[i].twitterPt = "false";
+          stock_data[i].twitterPt = "false"; //TODO: See if lack of twitterPt true is an issue
         }
 
         if (i < twitter_data.length) {
@@ -198,8 +198,9 @@ function Chart(props) {
 
 
       console.log("done");
-    } // drawLineGraph(stock_data, twitter_data);
+    }
 
+    drawLineGraph(allStockData, twitter_data);
   }
 
   function drawTwitterGraph(twitter_data, date_scale, price_scale) {
@@ -266,7 +267,7 @@ function Chart(props) {
     }
   }
 
-  function drawStockGraph(stock_data, date_scale, price_scale) {
+  function drawStockGraph(stock_data, stock_name, date_scale, price_scale) {
     var svg = d3.select("#chart_svg"); //Get the current height and width of the SVG
 
     var svgwidth = svg.attr("width");
@@ -288,8 +289,9 @@ function Chart(props) {
     });
 
     if (!props.updateScale && !props.updateStocks) {
-      svg.append("path").data([stock_data]).attr("d", currentline).attr("class", "chartLine");
-      var stockData = svg.selectAll(".stockData").data(stock_data).enter().append("circle").attr("class", "stockData").attr("r", dotSize).attr("cx", function (d) {
+      svg.append("path").data([stock_data]).attr("d", currentline) // .attr("class", "." + stock_name + "ChartLine");
+      .attr("class", "chartLine");
+      var stockData = svg.selectAll(stock_name + "StockData").data(stock_data).enter().append("circle").attr("class", stock_name + "StockData").attr("r", dotSize).attr("cx", function (d) {
         return date_scale(d.date);
       }).attr("cy", function (d) {
         return price_scale(parseFloat(d.close));
@@ -352,13 +354,15 @@ function Chart(props) {
 
     if (props.updateScale || props.updateStocks) {
       // remove duplicates of data being drawn
-      d3.selectAll(".chartLine").remove();
-      d3.selectAll(".stockData").remove();
+      // d3.selectAll("." + stock_name + "ChartLine").remove()
+      d3.selectAll("chartLine").remove();
+      d3.selectAll(stock_name + "StockData").remove();
       svg = d3.select("#chart_svg").transition(); // Update lines
+      // svg.selectAll("." + stock_name + "ChartLine")
 
-      svg.selectAll(".chartLine").duration(1000).attr("d", currentline); // Update stock dots
+      svg.selectAll("chartLine").duration(1000).attr("d", currentline); // Update stock dots
 
-      svg.selectAll(".stockData").duration(1000).attr("cx", function (d) {
+      svg.selectAll(stock_name + "StockData").duration(1000).attr("cx", function (d) {
         return dateScale(d.date);
       }).attr("cy", function (d) {
         return priceScale(parseFloat(d.close));
@@ -386,17 +390,47 @@ function Chart(props) {
     };
     var svg = d3.select("#chart_svg"); //TODO: find min and max of all the stock data sets
 
-    var minDate = d3.min(stock_data, function (d) {
+    var minDate = d3.min(stock_data[0], function (d) {
       return d.date;
     });
-    var maxDate = d3.max(stock_data, function (d) {
+    var maxDate = d3.max(stock_data[0], function (d) {
       return d.date;
     });
-    var minPrice = d3.min(stock_data, function (d) {
+    var minPrice = d3.min(stock_data[0], function (d) {
       return parseFloat(d.close);
     });
-    var maxPrice = d3.max(stock_data, function (d) {
+    var maxPrice = d3.max(stock_data[0], function (d) {
       return parseFloat(d.close);
+    });
+    stock_data.forEach(stock => {
+      var currMinDate = d3.min(stock, function (d) {
+        return d.date;
+      });
+      var currMaxDate = d3.max(stock, function (d) {
+        return d.date;
+      });
+      var currMinPrice = d3.min(stock, function (d) {
+        return parseFloat(d.close);
+      });
+      var currMaxPrice = d3.max(stock, function (d) {
+        return parseFloat(d.close);
+      });
+
+      if (currMinDate < minDate) {
+        minDate = currMinDate;
+      }
+
+      if (currMaxDate > maxDate) {
+        maxDate = currMaxDate;
+      }
+
+      if (currMinPrice < minPrice) {
+        minPrice = currMinPrice;
+      }
+
+      if (currMaxPrice > maxPrice) {
+        maxPrice = currMaxPrice;
+      }
     }); //Get the current height and width of the SVG
 
     var svgwidth = svg.attr("width");
@@ -448,7 +482,10 @@ function Chart(props) {
     }
 
     drawTwitterGraph(twitter_data, dateScale, priceScale);
-    drawStockGraph(stock_data, dateScale, priceScale);
+    stock_data.forEach(stock => {
+      var stockName = stock[0].symbol;
+      drawStockGraph(stock, stockName, dateScale, priceScale);
+    });
   }
 
   useEffect(() => {
