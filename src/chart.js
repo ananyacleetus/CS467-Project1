@@ -177,6 +177,7 @@ function Chart(props) {
         if (i < stock_data.length) {
           stock_data[i].dateStr = stock_data[i].date
           stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
+          // console.log(stock_data[i].date);
           stock_data[i].twitterPt = "false";
 
           //TODO: See if lack of twitterPt true is an issue
@@ -188,30 +189,35 @@ function Chart(props) {
           twitter_data[i].is_max = "false"
         }
       }
+      // 
+      // // add price field to objects in twit data based on stock price of that date
+      // // and add dummy stock points for missing dates
+      // var st = 0;
+      // console.log("adding price")
+      // for (tw = 0; tw < twitter_data.length; tw++) {
+      //   var t_date = twitter_data[tw].date;
+      //   while (st < stock_data.length) {
+      //     var s_date = stock_data[st].date;
+      //     if (t_date === s_date) {
+      //       twitter_data[tw].close = stock_data[st].close
+      //       break;
+      //     } else if (t_date < s_date) {
+      //       st++;
+      //     } else {
+      //       // there might not be a stock price for this day
+      //       // insert a point in stocks for that day with previous day's stock price
+      //       stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
+      //       twitter_data[tw].close = stock_data[st].close
+      //       break;
+      //     }
+      //   }
+      // }
 
-      // add price field to objects in twit data based on stock price of that date
-      // and add dummy stock points for missing dates
-      var st = 0;
-      console.log("adding price")
-      for (tw = 0; tw < twitter_data.length; tw++) {
-        var t_date = twitter_data[tw].date;
-        while (st < stock_data.length) {
-          var s_date = stock_data[st].date;
-          if (t_date === s_date) {
-            twitter_data[tw].close = stock_data[st].close
-            break;
-          } else if (t_date < s_date) {
-            st++;
-          } else {
-            // there might not be a stock price for this day
-            // insert a point in stocks for that day with previous day's stock price
-            stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
-            twitter_data[tw].close = stock_data[st].close
-            break;
-          }
-        }
-      }
       console.log("done");
+
+      // for (var i = 0; i < stock_data.length; i++) {
+      //   console.log(stock_data[i].date);
+      // }
     }
     drawLineGraph(allStockData, twitter_data);
 
@@ -311,6 +317,10 @@ function Chart(props) {
 
   function drawStockGraph(stock_data, stock_name, date_scale, price_scale) {
 
+    for (var i = 0; i < stock_data.length; i++) {
+      console.log(stock_data[i].date);
+    }
+
     var svg = d3.select("#chart_svg");
 
     //Get the current height and width of the SVG
@@ -329,7 +339,7 @@ function Chart(props) {
 
     var currentline = d3.line()
     // .x(function (d) { console.log(date_scale((d.date))); return date_scale((d.date));  })
-    .x(function (d) { console.log(d.date); return date_scale((d.date));  })
+    .x(function (d) { return date_scale((d.date));  })
     .y(function (d) { return price_scale(parseFloat(d.close)); })
     // .y(function (d) { console.log(price_scale(parseFloat(d.close))); return price_scale(parseFloat(d.close)); })
 
