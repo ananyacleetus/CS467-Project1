@@ -19,6 +19,9 @@ function Chart(props) {
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   const utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
+  const DateToUTC = d3.utcFormat("%Y-%m-%dT%H:%M:%S.%LZ");
+
+  // const utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S%Z");
 
   // %a - abbrevieated weekday name
   // %b - abbreviated month name
@@ -34,7 +37,21 @@ function Chart(props) {
 
     // props.onChangeDate(twitDateFormat(d.created_at).toString());
 
-    props.onChangeDate(utcToDate(d.dateStr).toString());
+    var date;
+
+    if (isNaN(d.date)) {
+      // date = utcToDate(d.date).toString();
+      date = d.date.toString();
+    }
+    else {
+      // date = d.date.toString();
+      date = DateToUTC(d.date).toString();
+
+    }
+
+    // props.onChangeDate(utcToDate(d.dateStr).toString());
+    props.onChangeDate(date);
+
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
 
 
@@ -189,7 +206,7 @@ function Chart(props) {
           twitter_data[i].is_max = "false"
         }
       }
-      // 
+      //
       // // add price field to objects in twit data based on stock price of that date
       // // and add dummy stock points for missing dates
       // var st = 0;
@@ -259,7 +276,16 @@ function Chart(props) {
       // .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData")
       .style("stroke-dasharray", ("3, 3"))
-      .attr('x1', function(d) {return date_scale((d.date)); })
+      .attr('x1', function(d) {
+
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        }
+        else {
+        return date_scale((d.date));
+        }
+
+      })
       .attr('y1', maxLinePoint)
       .attr('x2', function(d) {return date_scale((d.date)); })
       .attr('y2', minLinePoint)
@@ -317,9 +343,9 @@ function Chart(props) {
 
   function drawStockGraph(stock_data, stock_name, date_scale, price_scale) {
 
-    for (var i = 0; i < stock_data.length; i++) {
-      console.log(stock_data[i].date);
-    }
+    // for (var i = 0; i < stock_data.length; i++) {
+    //   console.log(stock_data[i].date);
+    // }
 
     var svg = d3.select("#chart_svg");
 
@@ -339,7 +365,17 @@ function Chart(props) {
 
     var currentline = d3.line()
     // .x(function (d) { console.log(date_scale((d.date))); return date_scale((d.date));  })
-    .x(function (d) { return date_scale((d.date));  })
+    .x(function (d) {
+      //console.log(d.date);
+
+      if (isNaN(d.date)) {
+        return date_scale(utcToDate(d.date));
+      }
+      else {
+      return date_scale((d.date));
+      }
+    })
+    // .x(function (d) { return date_scale((d.date));  })
     .y(function (d) { return price_scale(parseFloat(d.close)); })
     // .y(function (d) { console.log(price_scale(parseFloat(d.close))); return price_scale(parseFloat(d.close)); })
 
@@ -360,7 +396,15 @@ function Chart(props) {
       .append("circle")
       .attr("class", stock_name + "StockData")
       .attr("r", dotSize)
-      .attr("cx", function(d) {return date_scale((d.date)); })
+      .attr("cx", function(d) {
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        }
+        else {
+        return date_scale((d.date));
+        }
+
+      })
       .attr("cy", function(d) {return price_scale(parseFloat(d.close)); })
       .attr("stroke", "#52C11F")
       .attr("fill", "#52C11F")
@@ -405,7 +449,20 @@ function Chart(props) {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
 
         tooltip.style("opacity", 1);
-        tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + (d.dateStr));
+
+        var printDate;
+
+        if (isNaN(d.date)) {
+          // date = utcToDate(d.date).toString();
+          printDate = d.date.toString();
+        }
+        else {
+          // date = d.date.toString();
+          printDate = DateToUTC(d.date).toString();
+
+        }
+
+        tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + printDate);
 
         sendDataToSidebar(d);
         setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
@@ -457,7 +514,16 @@ function Chart(props) {
       // Update stock dots
       svg.selectAll(stock_name + "StockData")
       .duration(1000)
-      .attr("cx", function(d) {return dateScale((d.date)); })
+      .attr("cx", function(d) {
+
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        }
+        else {
+        return date_scale((d.date));
+        }
+
+      })
       .attr("cy", function(d) { return priceScale(parseFloat(d.close)); });
 
     }

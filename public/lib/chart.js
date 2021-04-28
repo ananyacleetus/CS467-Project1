@@ -17,7 +17,9 @@ function Chart(props) {
   // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
-  var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ"); // %a - abbrevieated weekday name
+  var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
+  var DateToUTC = d3.utcFormat("%Y-%m-%dT%H:%M:%S.%LZ"); // const utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S%Z");
+  // %a - abbrevieated weekday name
   // %b - abbreviated month name
   // - day as number
   // -
@@ -28,7 +30,18 @@ function Chart(props) {
 
   var sendDataToSidebar = d => {
     // props.onChangeDate(twitDateFormat(d.created_at).toString());
-    props.onChangeDate(utcToDate(d.dateStr).toString());
+    var date;
+
+    if (isNaN(d.date)) {
+      // date = utcToDate(d.date).toString();
+      date = d.date.toString();
+    } else {
+      // date = d.date.toString();
+      date = DateToUTC(d.date).toString();
+    } // props.onChangeDate(utcToDate(d.dateStr).toString());
+
+
+    props.onChangeDate(date);
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
   };
 
@@ -175,7 +188,7 @@ function Chart(props) {
           twitter_data[i].date = twitDateFormat(twitter_data[i].created_at).setHours(0, 0, 0, 0);
           twitter_data[i].is_max = "false";
         }
-      } // 
+      } //
       // // add price field to objects in twit data based on stock price of that date
       // // and add dummy stock points for missing dates
       // var st = 0;
@@ -234,7 +247,11 @@ function Chart(props) {
       .append("line") //TODO: investigate why this is a breaking change
       // .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData").style("stroke-dasharray", "3, 3").attr('x1', function (d) {
-        return date_scale(d.date);
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        } else {
+          return date_scale(d.date);
+        }
       }).attr('y1', maxLinePoint).attr('x2', function (d) {
         return date_scale(d.date);
       }).attr('y2', minLinePoint).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
@@ -273,10 +290,9 @@ function Chart(props) {
   }
 
   function drawStockGraph(stock_data, stock_name, date_scale, price_scale) {
-    for (var i = 0; i < stock_data.length; i++) {
-      console.log(stock_data[i].date);
-    }
-
+    // for (var i = 0; i < stock_data.length; i++) {
+    //   console.log(stock_data[i].date);
+    // }
     var svg = d3.select("#chart_svg"); //Get the current height and width of the SVG
 
     var svgwidth = svg.attr("width");
@@ -293,8 +309,14 @@ function Chart(props) {
     var tooltip = d3.select("#tooltip");
     var currentline = d3.line() // .x(function (d) { console.log(date_scale((d.date))); return date_scale((d.date));  })
     .x(function (d) {
-      return date_scale(d.date);
-    }).y(function (d) {
+      //console.log(d.date);
+      if (isNaN(d.date)) {
+        return date_scale(utcToDate(d.date));
+      } else {
+        return date_scale(d.date);
+      }
+    }) // .x(function (d) { return date_scale((d.date));  })
+    .y(function (d) {
       return price_scale(parseFloat(d.close));
     }); // .y(function (d) { console.log(price_scale(parseFloat(d.close))); return price_scale(parseFloat(d.close)); })
 
@@ -302,7 +324,11 @@ function Chart(props) {
       svg.append("path").data([stock_data]).attr("d", currentline).attr("class", stock_name + "ChartLine"); // .attr("class", "chartLine");
 
       var stockData = svg.selectAll(stock_name + "StockData").data(stock_data).enter().append("circle").attr("class", stock_name + "StockData").attr("r", dotSize).attr("cx", function (d) {
-        return date_scale(d.date);
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        } else {
+          return date_scale(d.date);
+        }
       }).attr("cy", function (d) {
         return price_scale(parseFloat(d.close));
       }).attr("stroke", "#52C11F").attr("fill", "#52C11F").attr("priceChange", function (d, i) {
@@ -342,7 +368,17 @@ function Chart(props) {
       stockData.on("mouseover", function (mouseEvent, d, i) {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
         tooltip.style("opacity", 1);
-        tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + d.dateStr);
+        var printDate;
+
+        if (isNaN(d.date)) {
+          // date = utcToDate(d.date).toString();
+          printDate = d.date.toString();
+        } else {
+          // date = d.date.toString();
+          printDate = DateToUTC(d.date).toString();
+        }
+
+        tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + printDate);
         sendDataToSidebar(d);
         setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
         setChangePriceTweetDataToSidebar(d3.select(this).attr("priceChangeTweet"));
@@ -375,7 +411,11 @@ function Chart(props) {
       svg.selectAll(stock_name + "ChartLine").duration(1000).attr("d", currentline); // Update stock dots
 
       svg.selectAll(stock_name + "StockData").duration(1000).attr("cx", function (d) {
-        return dateScale(d.date);
+        if (isNaN(d.date)) {
+          return date_scale(utcToDate(d.date));
+        } else {
+          return date_scale(d.date);
+        }
       }).attr("cy", function (d) {
         return priceScale(parseFloat(d.close));
       });
