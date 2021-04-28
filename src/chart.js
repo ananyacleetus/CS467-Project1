@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { utcParse } from "d3";
 import React, { useState, useEffect } from "react";
+import chroma from "chroma-js";
 // import fs from "fs";
 
 //stylesheet
@@ -266,9 +267,10 @@ function Chart(props) {
     var minEngagement = d3.min(twitter_data, d => d.totalTweets);
     var maxEngagement = d3.max(twitter_data, d => d.totalTweets);
 
-
-    console.log(minEngagement);
-    console.log(maxEngagement);
+    var colorScale = chroma.scale(['green','yellow', 'orange']).domain([minEngagement,maxEngagement]);
+    //
+    // console.log(minEngagement);
+    // console.log(maxEngagement);
 
     if (!props.updateScale && ! props.updateStocks) {
 
@@ -305,8 +307,15 @@ function Chart(props) {
       .attr('y1', maxLinePoint)
       .attr('x2', function(d) {return date_scale((d.date)); })
       .attr('y2', minLinePoint)
-      .attr("stroke", "#1EA1F2")
-      .attr("fill", "#1EA1F2")
+
+      .attr("stroke", function(d) {
+        return colorScale(d.totalTweets);
+      })
+      .attr("fill", function(d) {
+        return colorScale(d.totalTweets);
+      })
+      // .attr("stroke", "#1EA1F2")
+      // .attr("fill", "#1EA1F2")
       .on("mouseover", (mouseEvent, d) => {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
 
@@ -422,8 +431,6 @@ function Chart(props) {
 
       })
       .attr("cy", function(d) {return price_scale(parseFloat(d.close)); })
-      .attr("stroke", "#52C11F")
-      .attr("fill", "#52C11F")
       .attr("priceChange", function(d, i) {
 
         if (i != 0 && i + 1 < stock_data.length) {

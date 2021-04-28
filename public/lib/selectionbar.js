@@ -59,28 +59,32 @@ function SelectionBar(props) {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: tsla,
       onChange: handleChange,
-      name: "tsla"
+      name: "tsla",
+      className: "tslaBox"
     }),
     label: "TSLA"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: etsy,
       onChange: handleChange,
-      name: "etsy"
+      name: "etsy",
+      className: "etsyBox"
     }),
     label: "ETSY"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: gme,
       onChange: handleChange,
-      name: "gme"
+      name: "gme",
+      className: "gmeBox"
     }),
     label: "GME"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: sigl,
       onChange: handleChange,
-      name: "sigl"
+      name: "sigl",
+      className: "siglBox"
     }),
     label: "SIGL"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));

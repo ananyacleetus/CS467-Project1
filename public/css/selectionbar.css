@@ -27,3 +27,23 @@ html {
   height: 30px !important;
   width: 30px !important;
 }
+
+.MuiCheckbox-colorSecondary.Mui-checked.tslaBox{
+    color: #F72585 !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.etsyBox{
+    color: #7209B7 !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.gmeBox{
+    color: #4895EF !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.siglBox{
+    color: #EF233C !important;
+
+}

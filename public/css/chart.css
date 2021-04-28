@@ -28,30 +28,30 @@ html {
 }
 
 .tslaStockData {
-  fill: #FF0000;
-  stroke: #FF0000;
+  fill: #F72585 !important;
+  stroke: #F72585 !important;
 }
 
 .etsyStockData {
-  fill: #00FF00;
-  stroke: #00FF00;
+  fill: #7209B7 !important;
+  stroke: #7209B7 !important;
 }
 
 
 .gmeStockData {
-  fill: #0000FF;
-  stroke: #0000FF;
+  fill: #4895EF !important;
+  stroke: #4895EF !important;
 }
 
 
 .siglStockData {
-  fill: #FFFF00;
-  stroke: #FFFF00;
+  fill: #EF233C !important;
+  stroke: #EF233C !important;
 }
 
 .btcusdStockData {
-  fill: #0F0F0F;
-  stroke: #0F0F0F;
+  fill: #0F0F0F !important;
+  stroke: #0F0F0F !important;
 }
 
 
