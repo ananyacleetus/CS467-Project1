@@ -83,13 +83,6 @@ function SelectionBar(props) {
       name: "sigl"
     }),
     label: "SIGL"
-  }), /*#__PURE__*/React.createElement(FormControlLabel, {
-    control: /*#__PURE__*/React.createElement(Checkbox, {
-      checked: btcusd,
-      onChange: handleChange,
-      name: "btcusd"
-    }),
-    label: "BTCUSD"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
 }
 

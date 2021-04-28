@@ -61,10 +61,7 @@ const handleChange = (event) => {
                 control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" />}
                 label="SIGL"
               />
-              <FormControlLabel
-                control={<Checkbox checked={btcusd} onChange={handleChange} name="btcusd" />}
-                label="BTCUSD"
-              />
+              
             </FormGroup>
             <FormHelperText>Please select at least one option</FormHelperText>
           </FormControl>

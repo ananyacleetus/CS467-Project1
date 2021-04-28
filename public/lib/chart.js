@@ -79,6 +79,7 @@ function Chart(props) {
       // const twit_data = twitter_data;
       // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
       // var symbols = ['tsla', 'etsy'];
+      // stockSymbols = ['tsla', 'etsy', 'gme', 'sigl'];
       var waiting = stockSymbols.length; // var allSymbolData = [];
       // var allSymbolPromises = symbols.map((symbol) => {
       //   return new Promise((resolve) => fetch("http://localhost:9000/stockAPI/" + timescale + "/" + symbol, resolve).then(data => {
@@ -482,8 +483,6 @@ function Chart(props) {
     }
 
     if (props.updateScale || props.updateStocks) {
-      // drawTwitterGraph(twitter_data, dateScale, priceScale);
-      // drawStockGraph(stock_data, dateScale, priceScale);
       svg = d3.select("#chart_svg").transition(); // remove duplicates of data being drawn
 
       svg.selectAll(".xAxisLabel").remove();
@@ -495,7 +494,8 @@ function Chart(props) {
       svg.selectAll(".yAxisLabel").attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)"));
       svg.selectAll(".xAxis").duration(1000).call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
       .attr("transform", "translate(0, ".concat(yTranslation, ")"));
-      svg.selectAll(".yAxis").duration(1000).call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
+      svg.selectAll(".yAxis").duration(1000).call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)")); //redraw twitter graph -- since there is only one set of data, this function handles its own .remove
+
       drawTwitterGraph(twitter_data, dateScale, priceScale); //removes all prior chart lines and stock data before redrawing them in the foreach loop
 
       d3.selectAll("[class$='ChartLine']").remove();

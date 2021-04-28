@@ -91,6 +91,7 @@ function Chart(props) {
     // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
 
     // var symbols = ['tsla', 'etsy'];
+    // stockSymbols = ['tsla', 'etsy', 'gme', 'sigl'];
 
     let waiting = stockSymbols.length;
     // var allSymbolData = [];
@@ -574,9 +575,6 @@ function Chart(props) {
     }
     if (props.updateScale || props.updateStocks) {
 
-      // drawTwitterGraph(twitter_data, dateScale, priceScale);
-      // drawStockGraph(stock_data, dateScale, priceScale);
-
       svg = d3.select("#chart_svg").transition();
 
       // remove duplicates of data being drawn
@@ -604,6 +602,7 @@ function Chart(props) {
       .call(d3.axisLeft(priceScale))
       .attr("transform", `translate(${xTranslation}, 0)`);
 
+      //redraw twitter graph -- since there is only one set of data, this function handles its own .remove
       drawTwitterGraph(twitter_data, dateScale, priceScale);
 
       //removes all prior chart lines and stock data before redrawing them in the foreach loop
