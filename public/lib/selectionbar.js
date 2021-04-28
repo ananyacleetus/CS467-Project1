@@ -20,8 +20,8 @@ import "..//css/selectionbar.css";
 
 function SelectionBar(props) {
   var [stockState, setStockState] = React.useState({
-    tsla: false,
-    etsy: true,
+    tsla: true,
+    etsy: false,
     gme: false,
     sigl: false,
     btcusd: false
@@ -83,13 +83,6 @@ function SelectionBar(props) {
       name: "sigl"
     }),
     label: "SIGL"
-  }), /*#__PURE__*/React.createElement(FormControlLabel, {
-    control: /*#__PURE__*/React.createElement(Checkbox, {
-      checked: btcusd,
-      onChange: handleChange,
-      name: "btcusd"
-    }),
-    label: "BTCUSD"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
 }
 

@@ -52,19 +52,22 @@ router.param("stockId", (req, res, next, id) => {
     // console.log(id)
     // stockStr = id.toUpperCase();
     stockStr = id;
+    if (id === "btcusd") {
+      stockStr = "btc-usd";
+    }
     next();
 })
 
 router.get("/:timescale/:stockId", function(req, res, next) {
     console.log(toStr);
     console.log(fromStr);
-    console.log("stocksssss");
+    // console.log("stocksssss");
     console.log(stockStr);
-    var stockArr = stockStr.split(',');
-    stockArr = ['etsy', 'tsla'];
-    console.log(stockArr);
+    // var stockArr = stockStr.split(',');
+    // stockArr = ['etsy', 'tsla'];
+    // console.log(stockArr);
     yahooFinance.historical({
-        symbol: stockArr,
+        symbol: stockStr,
         from: fromStr,
         to: toStr,
         // period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only)

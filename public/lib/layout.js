@@ -17,8 +17,8 @@ function Layout(props) {
   var [updateScale, shouldUpdateScale] = useState(false);
   var [tweetID, setTweetID] = React.useState('1364826301027115008');
   var [stockState, setStockState] = React.useState({
-    tsla: false,
-    etsy: true,
+    tsla: true,
+    etsy: false,
     gme: false,
     sigl: false,
     btcusd: false
@@ -75,6 +75,9 @@ function Layout(props) {
     className: "selectionbar",
     onChangeStockState: e => {
       changeStockState(e);
+    },
+    onChangeUpdateStocks: e => {
+      changeUpdateStocks(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "B"
@@ -101,6 +104,9 @@ function Layout(props) {
     },
     onChangeUpdateScale: e => {
       changeUpdateScale(e);
+    },
+    onChangeUpdateStocks: e => {
+      changeUpdateStocks(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"

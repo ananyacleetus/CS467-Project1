@@ -21,8 +21,8 @@ import "..//css/selectionbar.css";
 function SelectionBar(props) {
 
   const [stockState, setStockState] = React.useState({
-  tsla: false,
-  etsy: true,
+  tsla: true,
+  etsy: false,
   gme: false,
   sigl: false,
   btcusd: false,
@@ -61,10 +61,7 @@ const handleChange = (event) => {
                 control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" />}
                 label="SIGL"
               />
-              <FormControlLabel
-                control={<Checkbox checked={btcusd} onChange={handleChange} name="btcusd" />}
-                label="BTCUSD"
-              />
+              
             </FormGroup>
             <FormHelperText>Please select at least one option</FormHelperText>
           </FormControl>
