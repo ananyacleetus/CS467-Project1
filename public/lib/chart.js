@@ -189,30 +189,38 @@ function Chart(props) {
           twitter_data[i].date = twitDateFormat(twitter_data[i].created_at).setHours(0, 0, 0, 0);
           twitter_data[i].is_max = "false";
         }
-      } //
-      // // add price field to objects in twit data based on stock price of that date
-      // // and add dummy stock points for missing dates
-      // var st = 0;
-      // console.log("adding price")
-      // for (tw = 0; tw < twitter_data.length; tw++) {
-      //   var t_date = twitter_data[tw].date;
-      //   while (st < stock_data.length) {
-      //     var s_date = stock_data[st].date;
-      //     if (t_date === s_date) {
-      //       twitter_data[tw].close = stock_data[st].close
-      //       break;
-      //     } else if (t_date < s_date) {
-      //       st++;
-      //     } else {
-      //       // there might not be a stock price for this day
-      //       // insert a point in stocks for that day with previous day's stock price
-      //       stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
-      //       twitter_data[tw].close = stock_data[st].close
-      //       break;
-      //     }
-      //   }
-      // }
+      } // add price field to objects in twit data based on stock price of that date
+      // and add dummy stock points for missing dates
 
+
+      var st = 0;
+      console.log("adding price");
+
+      for (tw = 0; tw < twitter_data.length; tw++) {
+        var t_date = twitter_data[tw].date;
+
+        while (st < stock_data.length) {
+          var s_date = stock_data[st].date;
+
+          if (t_date === s_date) {
+            twitter_data[tw].close = stock_data[st].close;
+            break;
+          } else if (t_date < s_date) {
+            st++;
+          } else {
+            // there might not be a stock price for this day
+            // insert a point in stocks for that day with previous day's stock price
+            stock_data.splice(st, 0, {
+              date: twitter_data[tw].date,
+              dateStr: stock_data[st].dateStr,
+              close: stock_data[st].close,
+              twitterPt: "true"
+            });
+            twitter_data[tw].close = stock_data[st].close;
+            break;
+          }
+        }
+      }
 
       console.log("done"); // for (var i = 0; i < stock_data.length; i++) {
       //   console.log(stock_data[i].date);
