@@ -577,13 +577,14 @@ function Chart(props) {
       // drawTwitterGraph(twitter_data, dateScale, priceScale);
       // drawStockGraph(stock_data, dateScale, priceScale);
 
+      svg = d3.select("#chart_svg").transition();
+
       // remove duplicates of data being drawn
       svg.selectAll(".xAxisLabel").remove()
       svg.selectAll(".yAxisLabel").remove()
       svg.selectAll(".xAxis").remove()
       svg.selectAll(".yAxis").remove()
 
-      svg = d3.select("#chart_svg").transition();
 
       // Update axes and labels
       svg.selectAll(".xAxisLabel")
@@ -603,10 +604,11 @@ function Chart(props) {
       .call(d3.axisLeft(priceScale))
       .attr("transform", `translate(${xTranslation}, 0)`);
 
+      drawTwitterGraph(twitter_data, dateScale, priceScale);
+
+      //removes all prior chart lines and stock data before redrawing them in the foreach loop
       d3.selectAll("[class$='ChartLine']").remove()
       d3.selectAll("[class$='StockData']").remove()
-
-      drawTwitterGraph(twitter_data, dateScale, priceScale);
 
       stock_data.forEach(stock => {
 
