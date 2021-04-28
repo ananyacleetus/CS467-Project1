@@ -133,7 +133,10 @@ function Chart(props) {
 
     for (var i = 0; i < allStockData.length; i++) {
       var stock_data = allStockData[i]; // console.log(stock_data);
-      // find the most "influential" tweet by elon for each day, by retweets and favorites
+
+      twitter_data.forEach(td => {
+        td.totalTweets = td.retweet_count + td.favorite_count;
+      }); // find the most "influential" tweet by elon for each day, by retweets and favorites
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
       // so we can only display most influential for now
 
@@ -244,6 +247,10 @@ function Chart(props) {
     var maxLinePoint = svgheight - PADDING.BOTTOM;
     var minLinePoint = 0;
     var tooltip = d3.select("#tooltip");
+    var minEngagement = d3.min(twitter_data, d => d.totalTweets);
+    var maxEngagement = d3.max(twitter_data, d => d.totalTweets);
+    console.log(minEngagement);
+    console.log(maxEngagement);
 
     if (!props.updateScale && !props.updateStocks) {
       svg.selectAll(".twitterData").data(twitter_data).enter() //TWITTER DOTS

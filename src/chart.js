@@ -163,6 +163,9 @@ function Chart(props) {
 
       // console.log(stock_data);
 
+    twitter_data.forEach(td => {
+      td.totalTweets = td.retweet_count + td.favorite_count;
+    })
 
       // find the most "influential" tweet by elon for each day, by retweets and favorites
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
@@ -179,7 +182,7 @@ function Chart(props) {
 
         var next_day = twitter_data[tw].date;
         while(current == next_day){
-          var sum = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count
+          var sum = twitter_data[tw].retweet_count + twitter_data[tw].favorite_count;
           if (sum > max_tweets){
             max_tweets = sum
             max_index = tw
@@ -258,6 +261,14 @@ function Chart(props) {
     const minLinePoint = 0;
 
     const tooltip = d3.select("#tooltip");
+
+
+    var minEngagement = d3.min(twitter_data, d => d.totalTweets);
+    var maxEngagement = d3.max(twitter_data, d => d.totalTweets);
+
+
+    console.log(minEngagement);
+    console.log(maxEngagement);
 
     if (!props.updateScale && ! props.updateStocks) {
 
