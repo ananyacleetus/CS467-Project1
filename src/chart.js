@@ -280,6 +280,7 @@ function Chart(props) {
       // .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData")
       .style("stroke-dasharray", ("3, 3"))
+      .style("stroke-width", 5)
       .attr('x1', function(d) {
 
         if (isNaN(d.date)) {
@@ -299,8 +300,8 @@ function Chart(props) {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
 
         tooltip.style("opacity", 1);
-        tooltip.text(d.text);
-
+        // tooltip.text(d.text);
+        tooltip.html(d.text + "<br>" + "Retweets: " + d.retweet_count.toString() + "<br>" + "Favorites: " + d.favorite_count.toString());
 
         //TODO: send twitter id to sidebar and display twitter counts in tooltip
         sendTweetDataToSidebar(d);

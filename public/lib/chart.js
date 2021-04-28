@@ -255,7 +255,7 @@ function Chart(props) {
       // .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
       .append("line") //TODO: investigate why this is a breaking change
       // .filter(function (d) {return d.is_max == "true"})
-      .attr("class", "twitterData").style("stroke-dasharray", "3, 3").attr('x1', function (d) {
+      .attr("class", "twitterData").style("stroke-dasharray", "3, 3").style("stroke-width", 5).attr('x1', function (d) {
         if (isNaN(d.date)) {
           return date_scale(utcToDate(d.date));
         } else {
@@ -265,8 +265,9 @@ function Chart(props) {
         return date_scale(d.date);
       }).attr('y2', minLinePoint).attr("stroke", "#1EA1F2").attr("fill", "#1EA1F2").on("mouseover", (mouseEvent, d) => {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
-        tooltip.style("opacity", 1);
-        tooltip.text(d.text); //TODO: send twitter id to sidebar and display twitter counts in tooltip
+        tooltip.style("opacity", 1); // tooltip.text(d.text);
+
+        tooltip.html(d.text + "<br>" + "Retweets: " + d.retweet_count.toString() + "<br>" + "Favorites: " + d.favorite_count.toString()); //TODO: send twitter id to sidebar and display twitter counts in tooltip
 
         sendTweetDataToSidebar(d);
       }).on("mousemove", (mouseEvent, d) => {
