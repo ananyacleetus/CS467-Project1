@@ -33,6 +33,7 @@
     "bootstrap": "^4.6.0",
     "braces": "^3.0.2",
     "chokidar": "^3.5.1",
+    "chroma-js": "^2.1.1",
     "core-js": "^2.6.12",
     "d3-format": "^2.0.0",
     "fsevents": "^2.3.2",

@@ -46,22 +46,22 @@ const handleChange = (event) => {
             <FormLabel component="legend">Select stock(s)</FormLabel>
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox checked={tsla} onChange={handleChange} name="tsla" />}
+                control={<Checkbox checked={tsla} onChange={handleChange} name="tsla" className="tslaBox"/>}
                 label="TSLA"
               />
               <FormControlLabel
-                control={<Checkbox checked={etsy} onChange={handleChange} name="etsy" />}
+                control={<Checkbox checked={etsy} onChange={handleChange} name="etsy" className="etsyBox"/>}
                 label="ETSY"
               />
               <FormControlLabel
-                control={<Checkbox checked={gme} onChange={handleChange} name="gme" />}
+                control={<Checkbox checked={gme} onChange={handleChange} name="gme" className="gmeBox"/>}
                 label="GME"
               />
               <FormControlLabel
-                control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" />}
+                control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" className="siglBox"/>}
                 label="SIGL"
               />
-              
+
             </FormGroup>
             <FormHelperText>Please select at least one option</FormHelperText>
           </FormControl>
