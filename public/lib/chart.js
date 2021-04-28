@@ -79,13 +79,34 @@ function Chart(props) {
       // const twit_data = twitter_data;
       // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
       var symbols = ['tsla', 'etsy'];
+      var waiting = symbols.length; // var allSymbolData = [];
+      // var allSymbolPromises = symbols.map((symbol) => {
+      //   return new Promise((resolve) => fetch("http://localhost:9000/stockAPI/" + timescale + "/" + symbol, resolve).then(data => {
+      //       allSymbolData.push(data)
+      //     }).catch(e => console.log(e)));
+      // });
+      //
+      // Promise.all(allSymbolPromises).then(() => processStockData(allSymbolData, twitter_data));
+
       var allSymbolData = [];
       symbols.forEach(stockSym => {
         fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
+          // processStockData()
           allSymbolData.push(data);
+          waiting--;
+
+          if (waiting === 0) {
+            processStockData(allSymbolData, twitter_data);
+          } // console.log(waiting);
+
         }).catch(e => console.log(e));
-      });
-      processStockData(allSymbolData, twitter_data);
+      }); // console.log(allSymbolData);
+      // symbols.forEach(stockSym => {
+      //   var currStock = fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json());
+      //     allSymbolData.push(currStock);
+      // });
+      // while (waiting !== 0) {}
+      // processStockData(allSymbolData, twitter_data);
     });
     return _getStockData.apply(this, arguments);
   }
@@ -154,36 +175,27 @@ function Chart(props) {
         }
       } // add price field to objects in twit data based on stock price of that date
       // and add dummy stock points for missing dates
+      // var st = 0;
+      // console.log("adding price")
+      // for (tw = 0; tw < twitter_data.length; tw++) {
+      //   var t_date = twitter_data[tw].date;
+      //   while (st < stock_data.length) {
+      //     var s_date = stock_data[st].date;
+      //     if (t_date === s_date) {
+      //       twitter_data[tw].close = stock_data[st].close
+      //       break;
+      //     } else if (t_date < s_date) {
+      //       st++;
+      //     } else {
+      //       // there might not be a stock price for this day
+      //       // insert a point in stocks for that day with previous day's stock price
+      //       stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
+      //       twitter_data[tw].close = stock_data[st].close
+      //       break;
+      //     }
+      //   }
+      // }
 
-
-      var st = 0;
-      console.log("adding price");
-
-      for (tw = 0; tw < twitter_data.length; tw++) {
-        var t_date = twitter_data[tw].date;
-
-        while (st < stock_data.length) {
-          var s_date = stock_data[st].date;
-
-          if (t_date === s_date) {
-            twitter_data[tw].close = stock_data[st].close;
-            break;
-          } else if (t_date < s_date) {
-            st++;
-          } else {
-            // there might not be a stock price for this day
-            // insert a point in stocks for that day with previous day's stock price
-            stock_data.splice(st, 0, {
-              date: twitter_data[tw].date,
-              dateStr: stock_data[st].dateStr,
-              close: stock_data[st].close,
-              twitterPt: "true"
-            });
-            twitter_data[tw].close = stock_data[st].close;
-            break;
-          }
-        }
-      }
 
       console.log("done");
     } // drawLineGraph(stock_data, twitter_data);
