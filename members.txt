@@ -2,39 +2,27 @@ Members:
 
 Ananya Cleetus (netid: cleetus2):
 
--Created storyboards on Marvel
+-Created initial storyboards on Marvel
 -Set up d3 with sample data and date/price info parsing
 -Set up React app with functional components and basic styling (set up Babel compiling for Typescript)
 -Created dashboard layout, Material UI scale buttons, sidebar with price changes and icon changes
+-Created selection bar for multiple stocks and set up d3 and async data parsing to display stock comparisons
 -Initiated tweet embed library and created tweet view
--Set up states and callbacks to transfer props between sidebar, scalebar, and chart to/from layout
+-Set up states and callbacks to transfer props between sidebar, selection bar, scalebar, and chart to/from layout
+-Created tooltip with engagement information and color coded tweet bars to represent scale of engagement
 -Wrote first intro page and styling
 
-Aarya Chandhok (netid: aaryac2):
-Design:
-
-Came up with the initial idea
-Finished slides 10-21 in the presentation, which covered:
--ethical concerns of the data we analyzed
--the fundamental reasoning behind the visualization [stock sentiment can be intrinsically tied to public sentiment]
--a description and rationale for the tools needed, and
--related works on the subject [including papers covered from class], citations
-
-Implementation:
-I have never used any of the development tools or languages involved in this project [hadn't even heard of 90% of them before] so this was a learning experience for me.
-
-I got the Twitter box data embedding to work, and gave suggestions on how things could be implemented. Most of my time was spent simply trying to understand the code and how the APIs fit into the model.
-
+Avi Porath (netid: aporath2):
 
 
 Claudia Salazar (netid: cas18):
 - Did the "Motivation" and "Intended Audience" slides for the presentation
 - Applied and got the TwiterAPI key/tokens
-- Set up Twitter API call to get the specific tweet data we needed  
+- Set up Twitter API call to get the specific tweet data we needed
     - (only tweets by Elon Musk, filtered out replies, etc)
-- Sent the data of Elon Musk's tweets to a local server to be used as the data in the front end 
+- Sent the data of Elon Musk's tweets to a local server to be used as the data in the front end
 - Parsed the twitter data json
-- Wrote code for sorting and determining the top tweet of the day of the user at study. 
+- Wrote code for sorting and determining the top tweet of the day of the user at study.
 
 Kimi Hirano (netid: khirano2):
 - Came up with the initial idea
