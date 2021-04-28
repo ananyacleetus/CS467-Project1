@@ -32,6 +32,8 @@ function Chart(props) {
   //Should return hourv(12h format) : minute : am/pm
   const timeFormat = d3.timeParse("%I:%M %p");
 
+  const sidebarTimeFormat = d3.timeParse("%a %B %d %I:%M %p");
+
   const sendDataToSidebar = (d) => {
 
 
@@ -40,12 +42,14 @@ function Chart(props) {
     var date;
 
     if (isNaN(d.date)) {
-      // date = utcToDate(d.date).toString();
-      date = d.date.toString();
+      date = utcToDate(d.date).toString();
+      // date = d.date.toString();
+      // date = sidebarTimeFormat(utcToDate(d.date)).toString();
     }
     else {
-      // date = d.date.toString();
-      date = DateToUTC(d.date).toString();
+      date = new Date(d.date).toString();
+      // date = DateToUTC(d.date).toString();
+      // date = sidebarTimeFormat(d.date).toString();
 
     }
 

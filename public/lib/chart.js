@@ -27,17 +27,18 @@ function Chart(props) {
   var twitDateFormat = d3.timeParse("%a %b %d %H:%M:%S %Z %Y"); //Should return hourv(12h format) : minute : am/pm
 
   var timeFormat = d3.timeParse("%I:%M %p");
+  var sidebarTimeFormat = d3.timeParse("%a %B %d %I:%M %p");
 
   var sendDataToSidebar = d => {
     // props.onChangeDate(twitDateFormat(d.created_at).toString());
     var date;
 
     if (isNaN(d.date)) {
-      // date = utcToDate(d.date).toString();
-      date = d.date.toString();
+      date = utcToDate(d.date).toString(); // date = d.date.toString();
+      // date = sidebarTimeFormat(utcToDate(d.date)).toString();
     } else {
-      // date = d.date.toString();
-      date = DateToUTC(d.date).toString();
+      date = new Date(d.date).toString(); // date = DateToUTC(d.date).toString();
+      // date = sidebarTimeFormat(d.date).toString();
     } // props.onChangeDate(utcToDate(d.dateStr).toString());
 
 
