@@ -15,11 +15,45 @@ html {
   padding-left: 50px;
 }
 
-.chartLine {
+/* .[$ChartLine] {
+  fill: none;
+  stroke: #2b4162;
+  stroke-width: 2px;
+} */
+
+#chart_svg path {
   fill: none;
   stroke: #2b4162;
   stroke-width: 2px;
 }
+
+.tslaStockData {
+  fill: #FF0000;
+  stroke: #FF0000;
+}
+
+.etsyStockData {
+  fill: #00FF00;
+  stroke: #00FF00;
+}
+
+
+.gmeStockData {
+  fill: #0000FF;
+  stroke: #0000FF;
+}
+
+
+.siglStockData {
+  fill: #F0F0F0;
+  stroke: #F0F0F0;
+}
+
+.btcusdStockData {
+  fill: #0F0F0F;
+  stroke: #0F0F0F;
+}
+
 
 #tooltip {
     position: absolute;

@@ -52,6 +52,9 @@ router.param("stockId", (req, res, next, id) => {
     // console.log(id)
     // stockStr = id.toUpperCase();
     stockStr = id;
+    if (id === "btcusd") {
+      stockStr = "btc-usd";
+    }
     next();
 })
 

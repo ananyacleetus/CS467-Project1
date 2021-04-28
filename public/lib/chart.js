@@ -175,27 +175,36 @@ function Chart(props) {
         }
       } // add price field to objects in twit data based on stock price of that date
       // and add dummy stock points for missing dates
-      // var st = 0;
-      // console.log("adding price")
-      // for (tw = 0; tw < twitter_data.length; tw++) {
-      //   var t_date = twitter_data[tw].date;
-      //   while (st < stock_data.length) {
-      //     var s_date = stock_data[st].date;
-      //     if (t_date === s_date) {
-      //       twitter_data[tw].close = stock_data[st].close
-      //       break;
-      //     } else if (t_date < s_date) {
-      //       st++;
-      //     } else {
-      //       // there might not be a stock price for this day
-      //       // insert a point in stocks for that day with previous day's stock price
-      //       stock_data.splice(st, 0, {date: twitter_data[tw].date, dateStr: stock_data[st].dateStr, close: stock_data[st].close, twitterPt: "true"})
-      //       twitter_data[tw].close = stock_data[st].close
-      //       break;
-      //     }
-      //   }
-      // }
 
+
+      var st = 0;
+      console.log("adding price");
+
+      for (tw = 0; tw < twitter_data.length; tw++) {
+        var t_date = twitter_data[tw].date;
+
+        while (st < stock_data.length) {
+          var s_date = stock_data[st].date;
+
+          if (t_date === s_date) {
+            twitter_data[tw].close = stock_data[st].close;
+            break;
+          } else if (t_date < s_date) {
+            st++;
+          } else {
+            // there might not be a stock price for this day
+            // insert a point in stocks for that day with previous day's stock price
+            stock_data.splice(st, 0, {
+              date: twitter_data[tw].date,
+              dateStr: stock_data[st].dateStr,
+              close: stock_data[st].close,
+              twitterPt: "true"
+            });
+            twitter_data[tw].close = stock_data[st].close;
+            break;
+          }
+        }
+      }
 
       console.log("done");
     }
@@ -282,15 +291,17 @@ function Chart(props) {
     var minLinePoint = 0;
     var dotSize = 3;
     var tooltip = d3.select("#tooltip");
-    var currentline = d3.line().x(function (d) {
+    var currentline = d3.line() // .x(function (d) { console.log(date_scale((d.date))); return date_scale((d.date));  })
+    .x(function (d) {
+      console.log(d.date);
       return date_scale(d.date);
     }).y(function (d) {
       return price_scale(parseFloat(d.close));
-    });
+    }); // .y(function (d) { console.log(price_scale(parseFloat(d.close))); return price_scale(parseFloat(d.close)); })
 
     if (!props.updateScale && !props.updateStocks) {
-      svg.append("path").data([stock_data]).attr("d", currentline) // .attr("class", "." + stock_name + "ChartLine");
-      .attr("class", "chartLine");
+      svg.append("path").data([stock_data]).attr("d", currentline).attr("class", stock_name + "ChartLine"); // .attr("class", "chartLine");
+
       var stockData = svg.selectAll(stock_name + "StockData").data(stock_data).enter().append("circle").attr("class", stock_name + "StockData").attr("r", dotSize).attr("cx", function (d) {
         return date_scale(d.date);
       }).attr("cy", function (d) {
@@ -354,13 +365,15 @@ function Chart(props) {
 
     if (props.updateScale || props.updateStocks) {
       // remove duplicates of data being drawn
-      // d3.selectAll("." + stock_name + "ChartLine").remove()
-      d3.selectAll("chartLine").remove();
+      d3.selectAll(stock_name + "ChartLine").remove(); // d3.selectAll("chartLine").remove()
+
       d3.selectAll(stock_name + "StockData").remove();
+      d3.selectAll("[class$='ChartLine']").remove();
+      d3.selectAll("[class$='StockData']").remove();
       svg = d3.select("#chart_svg").transition(); // Update lines
       // svg.selectAll("." + stock_name + "ChartLine")
 
-      svg.selectAll("chartLine").duration(1000).attr("d", currentline); // Update stock dots
+      svg.selectAll(stock_name + "ChartLine").duration(1000).attr("d", currentline); // Update stock dots
 
       svg.selectAll(stock_name + "StockData").duration(1000).attr("cx", function (d) {
         return dateScale(d.date);
@@ -460,6 +473,12 @@ function Chart(props) {
       .attr("font-family", "Avenir") // way to simplify our directions to you.
       .attr("transform", "translate(".concat(yAxisX, " ").concat(yAxisY, ") rotate(-90)")).text("Price (USD)").attr("class", "yAxisLabel"); // drawTwitterGraph(twitter_data, dateScale, priceScale);
       // drawStockGraph(stock_data, dateScale, priceScale);
+
+      drawTwitterGraph(twitter_data, dateScale, priceScale);
+      stock_data.forEach(stock => {
+        var stockName = stock[0].symbol;
+        drawStockGraph(stock, stockName, dateScale, priceScale);
+      });
     }
 
     if (props.updateScale || props.updateStocks) {
@@ -477,15 +496,16 @@ function Chart(props) {
       svg.selectAll(".xAxis").duration(1000).call(d3.axisBottom(dateScale)) // d3 creates a bunch of elements inside the <g>
       .attr("transform", "translate(0, ".concat(yTranslation, ")"));
       svg.selectAll(".yAxis").duration(1000).call(d3.axisLeft(priceScale)).attr("transform", "translate(".concat(xTranslation, ", 0)"));
+      d3.selectAll("[class$='ChartLine']").remove();
+      d3.selectAll("[class$='StockData']").remove();
+      drawTwitterGraph(twitter_data, dateScale, priceScale);
+      stock_data.forEach(stock => {
+        var stockName = stock[0].symbol;
+        drawStockGraph(stock, stockName, dateScale, priceScale);
+      });
       props.onChangeUpdateScale(false);
       props.onChangeUpdateStocks(false);
     }
-
-    drawTwitterGraph(twitter_data, dateScale, priceScale);
-    stock_data.forEach(stock => {
-      var stockName = stock[0].symbol;
-      drawStockGraph(stock, stockName, dateScale, priceScale);
-    });
   }
 
   useEffect(() => {
