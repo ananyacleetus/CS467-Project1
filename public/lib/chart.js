@@ -45,6 +45,7 @@ function Chart(props) {
 
     props.onChangeDate(date);
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
+    props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {

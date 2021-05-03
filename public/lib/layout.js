@@ -16,6 +16,7 @@ function Layout(props) {
   var [timeScale, setTimeScale] = useState('1yr');
   var [updateScale, shouldUpdateScale] = useState(false);
   var [tweetID, setTweetID] = React.useState('1364826301027115008');
+  var [stockName, setStockName] = React.useState('TSLA');
   var [stockState, setStockState] = React.useState({
     tsla: true,
     etsy: false,
@@ -63,6 +64,10 @@ function Layout(props) {
     shouldUpdateStocks(updateStocks);
   };
 
+  var changeStockName = stockName => {
+    setStockName(stockName);
+  };
+
   return /*#__PURE__*/React.createElement("div", {
     className: "grid-container"
   }, /*#__PURE__*/React.createElement("div", {
@@ -107,6 +112,12 @@ function Layout(props) {
     },
     onChangeUpdateStocks: e => {
       changeUpdateStocks(e);
+    },
+    onChangeStockName: e => {
+      changeStockName(e);
+    },
+    onChangePrice: e => {
+      changePrice(e);
     }
   })), /*#__PURE__*/React.createElement("div", {
     className: "C"
@@ -125,6 +136,7 @@ function Layout(props) {
     date: date,
     price: price,
     tweetID: tweetID,
+    stockName: stockName,
     priceChangeYesterday: priceChangeYesterday,
     priceChangeTweet: priceChangeTweet
   })));

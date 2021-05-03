@@ -61,6 +61,8 @@ function Chart(props) {
 
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
 
+    props.onChangeStockName(d.symbol.toUpperCase());
+
 
   }
 
