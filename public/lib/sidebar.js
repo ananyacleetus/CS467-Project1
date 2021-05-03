@@ -60,24 +60,30 @@ function Sidebar(props) {
   }, /*#__PURE__*/React.createElement("h2", {
     className: "date"
   }, props.date), /*#__PURE__*/React.createElement("h1", {
+    className: "stockName"
+  }, props.stockName), /*#__PURE__*/React.createElement("h1", {
     className: "price"
   }, props.price), /*#__PURE__*/React.createElement("div", {
     className: "priceChangeBox"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "test"
   }, firstArrow, /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeYesterday"
-  }, props.priceChangeYesterday.substring(1) + " since yesterday"), secondArrow, /*#__PURE__*/React.createElement("h2", {
+  }, props.priceChangeYesterday.substring(1) + " since yesterday")), /*#__PURE__*/React.createElement("div", {
+    className: "rounded"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "test"
+  }, secondArrow, /*#__PURE__*/React.createElement("h2", {
     className: "priceChangeLastTweet"
-  }, props.priceChangeTweet.substring(1) + " since last tweet")), /*#__PURE__*/React.createElement("div", {
+  }, props.priceChangeTweet.substring(1) + " since last tweet"))), /*#__PURE__*/React.createElement("div", {
     className: "tweetBox"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "topTweet"
-  }, "Top Elon Tweet of that Day:"), /*#__PURE__*/React.createElement(TweetEmbed, {
-    id: props.tweetID
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "sentimentBox"
-  }, /*#__PURE__*/React.createElement("h2", {
+  }, "Most Reaching Elon Tweet of that Day:"), /*#__PURE__*/React.createElement("h4", {
     className: "sentimentTitle"
-  }, "Sentiment Score:"))));
+  }, "Sentiment Score: ", props.text), /*#__PURE__*/React.createElement(TweetEmbed, {
+    id: props.tweetID
+  }))));
 }
 
 export default Sidebar;

@@ -15,7 +15,8 @@ function Chart(props) {
   var stockState = props.stockState; // console.log(props.stockState);
 
   var stockIds = Object.keys(stockState).filter(i => stockState[i] == true); // console.log(stockIds);
-  // Should return month-day-year
+
+  var sents = []; // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
   var utcToDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
@@ -45,6 +46,7 @@ function Chart(props) {
 
     props.onChangeDate(date);
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
+    props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
@@ -64,7 +66,17 @@ function Chart(props) {
   };
 
   var sendTweetDataToSidebar = d => {
-    props.onChangeTweetID(d.id);
+    props.onChangeTweetID(d.id_str);
+    var tw = 0;
+
+    while (tw < sents.length) {
+      if (sents[tw][0] == d.id_str) {
+        props.onChangeText(sents[tw][1].toString());
+        tw = sents.length;
+      }
+
+      tw++;
+    }
   };
 
   function drawChart() {
@@ -77,18 +89,61 @@ function Chart(props) {
 
   function _getTwitterData() {
     _getTwitterData = _asyncToGenerator(function* () {
-      // var twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
-      var tweet_data = d3.json("/tweets.json").then(function (tweet_data) {
-        console.log("CLaudia was here");
-        console.log(tweet_data);
-        getStockData(tweet_data, timescale, stockIds);
-      }); // sometimes twitter api doesn't send all the data
-      //getStockData(twit_data, timescale, stockIds);
+      var twit_data = yield fetch("http://localhost:9000/twitterAPI").then(res => res.json()); // sometimes twitter api doesn't send all the data
+
+      console.log(twit_data);
+      getStockData(twit_data, timescale, stockIds);
+      getTweetsSentiment(twit_data);
     });
     return _getTwitterData.apply(this, arguments);
   }
 
-  function getStockData(_x, _x2, _x3) {
+  function getTweetsSentiment(_x) {
+    return _getTweetsSentiment.apply(this, arguments);
+  }
+
+  function _getTweetsSentiment() {
+    _getTweetsSentiment = _asyncToGenerator(function* (twitter_data) {
+      var waiting = twitter_data.length;
+      var allSentimentData = [];
+      twitter_data.forEach(tweet => {
+        var words = tweet.text.split("http");
+        words[0] = words[0].replace("/", "");
+
+        if (tweet.text != "" && words[0].substring(0, 4)) {
+          fetch("http://localhost:9000/sentiment/" + words[0]).then(res => res.json()).then(data => {
+            waiting--;
+            allSentimentData.push(data);
+
+            if (waiting === 1) {
+              processSentimentData(allSentimentData, twitter_data);
+            }
+          }).catch(e => console.log(e));
+        }
+      });
+    });
+    return _getTweetsSentiment.apply(this, arguments);
+  }
+
+  function processSentimentData(allSentimentData, twitter_data) {
+    console.log(allSentimentData);
+    var tw = 0;
+
+    while (tw < allSentimentData.length) {
+      sents.push([twitter_data[tw].id, allSentimentData[tw]['comparative'], twitter_data[tw].text]);
+      tw++;
+    } // var twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
+
+
+    var tweet_data = d3.json("/tweets.json").then(function (tweet_data) {
+      console.log("CLaudia was here");
+      console.log(tweet_data);
+      getStockData(tweet_data, timescale, stockIds);
+    }); // sometimes twitter api doesn't send all the data
+    //getStockData(twit_data, timescale, stockIds);
+  }
+
+  function getStockData(_x2, _x3, _x4) {
     return _getStockData.apply(this, arguments);
   }
 
@@ -111,8 +166,6 @@ function Chart(props) {
       stockSymbols.forEach(stockSym => {
         fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
           // processStockData()
-          console.log("line140");
-          console.log(data);
           allSymbolData.push(data);
           waiting--;
 
@@ -134,10 +187,8 @@ function Chart(props) {
 
   function processStockData(allStockData, twitter_data) {
     // do whatever with allSymbolData
-    console.log("line164 chart.js"); // console.log(allStockData);
     // console.log(allStockData.length);
     // allSymbolData.forEach(stock_data => {
-
     for (var i = 0; i < allStockData.length; i++) {
       var stock_data = allStockData[i];
       console.log(stock_data);
@@ -400,7 +451,6 @@ function Chart(props) {
         return "N/A";
       });
       stockData.on("mouseover", function (mouseEvent, d, i) {
-        // Runs when the mouse enters a dot.  d is the corresponding data point.
         tooltip.style("opacity", 1);
         var printDate;
 

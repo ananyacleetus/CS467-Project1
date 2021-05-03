@@ -62,7 +62,7 @@ function SelectionBar(props) {
       name: "tsla",
       className: "tslaBox"
     }),
-    label: "TSLA"
+    label: "TSLA (Tesla)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: etsy,
@@ -70,7 +70,7 @@ function SelectionBar(props) {
       name: "etsy",
       className: "etsyBox"
     }),
-    label: "ETSY"
+    label: "ETSY (Etsy)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: gme,
@@ -78,7 +78,7 @@ function SelectionBar(props) {
       name: "gme",
       className: "gmeBox"
     }),
-    label: "GME"
+    label: "GME (Gamestop)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: gm,
@@ -86,7 +86,7 @@ function SelectionBar(props) {
       name: "gm",
       className: "gmBox"
     }),
-    label: "GM"
+    label: "GM (General Motors)"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
 }
 

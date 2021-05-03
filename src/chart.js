@@ -23,6 +23,8 @@ function Chart(props) {
   // console.log(stockIds);
 
 
+  var sents = []
+
   // Should return month-day-year
   // const dateFormat = d3.timeParse("%d-%b-%y");
 
@@ -65,8 +67,7 @@ function Chart(props) {
     props.onChangeDate(date);
 
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
-
-
+    props.onChangeStockName(d.symbol.toUpperCase());
   }
 
   const setChangePriceYesterdayDataToSidebar = (x) => {
@@ -91,9 +92,16 @@ function Chart(props) {
   }
 
   const sendTweetDataToSidebar = (d) => {
+      props.onChangeTweetID(d.id_str);
 
-    props.onChangeTweetID(d.id);
-
+      var tw = 0;
+      while (tw < sents.length) {
+          if (sents[tw][0] == d.id_str) {
+              props.onChangeText(sents[tw][1].toString());
+              tw = sents.length
+          }
+          tw++;
+      }
   }
 
   function drawChart() {
@@ -104,6 +112,44 @@ function Chart(props) {
 
   async function getTwitterData() {
 
+    var twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
+
+    // sometimes twitter api doesn't send all the data
+    console.log(twit_data)
+
+    getStockData(twit_data, timescale, stockIds);
+    getTweetsSentiment(twit_data);
+
+
+  }
+
+    async function getTweetsSentiment(twitter_data) {
+        let waiting = twitter_data.length;
+        const allSentimentData = [];
+        twitter_data.forEach(tweet => {
+
+            var words = tweet.text.split("http")
+            words[0] = words[0].replace("/", "")
+            if (tweet.text != "" && words[0].substring(0, 4)) {
+
+                fetch("http://localhost:9000/sentiment/" + words[0]).then(res => res.json()).then(data => {
+                    waiting--;
+                    allSentimentData.push(data);
+                    if (waiting === 1) {
+                        processSentimentData(allSentimentData, twitter_data);
+                    }
+                }).catch(e => console.log(e))
+            }
+        })
+    }
+
+  function processSentimentData(allSentimentData, twitter_data) {
+      console.log(allSentimentData)
+      var tw = 0;
+      while (tw < allSentimentData.length) {
+         sents.push([twitter_data[tw].id, allSentimentData[tw]['comparative'], twitter_data[tw].text]);
+         tw++;
+      }
     // var twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
     var tweet_data = d3.json("/tweets.json").then(function (tweet_data){
       console.log("CLaudia was here");
@@ -142,8 +188,7 @@ function Chart(props) {
     stockSymbols.forEach(stockSym => {
       fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json()).then(data => {
         // processStockData()
-        console.log("line140")
-        console.log(data)
+
         allSymbolData.push(data)
         waiting--;
         if (waiting === 0) {
@@ -168,8 +213,7 @@ function Chart(props) {
   function processStockData(allStockData, twitter_data) {
 
     // do whatever with allSymbolData
-    console.log("line164 chart.js")
-    // console.log(allStockData);
+
     // console.log(allStockData.length);
 
     // allSymbolData.forEach(stock_data => {
@@ -186,7 +230,6 @@ function Chart(props) {
       var i = 0;
       for (i = 0; i < Math.max(stock_data.length, twitter_data.length); i++) {
         if (i < stock_data.length) {
-
 
           stock_data[i].dateStr = stock_data[i].date
           stock_data[i].date = utcToDate(stock_data[i].date).setHours(0,0,0,0);
@@ -257,6 +300,7 @@ function Chart(props) {
           } else if (t_date < s_date) {
             st++;
           } else {
+
             console.log("ugh")
             // there might not be a stock price for this day
             // insert a point in stocks for that day with previous day's stock price
@@ -266,7 +310,6 @@ function Chart(props) {
           }
         }
       }
-
       console.log("done");
 
       // for (var i = 0; i < stock_data.length; i++) {
@@ -350,6 +393,7 @@ function Chart(props) {
 
         tooltip.style("opacity", 1);
         // tooltip.text(d.text);
+
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString());
 
         //TODO: send twitter id to sidebar and display twitter counts in tooltip
@@ -498,7 +542,7 @@ function Chart(props) {
 
 
       stockData.on("mouseover", function(mouseEvent, d, i) {
-        // Runs when the mouse enters a dot.  d is the corresponding data point.
+
 
         tooltip.style("opacity", 1);
 

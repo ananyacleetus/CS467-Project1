@@ -51,40 +51,32 @@ import TweetEmbed from 'react-tweet-embed';
 
       }, [props.priceChangeYesterday]);
 
-     return (
+        return (
+            <div className="fullsidebar">
+                <div className="currentinfo">
+                    <h2 className="date">{props.date}</h2>
+                    <h1 className="stockName">{props.stockName}</h1>
+                    <h1 className="price">{props.price}</h1>
 
-       <div className="fullsidebar">
-
-         <div className="currentinfo">
-
-           <h2 className="date">{props.date}</h2>
-           <h1 className="price">{props.price}</h1>
-
-
-           <div className="priceChangeBox">
-             {firstArrow}
-           <h2 className="priceChangeYesterday">{props.priceChangeYesterday.substring(1) + " since yesterday"}</h2>
-            {secondArrow}
-           <h2 className="priceChangeLastTweet">{props.priceChangeTweet.substring(1) + " since last tweet"}</h2>
-           </div>
-
-
-           <div className="tweetBox">
-             <h2 className="topTweet">Top Elon Tweet of that Day:</h2>
-               <TweetEmbed id={props.tweetID} />
-           </div>
-
-           <div className="sentimentBox">
-             <h2 className="sentimentTitle">Sentiment Score:</h2>
-
-           </div>
-
-     </div>
-
-   </div>
-
+                    <div className="priceChangeBox">
+                        <div className = "test">
+                            {firstArrow}
+                            <h2 className="priceChangeYesterday">{props.priceChangeYesterday.substring(1) + " since yesterday"}</h2>
+                        </div>
+                        <div className = "rounded"></div>
+                        <div className = "test">
+                            {secondArrow}
+                            <h2 className="priceChangeLastTweet">{props.priceChangeTweet.substring(1) + " since last tweet"}</h2>
+                        </div>
+                    </div>
+                <div className="tweetBox">
+                    <h2 className="topTweet">Most Reaching Elon Tweet of that Day:</h2>
+                        <h4 className="sentimentTitle">Sentiment Score: {props.text}</h4>
+                    <TweetEmbed id={props.tweetID} />
+                </div>
+            </div>
+        </div>
    );
-
    }
 
  export default Sidebar;
