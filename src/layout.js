@@ -25,7 +25,7 @@ function Layout (props) {
   tsla: true,
   etsy: false,
   gme: false,
-  sigl: false,
+  gm: false,
   btcusd: false,
 });
 

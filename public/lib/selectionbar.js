@@ -23,7 +23,7 @@ function SelectionBar(props) {
     tsla: true,
     etsy: false,
     gme: false,
-    sigl: false,
+    gm: false,
     btcusd: false
   });
 
@@ -40,10 +40,10 @@ function SelectionBar(props) {
     tsla,
     etsy,
     gme,
-    sigl,
+    gm,
     btcusd
   } = stockState;
-  var error = [tsla, etsy, gme, sigl, btcusd].filter(v => v).length == 0;
+  var error = [tsla, etsy, gme, gm, btcusd].filter(v => v).length == 0;
   return /*#__PURE__*/React.createElement("div", {
     className: "fullselectionbar"
   }, /*#__PURE__*/React.createElement("div", {
@@ -81,12 +81,12 @@ function SelectionBar(props) {
     label: "GME"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
-      checked: sigl,
+      checked: gm,
       onChange: handleChange,
-      name: "sigl",
-      className: "siglBox"
+      name: "gm",
+      className: "gmBox"
     }),
-    label: "SIGL"
+    label: "GM"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
 }
 

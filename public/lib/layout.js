@@ -20,7 +20,7 @@ function Layout(props) {
     tsla: true,
     etsy: false,
     gme: false,
-    sigl: false,
+    gm: false,
     btcusd: false
   });
   var [updateStocks, shouldUpdateStocks] = useState(false);

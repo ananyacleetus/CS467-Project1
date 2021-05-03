@@ -24,7 +24,7 @@ function SelectionBar(props) {
   tsla: true,
   etsy: false,
   gme: false,
-  sigl: false,
+  gm: false,
   btcusd: false,
 });
 
@@ -33,9 +33,9 @@ const handleChange = (event) => {
     props.onChangeStockState({ ...stockState, [event.target.name]: event.target.checked });
   };
 
-  const { tsla, etsy, gme, sigl, btcusd} = stockState;
+  const { tsla, etsy, gme, gm, btcusd} = stockState;
 
-  const error = [tsla, etsy, gme, sigl, btcusd].filter((v) => v).length == 0;
+  const error = [tsla, etsy, gme, gm, btcusd].filter((v) => v).length == 0;
 
     return (
         <div className="fullselectionbar">
@@ -58,8 +58,8 @@ const handleChange = (event) => {
                 label="GME"
               />
               <FormControlLabel
-                control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" className="siglBox"/>}
-                label="SIGL"
+                control={<Checkbox checked={gm} onChange={handleChange} name="gm" className="gmBox"/>}
+                label="GM"
               />
 
             </FormGroup>

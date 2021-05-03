@@ -97,7 +97,7 @@ function Chart(props) {
       // const twit_data = twitter_data;
       // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
       // var symbols = ['tsla', 'etsy'];
-      // stockSymbols = ['tsla', 'etsy', 'gme', 'sigl'];
+      // stockSymbols = ['tsla', 'etsy', 'gme', 'gm'];
       var waiting = stockSymbols.length; // var allSymbolData = [];
       // var allSymbolPromises = symbols.map((symbol) => {
       //   return new Promise((resolve) => fetch("http://localhost:9000/stockAPI/" + timescale + "/" + symbol, resolve).then(data => {

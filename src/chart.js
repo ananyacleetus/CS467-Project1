@@ -104,11 +104,11 @@ function Chart(props) {
       console.log("CLaudia was here");
       console.log(tweet_data);
       getStockData(tweet_data, timescale, stockIds);
-      
+
     } )
 
     // sometimes twitter api doesn't send all the data
-    
+
 
     //getStockData(twit_data, timescale, stockIds);
 
@@ -121,7 +121,7 @@ function Chart(props) {
     // var stock_data = await fetch("http://localhost:9000/stockAPI/" + timescale + "/" + stockSym).then(res => res.json())
 
     // var symbols = ['tsla', 'etsy'];
-    // stockSymbols = ['tsla', 'etsy', 'gme', 'sigl'];
+    // stockSymbols = ['tsla', 'etsy', 'gme', 'gm'];
 
     let waiting = stockSymbols.length;
     // var allSymbolData = [];
