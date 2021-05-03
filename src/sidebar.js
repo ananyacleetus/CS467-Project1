@@ -58,6 +58,7 @@ import TweetEmbed from 'react-tweet-embed';
          <div className="currentinfo">
 
            <h2 className="date">{props.date}</h2>
+           <h1 className="stockName">{props.stockName}</h1>
            <h1 className="price">{props.price}</h1>
 
 

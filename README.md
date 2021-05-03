@@ -2,7 +2,7 @@
 
 
 ## Environment and Tools Used
-* __Libraries:__ React v17.0.1, D3.js v6.5.0, Material-UI v4.11.3
+* __Libraries:__ React v17.0.1, D3.js v6.5.0, Material-UI v4.11.3, AFINN-based sentiment analysis (NPM Sentiment v0.2.1)
 * __APIs:__ Twitter API v2.0, Yahoo Finance API v4.2 (unofficial endpoint API)
 * __Misc Tools:__ Snowpack v3.0.13, Babel v7.13.1, Marvel Prototyping App, React Tweet Embed v1.2.2
 
