@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var stockAPIRouter = require("./routes/stockAPI");
 var twitterAPIRouter = require("./routes/twitterAPI");
+var twitterAPIRouter2 = require("./routes/allTweets");
+var tweetDetailRouter = require("./routes/tweetDeets");
 var app = express();
 
 // view engine setup
@@ -17,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(cors());
 
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -28,6 +31,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/stockAPI", stockAPIRouter);
 app.use('/twitterAPI', twitterAPIRouter);
+app.use('/allTweets', twitterAPIRouter2);
+app.use('/tweetDetails', tweetDetailRouter);
+
 
 
 // catch 404 and forward to error handler
