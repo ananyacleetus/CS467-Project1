@@ -1,0 +1,55 @@
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
+
+html {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+}
+
+.grid-container {
+  /* max-height: 100%; */
+
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-rows: 1fr 6fr 1fr;
+  gap: 0px 0px;
+  /* position: fixed;
+  height: 100%;
+  overflow-y: auto; */
+  grid-template-areas:
+    "E A D"
+    "E B D"
+    "E C D";
+}
+
+.A {
+  grid-area: A;
+}
+
+.B {
+  grid-area: B;
+}
+
+.C {
+  grid-area: C;
+  margin-top: -200px !important;
+}
+
+.D {
+  grid-area: D;
+}
+
+.E {
+  grid-area:E;
+}
+
+.headerbar {
+}
+
+.chart {
+  padding-left: 5vh;
+  /* width: 800px; */
+}
+
+.sidebar {
+  background-color: #FF0000;
+
+}

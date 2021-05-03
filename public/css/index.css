@@ -1,0 +1,9 @@
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
+
+html {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+}
+
+#visualization {
+  align-items: center;
+}

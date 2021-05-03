@@ -1,0 +1,86 @@
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
+
+html {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+}
+
+.fullsidebar {
+  background-color: #CED0CE;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.currentinfo {
+
+}
+
+.date {
+  font-weight: 400;
+  font-size: 25px;
+}
+
+.priceChangeYesterday, .priceChangeLastTweet {
+
+  font-weight: normal;
+  margin-top: -30px;
+
+}
+
+.arrowup {
+  position: relative;
+  color: #4B7F52;
+  font-size: 70px !important;
+}
+
+.arrowdown {
+  position: relative;
+  color: #FF0000;
+  font-size: 70px !important;;
+  margin-bottom:-50px;
+  margin-left: -50px;
+}
+
+.priceChangeBox .MuiSvgIcon-root {
+  height: 1em !important;
+  width: 2em !important;
+  display: flex;
+  margin-bottom:-50px;
+  margin-left: -50px;
+}
+
+.price {
+
+}
+
+.test{
+    flex: 1;
+}
+
+.rounded {
+  border-top: 3px dotted #bbb;
+}
+
+
+.priceUpBox {
+
+}
+
+
+.priceChangeBox {
+  /* display: flex;
+  align-items: center; */
+  background-color: #FFFFFF;
+  padding: 25px;
+  background-clip: content-box;
+  /* border-color: #000000;
+border-width: thin; */
+
+}
+
+.tweetBox {
+  padding: 10px;
+  height: 650px;
+
+}

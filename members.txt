@@ -1,0 +1,35 @@
+Members:
+
+Ananya Cleetus (netid: cleetus2):
+
+-Created initial storyboards on Marvel
+-Set up d3 with sample data and date/price info parsing
+-Set up React app with functional components and basic styling (set up Babel compiling for Typescript)
+-Created dashboard layout, Material UI scale buttons, sidebar with price changes and icon changes
+-Created selection bar for multiple stocks and set up d3 and async data parsing to display stock comparisons
+-Initiated tweet embed library and created tweet view
+-Set up states and callbacks to transfer props between sidebar, selection bar, scalebar, and chart to/from layout
+-Created tooltip with engagement information and color coded tweet bars to represent scale of engagement
+-Wrote first intro page and styling
+
+Avi Porath (netid: aporath2):
+
+
+Claudia Salazar (netid: cas18):
+- Did the "Motivation" and "Intended Audience" slides for the presentation
+- Applied and got the TwiterAPI key/tokens
+- Set up Twitter API call to get the specific tweet data we needed
+    - (only tweets by Elon Musk, filtered out replies, etc)
+- Sent the data of Elon Musk's tweets to a local server to be used as the data in the front end
+- Parsed the twitter data json
+- Wrote code for sorting and determining the top tweet of the day of the user at study.
+
+Kimi Hirano (netid: khirano2):
+- Came up with the initial idea
+- Did the "Questions and Problems we plan to answer" slide for presentation
+- Set up Express app for retrieving stock data and tweets
+- Set up route + parameters to dynamically get yahoo-finance data for Tesla stock based on given range
+- Connected Express app to React app to send stock data to be manipulated/displayed on the frontend
+- Handled stock-data-specific json parsing
+- Helped create the tweet points that would get overlayed over the stock data on the frontend
+- Helped teamates debug/fix problems when I could

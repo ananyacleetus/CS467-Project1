@@ -1,0 +1,49 @@
+@import "https://assets.loupbrun.ca/fonts/booster/stylesheet.css";
+
+html {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif;
+}
+
+.fullselectionbar {
+  width: 100%;
+  text-align: center;
+}
+
+
+.stockselection {
+  padding-top: 300px;
+}
+
+.MuiToggleButton-root {
+  text-transform: capitalize !important;
+}
+
+/*
+.MuiTouchRipple-root {
+  width: 5px !important;
+} */
+
+.MuiSvgIcon-root {
+  height: 30px !important;
+  width: 30px !important;
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.tslaBox{
+    color: #F72585 !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.etsyBox{
+    color: #7209B7 !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.gmeBox{
+    color: #4895EF !important;
+
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.siglBox{
+    color: #EF233C !important;
+
+}
