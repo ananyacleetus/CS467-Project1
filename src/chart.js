@@ -7,7 +7,12 @@ import chroma from "chroma-js";
 //stylesheet
 import "..//css/chart.css";
 
-
+function sortByKey(array, key) {
+  return array.sort(function(a, b) {
+      var x = a[key]; var y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+  }
 
 function Chart(props) {
 
@@ -175,37 +180,7 @@ function Chart(props) {
 
       console.log(stock_data);
 
-    twitter_data.forEach(td => {
-      td.totalTweets = td.public_metrics.retweet_count + td.public_metrics.like_count;
-    })
-
-      // find the most "influential" tweet by elon for each day, by retweets and favorites
-      // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
-      // so we can only display most influential for now
-      var tw = 0;
-      console.log(twitter_data.length)
-      while (tw < twitter_data.length) {
-        var current = twitter_data[tw].date;
-        var max_tweets = twitter_data[tw].public_metrics.retweet_count + twitter_data[tw].public_metrics.like_count;
-        var max_index = tw;
-
-        tw++;
-        if (tw >= twitter_data.length) {twitter_data[tw-1].is_max = "true"; break;}
-
-        var next_day = twitter_data[tw].date;
-        while(current == next_day){
-          var sum = twitter_data[tw].public_metrics.retweet_count + twitter_data[tw].public_metrics.like_count;
-          if (sum > max_tweets){
-            max_tweets = sum
-            max_index = tw
-          }
-
-          tw++;
-          if (tw >= twitter_data.length) {break;}
-          next_day = twitter_data[tw].date;
-        }
-        twitter_data[max_index].is_max = "true";
-      }
+    
 
       // set all dates to make comparisons later easier
       var i = 0;
@@ -232,6 +207,41 @@ function Chart(props) {
       }
       console.log("line231")
       console.log(stock_data);
+
+      twitter_data.forEach(td => {
+        td.totalTweets = td.public_metrics.retweet_count + td.public_metrics.like_count;
+      })
+  
+        // find the most "influential" tweet by elon for each day, by retweets and favorites
+        // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
+        // so we can only display most influential for now
+  
+        twitter_data = sortByKey(twitter_data, "created_at")
+        console.log(twitter_data)
+        var tw = 0;
+        console.log(twitter_data.length)
+        while (tw < twitter_data.length) {
+          var current = twitter_data[tw].date;
+          var max_tweets = twitter_data[tw].public_metrics.retweet_count + twitter_data[tw].public_metrics.like_count;
+          var max_index = tw;
+  
+          tw++;
+          if (tw >= twitter_data.length) {twitter_data[tw-1].is_max = "true"; break;}
+  
+          var next_day = twitter_data[tw].date;
+          while(current == next_day){
+            var sum = twitter_data[tw].public_metrics.retweet_count + twitter_data[tw].public_metrics.like_count;
+            if (sum > max_tweets){
+              max_tweets = sum
+              max_index = tw
+            }
+  
+            tw++;
+            if (tw >= twitter_data.length) {break;}
+            next_day = twitter_data[tw].date;
+          }
+          twitter_data[max_index].is_max = "true";
+        }
 
       // add price field to objects in twit data based on stock price of that date
       // and add dummy stock points for missing dates
@@ -309,7 +319,7 @@ function Chart(props) {
 
       .append("line")
       //TODO: investigate why this is a breaking change
-      // .filter(function (d) {return d.is_max == "true"})
+      .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData")
       .style("stroke-dasharray", ("3, 3"))
       .style("stroke-width", 5)
