@@ -44,6 +44,7 @@
     "react-tweet-embed": "^1.2.2",
     "react-twitter-embed": "^3.0.3",
     "resolve-url": "^0.2.1",
+    "sentiment": "^5.0.2",
     "serve": "^11.3.2",
     "twit": "^2.2.11",
     "urix": "^0.1.0"
