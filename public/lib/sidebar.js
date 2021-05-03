@@ -60,6 +60,8 @@ function Sidebar(props) {
   }, /*#__PURE__*/React.createElement("h2", {
     className: "date"
   }, props.date), /*#__PURE__*/React.createElement("h1", {
+    className: "stockName"
+  }, props.stockName), /*#__PURE__*/React.createElement("h1", {
     className: "price"
   }, props.price), /*#__PURE__*/React.createElement("div", {
     className: "priceChangeBox"

@@ -43,7 +43,8 @@ html {
 
 }
 
-.MuiCheckbox-colorSecondary.Mui-checked.siglBox{
+
+.MuiCheckbox-colorSecondary.Mui-checked.gmBox{
     color: #EF233C !important;
 
 }

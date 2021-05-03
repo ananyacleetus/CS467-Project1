@@ -24,7 +24,7 @@ function SelectionBar(props) {
   tsla: true,
   etsy: false,
   gme: false,
-  sigl: false,
+  gm: false,
   btcusd: false,
 });
 
@@ -33,9 +33,10 @@ const handleChange = (event) => {
     props.onChangeStockState({ ...stockState, [event.target.name]: event.target.checked });
   };
 
-  const { tsla, etsy, gme, sigl, btcusd} = stockState;
 
-  const error = [tsla, etsy, gme, sigl, btcusd].filter((v) => v).length == 0;
+  const { tsla, etsy, gme, gm, btcusd} = stockState;
+
+  const error = [tsla, etsy, gme, gm, btcusd].filter((v) => v).length == 0;
 
     return (
         <div className="fullselectionbar">
@@ -47,19 +48,20 @@ const handleChange = (event) => {
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox checked={tsla} onChange={handleChange} name="tsla" className="tslaBox"/>}
-                label="TSLA"
+
+                label="TSLA (Tesla)"
               />
               <FormControlLabel
                 control={<Checkbox checked={etsy} onChange={handleChange} name="etsy" className="etsyBox"/>}
-                label="ETSY"
+                label="ETSY (Etsy)"
               />
               <FormControlLabel
                 control={<Checkbox checked={gme} onChange={handleChange} name="gme" className="gmeBox"/>}
-                label="GME"
+                label="GME (Gamestop)"
               />
               <FormControlLabel
-                control={<Checkbox checked={sigl} onChange={handleChange} name="sigl" className="siglBox"/>}
-                label="SIGL"
+                control={<Checkbox checked={gm} onChange={handleChange} name="gm" className="gmBox"/>}
+                label="GM (General Motors)"
               />
 
             </FormGroup>

@@ -12,6 +12,7 @@ import TweetEmbed from 'react-tweet-embed';
    const [arrowPriceChangeYesterday, setArrowPriceChangeYesterday] = useState("up");
    const [arrowPriceChangeTweet, setArrowPriceChangeTweet] = useState("down");
 
+
    let firstArrow = <ArrowDropUp className="arrowup"/>;
    let firstArrowDir = "up";
 
@@ -54,6 +55,7 @@ import TweetEmbed from 'react-tweet-embed';
             <div className="fullsidebar">
                 <div className="currentinfo">
                     <h2 className="date">{props.date}</h2>
+                    <h1 className="stockName">{props.stockName}</h1>
                     <h1 className="price">{props.price}</h1>
 
                     <div className="priceChangeBox">

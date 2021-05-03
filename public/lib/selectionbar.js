@@ -23,7 +23,7 @@ function SelectionBar(props) {
     tsla: true,
     etsy: false,
     gme: false,
-    sigl: false,
+    gm: false,
     btcusd: false
   });
 
@@ -40,10 +40,10 @@ function SelectionBar(props) {
     tsla,
     etsy,
     gme,
-    sigl,
+    gm,
     btcusd
   } = stockState;
-  var error = [tsla, etsy, gme, sigl, btcusd].filter(v => v).length == 0;
+  var error = [tsla, etsy, gme, gm, btcusd].filter(v => v).length == 0;
   return /*#__PURE__*/React.createElement("div", {
     className: "fullselectionbar"
   }, /*#__PURE__*/React.createElement("div", {
@@ -62,7 +62,7 @@ function SelectionBar(props) {
       name: "tsla",
       className: "tslaBox"
     }),
-    label: "TSLA"
+    label: "TSLA (Tesla)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: etsy,
@@ -70,7 +70,7 @@ function SelectionBar(props) {
       name: "etsy",
       className: "etsyBox"
     }),
-    label: "ETSY"
+    label: "ETSY (Etsy)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
       checked: gme,
@@ -78,15 +78,15 @@ function SelectionBar(props) {
       name: "gme",
       className: "gmeBox"
     }),
-    label: "GME"
+    label: "GME (Gamestop)"
   }), /*#__PURE__*/React.createElement(FormControlLabel, {
     control: /*#__PURE__*/React.createElement(Checkbox, {
-      checked: sigl,
+      checked: gm,
       onChange: handleChange,
-      name: "sigl",
-      className: "siglBox"
+      name: "gm",
+      className: "gmBox"
     }),
-    label: "SIGL"
+    label: "GM (General Motors)"
   })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
 }
 
