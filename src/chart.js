@@ -344,7 +344,7 @@ function Chart(props) {
     var minEngagement = d3.min(twitter_data, d => d.totalTweets);
     var maxEngagement = d3.max(twitter_data, d => d.totalTweets);
 
-    var colorScale = chroma.scale(['green','yellow', 'orange']).domain([minEngagement,maxEngagement]);
+    var colorScale = chroma.scale(['green','yellow','orange']).domain([minEngagement,maxEngagement]);
     //
     // console.log(minEngagement);
     // console.log(maxEngagement);
