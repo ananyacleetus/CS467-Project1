@@ -10,6 +10,14 @@ import chroma from "chroma-js"; // import fs from "fs";
 
 import "..//css/chart.css";
 
+function sortByKey(array, key) {
+  return array.sort(function (a, b) {
+    var x = a[key];
+    var y = b[key];
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
+}
+
 function Chart(props) {
   var timescale = props.timeScale;
   var stockState = props.stockState; // console.log(props.stockState);
@@ -195,6 +203,30 @@ function Chart(props) {
     // allSymbolData.forEach(stock_data => {
     for (var i = 0; i < allStockData.length; i++) {
       var stock_data = allStockData[i]; //console.log(stock_data);
+      // set all dates to make comparisons later easier
+
+      var i = 0;
+
+      for (i = 0; i < Math.max(stock_data.length, twitter_data.length); i++) {
+        if (i < stock_data.length) {
+          stock_data[i].dateStr = stock_data[i].date;
+          stock_data[i].date = utcToDate(stock_data[i].date).setHours(0, 0, 0, 0);
+          stock_data[i].twitterPt = "false"; //TODO: See if lack of twitterPt true is an issue
+        }
+
+        if (i < twitter_data.length) {
+          twitter_data[i].dateStr = twitter_data[i].created_at;
+
+          if (utcToDate(twitter_data[i].created_at) == null) {//console.log("NULLLLLL")
+            //console.log(twitter_data[i].created_at)
+          }
+
+          twitter_data[i].date = utcToDate(twitter_data[i].created_at).setHours(0, 0, 0, 0);
+          twitter_data[i].is_max = "false";
+        }
+      } //console.log("line231")
+      //console.log(stock_data);
+
 
       twitter_data.forEach(td => {
         td.totalTweets = td.public_metrics.retweet_count + td.public_metrics.like_count;
@@ -202,7 +234,10 @@ function Chart(props) {
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
       // so we can only display most influential for now
 
-      var tw = 0; //console.log(twitter_data.length)
+      twitter_data = sortByKey(twitter_data, "created_at");
+      console.log(twitter_data);
+      var tw = 0;
+      console.log(twitter_data.length);
 
       while (tw < twitter_data.length) {
         var current = twitter_data[tw].date;
@@ -235,31 +270,7 @@ function Chart(props) {
         }
 
         twitter_data[max_index].is_max = "true";
-      } // set all dates to make comparisons later easier
-
-
-      var i = 0;
-
-      for (i = 0; i < Math.max(stock_data.length, twitter_data.length); i++) {
-        if (i < stock_data.length) {
-          stock_data[i].dateStr = stock_data[i].date;
-          stock_data[i].date = utcToDate(stock_data[i].date).setHours(0, 0, 0, 0);
-          stock_data[i].twitterPt = "false"; //TODO: See if lack of twitterPt true is an issue
-        }
-
-        if (i < twitter_data.length) {
-          twitter_data[i].dateStr = twitter_data[i].created_at;
-
-          if (utcToDate(twitter_data[i].created_at) == null) {//console.log("NULLLLLL")
-            //console.log(twitter_data[i].created_at)
-          }
-
-          twitter_data[i].date = utcToDate(twitter_data[i].created_at).setHours(0, 0, 0, 0);
-          twitter_data[i].is_max = "false";
-        }
-      } //console.log("line231")
-      //console.log(stock_data);
-      // add price field to objects in twit data based on stock price of that date
+      } // add price field to objects in twit data based on stock price of that date
       // and add dummy stock points for missing dates
 
 
@@ -324,8 +335,9 @@ function Chart(props) {
       // .attr("cx", function(d) {return dateScale((d.date)); })
       // .attr("cy", function(d) {return priceScale(parseFloat(d.close)); })
       .append("line") //TODO: investigate why this is a breaking change
-      // .filter(function (d) {return d.is_max == "true"})
-      .attr("class", "twitterData").style("stroke-dasharray", "3, 3").style("stroke-width", 5).attr('x1', function (d) {
+      .filter(function (d) {
+        return d.is_max == "true";
+      }).attr("class", "twitterData").style("stroke-dasharray", "3, 3").style("stroke-width", 5).attr('x1', function (d) {
         if (isNaN(d.date)) {
           return date_scale(utcToDate(d.date));
         } else {
