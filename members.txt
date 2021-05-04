@@ -11,6 +11,7 @@ Ananya Cleetus (netid: cleetus2):
 -Set up states and callbacks to transfer props between sidebar, selection bar, scalebar, and chart to/from layout
 -Created tooltip with engagement information and color coded tweet bars to represent scale of engagement
 -Wrote first intro page and styling
+-Created key, disclaimer, and instructions
 
 Avi Porath (netid: aporath2):
 
