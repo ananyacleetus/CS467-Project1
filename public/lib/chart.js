@@ -55,7 +55,8 @@ function Chart(props) {
     props.onChangeDate(date);
     props.onChangeTweetID(d.id);
     props.onChangeText(d.sentiment);
-    props.onChangePrice(d3.format(" $.2f")(d.close).toString()); //props.onChangeStockName(d.symbol.toUpperCase());
+    props.onChangePrice(d3.format(" $.2f")(d.close).toString());
+    props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
@@ -357,7 +358,7 @@ function Chart(props) {
 
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString()); //TODO: send twitter id to sidebar and display twitter counts in tooltip
 
-        sendDataToSidebar(d);
+        sendStockDataToSidebar(d);
       }).on("mousemove", (mouseEvent, d) => {
         /* Runs when mouse moves inside a dot */
         // var leftOffset = d3.pointer(mouseEvent)[0] + 3

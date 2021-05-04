@@ -68,7 +68,7 @@ function Chart(props) {
     props.onChangeTweetID(d.id);
     props.onChangeText(d.sentiment);
     props.onChangePrice(d3.format(" $.2f")(d.close).toString());
-    //props.onChangeStockName(d.symbol.toUpperCase());
+    props.onChangeStockName(d.symbol.toUpperCase());
   }
 
   const setChangePriceYesterdayDataToSidebar = (x) => {
@@ -398,7 +398,7 @@ function Chart(props) {
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString());
 
         //TODO: send twitter id to sidebar and display twitter counts in tooltip
-        sendDataToSidebar(d);
+        sendStockDataToSidebar(d);
       })
 
       .on("mousemove", (mouseEvent, d) => {
