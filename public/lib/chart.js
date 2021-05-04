@@ -53,9 +53,8 @@ function Chart(props) {
 
 
     props.onChangeDate(date);
-    props.onChangeTweetID(d.id);
-    props.onChangeText(d.sentiment);
-    props.onChangePrice(d3.format(" $.2f")(d.close).toString()); // props.onChangeStockName(d.symbol.toUpperCase());
+    props.onChangePrice(d3.format(" $.2f")(d.close).toString());
+    props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
@@ -76,18 +75,7 @@ function Chart(props) {
 
   var sendTweetDataToSidebar = d => {
     props.onChangeTweetID(d.id);
-    var tw = 0;
-
-    while (tw < sents.length) {
-      if (sents[tw][0] == d.id) {
-        props.onChangeText(sents[tw][1].toString());
-        console.log(sents[tw][2]);
-        console.log(sents[tw][1]);
-        tw = sents.length;
-      }
-
-      tw++;
-    }
+    props.onChangeText(d.sentiment);
   };
 
   function drawChart() {
@@ -372,7 +360,7 @@ function Chart(props) {
 
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString()); //TODO: send twitter id to sidebar and display twitter counts in tooltip
 
-        sendStockDataToSidebar(d);
+        sendTweetDataToSidebar(d);
       }).on("mousemove", (mouseEvent, d) => {
         /* Runs when mouse moves inside a dot */
         // var leftOffset = d3.pointer(mouseEvent)[0] + 3
