@@ -369,8 +369,7 @@ function Chart(props) {
       //TODO: investigate why this is a breaking change
       .filter(function (d) {return d.is_max == "true"})
       .attr("class", "twitterData")
-      .style("stroke-dasharray", ("3, 3"))
-      .style("stroke-width", 5)
+      .style("stroke-width", 3)
       .attr('x1', function(d) {
 
         if (isNaN(d.date)) {
@@ -393,25 +392,10 @@ function Chart(props) {
       })
       // .attr("stroke", "#1EA1F2")
       // .attr("fill", "#1EA1F2")
-      .on("mouseover", (mouseEvent, d) => {
-        // Runs when the mouse enters a dot.  d is the corresponding data point.
-
-        tooltip.style("opacity", 1);
-      //
-      // d3.select(this).style("fill", "white");
-      //
-      //     d3.select(this)
-      //         .style("filter", "url(#glow)")
-      //         .attr("stroke", "#000000")
-      //         .attr("fill", "#000000");
-
-
-        // tooltip.text(d.text);
-
-        tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString());
-
-        //TODO: send twitter id to sidebar and display twitter counts in tooltip
-        sendTweetDataToSidebar(d);
+      .on("mouseover", function(mouseEvent, d) {
+          d3.select(this).style("stroke-width", 10)
+          tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString());
+          sendTweetDataToSidebar(d);
 
       })
 
@@ -428,7 +412,9 @@ function Chart(props) {
         //TODO: send twitter id to sidebar and display twitter counts in tooltip
         //sendTweetDataToSidebar(d);
       })
-      .on("mouseout", (mouseEvent, d) => {
+      .on("mouseout", function(mouseEvent, d) {
+          d3.select(this).style("stroke-width", 3)
+
         tooltip.style("opacity", 0);
       });
 
@@ -572,6 +558,7 @@ function Chart(props) {
           printDate = DateToUTC(d.date).toString();
 
         }
+        d3.select(this).style("r", 7)
 
         tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + printDate);
 
@@ -598,7 +585,9 @@ function Chart(props) {
 
 
       })
-      .on("mouseout", (mouseEvent, d) => {
+      .on("mouseout", function(mouseEvent, d){
+          d3.select(this).style("r", 3)
+
         tooltip.style("opacity", 0);
       });
 
