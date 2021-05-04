@@ -41,6 +41,12 @@ const handleChange = (event) => {
     return (
         <div className="fullselectionbar">
 
+          <h4 className="instructions">Hover over a point to view the current stock price and changes in price.</h4>
+
+          <h4 className="instructions">Hover over a vertical line to see a tweet, engagement, and sentiment of the tweet.</h4>
+
+          <h4 className="instructions">Check and un-check boxes to compare multiple relevant stocks. At least one stock must be selected.</h4>
+
           <div className="stockselection">
 
           <FormControl required error={error} component="fieldset" className="stockformcontrol">
