@@ -38,9 +38,13 @@ Kimi Hirano (netid: khirano2):
 - Helped create the tweet points that would get overlayed over the stock data on the frontend
 - Helped teamates debug/fix problems when I could
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
+=======
+- created storyboard for the extended version of our initial project
+>>>>>>> 9e388a6e8aedcc2106246922090ffb5de47a608a
 - Updated Twitter api dev access and implemented pagination to fix our issue with tweet grabbing limits
 - helped integrate new tweet data with the front end
 >>>>>>> 394450cd24ef1ef7c231984a01b21de6480cd886
