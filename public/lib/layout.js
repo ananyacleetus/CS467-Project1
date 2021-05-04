@@ -145,14 +145,6 @@ function Layout(props) {
     price: price,
     tweetID: tweetID,
     text: text,
-    priceChangeYesterday: priceChangeYesterday,
-    priceChangeTweet: priceChangeTweet
-  }), /*#__PURE__*/React.createElement(Sidebar, {
-    className: "sidebar",
-    date: date,
-    price: price,
-    tweetID: tweetID,
-    text: text,
     stockName: stockName,
     priceChangeYesterday: priceChangeYesterday,
     priceChangeTweet: priceChangeTweet
