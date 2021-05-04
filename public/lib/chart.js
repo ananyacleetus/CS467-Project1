@@ -31,7 +31,7 @@ function Chart(props) {
   var timeFormat = d3.timeParse("%I:%M %p");
   var sidebarTimeFormat = d3.timeParse("%a %B %d %I:%M %p");
 
-  var sendDataToSidebar = d => {
+  var sendStockDataToSidebar = d => {
     // props.onChangeDate(twitDateFormat(d.created_at).toString());
     var date;
 
@@ -463,7 +463,7 @@ function Chart(props) {
         }
 
         tooltip.text("The price is " + d3.format(" $.2f")(d.close) + " at " + printDate);
-        sendDataToSidebar(d);
+        sendStockDataToSidebar(d);
         setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
         setChangePriceTweetDataToSidebar(d3.select(this).attr("priceChangeTweet"));
       }).on("mousemove", function (mouseEvent, d, i) {
@@ -474,7 +474,7 @@ function Chart(props) {
 
         var topOffset = price_scale(parseFloat(d.close)) + PADDING.TOP + 3;
         tooltip.style("top", topOffset + "px");
-        sendDataToSidebar(d);
+        sendStockDataToSidebar(d);
         setChangePriceYesterdayDataToSidebar(d3.select(this).attr("priceChange"));
         setChangePriceTweetDataToSidebar(d3.select(this).attr("priceChangeTweet"));
       }).on("mouseout", (mouseEvent, d) => {
