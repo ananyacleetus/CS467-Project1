@@ -11,7 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
-import * as Key from '..//assets/key.png';
+// import * as Key from '..//assets/key.png';
 
 
 import drawChart from "/lib/chart.js";
@@ -79,9 +79,8 @@ const handleChange = (event) => {
           </div>
 
           <div className="engagementKey">
-            <img src="..//assets/key.png"/>
+          <img src="/lib/assets/engkey.png"/>
           </div>
-
 
         </div>
 
