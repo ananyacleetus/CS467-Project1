@@ -1,4 +1,4 @@
-# CS 467 Project 1: Stock Market Manipulation through Social Media
+# CS 467 Project 1 (now Final Project): Stock Market Manipulation through Social Media
 
 
 ## Environment and Tools Used
