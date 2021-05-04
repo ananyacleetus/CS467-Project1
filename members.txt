@@ -13,8 +13,12 @@ Ananya Cleetus (netid: cleetus2):
 -Wrote first intro page and styling
 -Created key, disclaimer, and instructions
 
-
+NOTE: was not part of the group for the original project, joined for final presentation.
 Avi Porath (netid: aporath2):
+- Provided feedback on original design
+- Added the tweet sentinment
+- Updated and compressed the sidebar UI
+- Implemented the stroke changing feature for dots and lines
 
 
 Claudia Salazar (netid: cas18):
