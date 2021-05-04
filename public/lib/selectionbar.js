@@ -46,7 +46,13 @@ function SelectionBar(props) {
   var error = [tsla, etsy, gme, gm, btcusd].filter(v => v).length == 0;
   return /*#__PURE__*/React.createElement("div", {
     className: "fullselectionbar"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "instructions"
+  }, "Hover over a point to view the current stock price and changes in price."), /*#__PURE__*/React.createElement("h4", {
+    className: "instructions"
+  }, "Hover over a vertical line to see a tweet, engagement, and sentiment of the tweet."), /*#__PURE__*/React.createElement("h4", {
+    className: "instructions"
+  }, "Check and un-check boxes to compare multiple relevant stocks. At least one stock must be selected."), /*#__PURE__*/React.createElement("div", {
     className: "stockselection"
   }, /*#__PURE__*/React.createElement(FormControl, {
     required: true,

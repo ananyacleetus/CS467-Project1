@@ -9,9 +9,14 @@ html {
   text-align: center;
 }
 
-
+.instructions {
+  font-weight: normal;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+}
 .stockselection {
-  padding-top: 300px;
+  padding-top: 100px;
 }
 
 .MuiToggleButton-root {
@@ -47,4 +52,12 @@ html {
 .MuiCheckbox-colorSecondary.Mui-checked.gmBox{
     color: #EF233C !important;
 
+}
+
+.MuiFormLabel-root {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif !important;
+}
+
+.MuiTypography-body1 {
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif !important;
 }
