@@ -11,6 +11,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
+import * as Key from '..//assets/key.png';
+
+
 import drawChart from "/lib/chart.js";
 
 
@@ -74,6 +77,11 @@ const handleChange = (event) => {
             <FormHelperText>Please select at least one option</FormHelperText>
           </FormControl>
           </div>
+
+          <div className="engagementKey">
+            <img src="..//assets/key.png"/>
+          </div>
+
 
         </div>
 

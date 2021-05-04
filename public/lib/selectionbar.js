@@ -14,6 +14,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import * as Key from '..//assets/key.png';
 import drawChart from "/lib/chart.js"; //stylesheet
 
 import "..//css/selectionbar.css";
@@ -93,7 +94,11 @@ function SelectionBar(props) {
       className: "gmBox"
     }),
     label: "GM (General Motors)"
-  })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))));
+  })), /*#__PURE__*/React.createElement(FormHelperText, null, "Please select at least one option"))), /*#__PURE__*/React.createElement("div", {
+    className: "engagementKey"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "..//assets/key.png"
+  })));
 }
 
 export default SelectionBar;
