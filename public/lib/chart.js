@@ -55,8 +55,7 @@ function Chart(props) {
     props.onChangeDate(date);
     props.onChangeTweetID(d.id);
     props.onChangeText(d.sentiment);
-    props.onChangePrice(d3.format(" $.2f")(d.close).toString());
-    props.onChangeStockName(d.symbol.toUpperCase());
+    props.onChangePrice(d3.format(" $.2f")(d.close).toString()); // props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
