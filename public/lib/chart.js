@@ -307,7 +307,15 @@ function Chart(props) {
   }
 
   function drawTwitterGraph(twitter_data, date_scale, price_scale) {
-    var svg = d3.select("#chart_svg"); //Get the current height and width of the SVG
+    var svg = d3.select("#chart_svg"); //Container for the gradients
+
+    var defs = svg.append("defs"); //Filter for the outside glow
+
+    var filter = defs.append("filter").attr("id", "glow");
+    filter.append("feGaussianBlur").attr("stdDeviation", "3.5").attr("result", "coloredBlur");
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode").attr("in", "coloredBlur");
+    feMerge.append("feMergeNode").attr("in", "SourceGraphic"); //Get the current height and width of the SVG
 
     var svgwidth = svg.attr("width");
     var svgheight = svg.attr("height");
@@ -353,7 +361,14 @@ function Chart(props) {
       // .attr("fill", "#1EA1F2")
       .on("mouseover", (mouseEvent, d) => {
         // Runs when the mouse enters a dot.  d is the corresponding data point.
-        tooltip.style("opacity", 1); // tooltip.text(d.text);
+        tooltip.style("opacity", 1); //
+        // d3.select(this).style("fill", "white");
+        //
+        //     d3.select(this)
+        //         .style("filter", "url(#glow)")
+        //         .attr("stroke", "#000000")
+        //         .attr("fill", "#000000");
+        // tooltip.text(d.text);
 
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString()); //TODO: send twitter id to sidebar and display twitter counts in tooltip
 
