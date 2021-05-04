@@ -13,6 +13,7 @@ Ananya Cleetus (netid: cleetus2):
 -Wrote first intro page and styling
 -Created key, disclaimer, and instructions
 
+
 Avi Porath (netid: aporath2):
 
 
@@ -24,6 +25,8 @@ Claudia Salazar (netid: cas18):
 - Sent the data of Elon Musk's tweets to a local server to be used as the data in the front end
 - Parsed the twitter data json
 - Wrote code for sorting and determining the top tweet of the day of the user at study.
+- Helped integreate JSON file for twitter data 
+- Helped debug the changes with new integration 
 
 Kimi Hirano (netid: khirano2):
 - Came up with the initial idea
@@ -34,3 +37,5 @@ Kimi Hirano (netid: khirano2):
 - Handled stock-data-specific json parsing
 - Helped create the tweet points that would get overlayed over the stock data on the frontend
 - Helped teamates debug/fix problems when I could
+
+
