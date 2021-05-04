@@ -34,3 +34,5 @@ Kimi Hirano (netid: khirano2):
 - Handled stock-data-specific json parsing
 - Helped create the tweet points that would get overlayed over the stock data on the frontend
 - Helped teamates debug/fix problems when I could
+- Updated Twitter api dev access and implemented pagination to fix our issue with tweet grabbing limits
+- helped integrate new tweet data with the front end
