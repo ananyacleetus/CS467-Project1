@@ -45,8 +45,9 @@ function Chart(props) {
 
 
     props.onChangeDate(date);
-    props.onChangePrice(d3.format(" $.2f")(d.close).toString());
-    props.onChangeStockName(d.symbol.toUpperCase());
+    props.onChangeTweetID(d.id);
+    props.onChangeText(d.sentiment);
+    props.onChangePrice(d3.format(" $.2f")(d.close).toString()); //props.onChangeStockName(d.symbol.toUpperCase());
   };
 
   var setChangePriceYesterdayDataToSidebar = x => {
@@ -66,12 +67,14 @@ function Chart(props) {
   };
 
   var sendTweetDataToSidebar = d => {
-    props.onChangeTweetID(d.id_str);
+    props.onChangeTweetID(d.id);
     var tw = 0;
 
     while (tw < sents.length) {
-      if (sents[tw][0] == d.id_str) {
+      if (sents[tw][0] == d.id) {
         props.onChangeText(sents[tw][1].toString());
+        console.log(sents[tw][2]);
+        console.log(sents[tw][1]);
         tw = sents.length;
       }
 
@@ -127,17 +130,18 @@ function Chart(props) {
 
   function processSentimentData(allSentimentData, twitter_data) {
     console.log(allSentimentData);
-    var tw = 0;
+    var tw = 1;
 
     while (tw < allSentimentData.length) {
-      sents.push([twitter_data[tw].id, allSentimentData[tw]['comparative'], twitter_data[tw].text]);
+      console.log(allSentimentData[tw - 1].comparative + twitter_data[tw].text);
+      sents.push([twitter_data[tw].id, allSentimentData[tw - 1].comparative, twitter_data[tw].text]);
       tw++;
     } // var twit_data = await fetch("http://localhost:9000/twitterAPI").then(res => res.json())
 
 
     var tweet_data = d3.json("/tweets.json").then(function (tweet_data) {
-      console.log("CLaudia was here");
-      console.log(tweet_data);
+      //console.log("CLaudia was here");
+      //console.log(tweet_data);
       getStockData(tweet_data, timescale, stockIds);
     }); // sometimes twitter api doesn't send all the data
     //getStockData(twit_data, timescale, stockIds);
@@ -190,16 +194,15 @@ function Chart(props) {
     // console.log(allStockData.length);
     // allSymbolData.forEach(stock_data => {
     for (var i = 0; i < allStockData.length; i++) {
-      var stock_data = allStockData[i];
-      console.log(stock_data);
+      var stock_data = allStockData[i]; //console.log(stock_data);
+
       twitter_data.forEach(td => {
         td.totalTweets = td.public_metrics.retweet_count + td.public_metrics.like_count;
       }); // find the most "influential" tweet by elon for each day, by retweets and favorites
       // set twit_data[idx].is_max to indicate twit_data[idx] is the most influential of the day
       // so we can only display most influential for now
 
-      var tw = 0;
-      console.log(twitter_data.length);
+      var tw = 0; //console.log(twitter_data.length)
 
       while (tw < twitter_data.length) {
         var current = twitter_data[tw].date;
@@ -247,22 +250,20 @@ function Chart(props) {
         if (i < twitter_data.length) {
           twitter_data[i].dateStr = twitter_data[i].created_at;
 
-          if (utcToDate(twitter_data[i].created_at) == null) {
-            console.log("NULLLLLL");
-            console.log(twitter_data[i].created_at);
+          if (utcToDate(twitter_data[i].created_at) == null) {//console.log("NULLLLLL")
+            //console.log(twitter_data[i].created_at)
           }
 
           twitter_data[i].date = utcToDate(twitter_data[i].created_at).setHours(0, 0, 0, 0);
           twitter_data[i].is_max = "false";
         }
-      }
-
-      console.log("line231");
-      console.log(stock_data); // add price field to objects in twit data based on stock price of that date
+      } //console.log("line231")
+      //console.log(stock_data);
+      // add price field to objects in twit data based on stock price of that date
       // and add dummy stock points for missing dates
 
-      var st = 0;
-      console.log("adding price");
+
+      var st = 0; //console.log("adding price")
 
       for (tw = 0; tw < twitter_data.length; tw++) {
         var t_date = twitter_data[tw].date;
@@ -284,11 +285,11 @@ function Chart(props) {
             break;
           }
         }
-      }
-
-      console.log("done"); // for (var i = 0; i < stock_data.length; i++) {
+      } //console.log("done");
+      // for (var i = 0; i < stock_data.length; i++) {
       //   console.log(stock_data[i].date);
       // }
+
     }
 
     drawLineGraph(allStockData, twitter_data);
@@ -344,7 +345,7 @@ function Chart(props) {
 
         tooltip.html(d.text + "<br>" + "Retweets: " + d.public_metrics.retweet_count.toString() + "<br>" + "Favorites: " + d.public_metrics.like_count.toString()); //TODO: send twitter id to sidebar and display twitter counts in tooltip
 
-        sendTweetDataToSidebar(d);
+        sendDataToSidebar(d);
       }).on("mousemove", (mouseEvent, d) => {
         /* Runs when mouse moves inside a dot */
         // var leftOffset = d3.pointer(mouseEvent)[0] + 3

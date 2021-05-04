@@ -97,7 +97,6 @@ const [updateStocks, shouldUpdateStocks] = useState(false);
         <Scalebar className="scalebar" onChangeTimeScale={(e) => { changeTimeScale(e) }}  onChangeUpdateScale={(e) => { changeUpdateScale(e) }}/>
         </div>
         <div className="D">
-        <Sidebar className="sidebar" date={date} price={price} tweetID={tweetID} text={text} priceChangeYesterday={priceChangeYesterday} priceChangeTweet={priceChangeTweet}/>
         <Sidebar className="sidebar" date={date} price={price} tweetID={tweetID} text={text} stockName={stockName} priceChangeYesterday={priceChangeYesterday} priceChangeTweet={priceChangeTweet}/>
         </div>
       </div>
