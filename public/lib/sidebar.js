@@ -81,9 +81,11 @@ function Sidebar(props) {
     className: "topTweet"
   }, "Most Reaching Elon Tweet of that Day:"), /*#__PURE__*/React.createElement("h4", {
     className: "sentimentTitle"
-  }, "Sentiment Score: ", props.text), /*#__PURE__*/React.createElement(TweetEmbed, {
+  }, "Sentiment Score*: ", props.text), /*#__PURE__*/React.createElement(TweetEmbed, {
     id: props.tweetID
-  }))));
+  }), /*#__PURE__*/React.createElement("h4", {
+    className: "sentimentDisclaimer"
+  }, "*The sentiment score is calculated using an AFINN-based sentiment analysis (NPM Sentiment v0.2.1) library that creates comparative scores from a scale of -5 (most negative) to 5 (most positive)."))));
 }
 
 export default Sidebar;
